@@ -1,0 +1,100 @@
+<web-app>
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <jsp-file>/index.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+
+
+        <servlet>
+            <servlet-name>drinks</servlet-name>
+            <jsp-file>/WEB-INF/jsp/drinks.jsp</jsp-file>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>drinks</servlet-name>
+            <url-pattern>/drinks</url-pattern>
+        </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>account</servlet-name>
+        <jsp-file>/WEB-INF/jsp/account.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>account</servlet-name>
+        <url-pattern>/account</url-pattern>
+    </servlet-mapping>
+
+<!--    <servlet>-->
+<!--        <servlet-name>authorization</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/authorization.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>authorization</servlet-name>-->
+<!--        <url-pattern>/authorization</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <jsp-file>/WEB-INF/jsp/registration.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>makeOrder</servlet-name>
+        <jsp-file>/WEB-INF/jsp/makeOrder.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>makeOrder</servlet-name>
+        <url-pattern>/MakeOrder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>personalCabinet</servlet-name>
+        <jsp-file>/WEB-INF/jsp/personalCabinet.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>personalCabinet</servlet-name>
+        <url-pattern>/personalCabinet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>orderJournal</servlet-name>
+        <jsp-file>/WEB-INF/jsp/orderJournal.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>orderJournal</servlet-name>
+        <url-pattern>/orderJournal</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>messages</param-value>
+    </context-param>
+
+
+
+<!--    <servlet>-->
+<!--        <sevlet-name>fillingOperation</sevlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/fillingOperation.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>fillingOperation</servlet-name>-->
+<!--        <url-pattern>/fillingOperation</url-pattern>-->
+<!--    </servlet-mapping>-->
+</web-app>
+
+
+
