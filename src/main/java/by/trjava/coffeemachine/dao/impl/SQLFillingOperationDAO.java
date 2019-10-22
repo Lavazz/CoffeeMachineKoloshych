@@ -46,7 +46,7 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
         } catch (SQLException e) {
             throw new DAOException("Exception in FillingOperationDAO");
         } finally {
-           SQLUtil.shut(con, ps);
+           SQLUtil.shut( ps, con);
         }
 
         return result;

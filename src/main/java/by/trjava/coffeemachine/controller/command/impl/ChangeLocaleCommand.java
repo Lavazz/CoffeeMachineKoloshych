@@ -10,20 +10,16 @@ import java.io.IOException;
 
 public class ChangeLocaleCommand implements Command {
 
-    private static final String PARAMETER_LOCALE = "locale";
-    private static final String SESSION_ATTRIBUTE_LOCAL = "locale";
-    private static final String PARAMETER_PREVIOUS_REQUEST = "prev_request";
+    private static final String SESSION_ATTRIBUTE_LOCALE = "locale";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
 
-        String newLocale = request.getParameter(PARAMETER_LOCALE);
-        System.out.println(newLocale);
-        session.setAttribute(SESSION_ATTRIBUTE_LOCAL, newLocale);
+        String newLocale = request.getParameter(SESSION_ATTRIBUTE_LOCALE);
+        session.setAttribute(SESSION_ATTRIBUTE_LOCALE, newLocale);
 
-        //String url = (String) request.getSession(false).getAttribute(PARAMETER_PREVIOUS_REQUEST);
         String url = request.getHeader("referer");
         response.sendRedirect(url);
 

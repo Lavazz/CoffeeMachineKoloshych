@@ -66,8 +66,8 @@ public class Ingredient implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName()+"@"+
+        return getClass().getName() + "@" +
                 "nameIngredient='" + nameIngredient + '\'' +
-                ", brand='" + brand ;
+                ", brand='" + brand;
     }
 }

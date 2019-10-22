@@ -16,19 +16,18 @@ public class SQLAccountDAO implements AccountDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
-    public double increaseBalance(String userLogin, String paymentMethod, double amountOfMoney) throws DAOException, SQLException {
+    public double increaseBalance(int idUser, String paymentMethod, double amountOfMoney) throws DAOException, SQLException {
 
         Connection con = null;
-        con.setAutoCommit(false);
         PreparedStatement ps = null;
         PreparedStatement ps2=null;
         ResultSet rs = null;
         double amountOld=0, amountNew = 0;
-        int idUser=0;
 
         try {
-            idUser= DAOFactory.getInstance().getUserDAO().getIdUserByLogin(userLogin);
+
 con=pool.getConnection();
+            con.setAutoCommit(false);
             ps = con.prepareStatement(QUERY_ACCOUNT_CHECK_BALANCE);
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
@@ -37,7 +36,7 @@ con=pool.getConnection();
             }
             amountNew = amountOfMoney + amountOld;
             ps2 = con.prepareStatement(QUERY_ACCOUNT_RECHARGE);
-            if(setQuery(ps2, idUser, paymentMethod,amountNew)){
+            if(setQuery(ps2, idUser, paymentMethod, amountNew)){
                 con.commit();
                 return amountNew;
             }else {
@@ -45,6 +44,7 @@ con=pool.getConnection();
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new DAOException("Exception in AccountDAO");
         } finally {
            SQLUtil.shut(rs, ps, ps2, con);
@@ -100,6 +100,7 @@ amountNew=amountOld-totalCost;
         ps.setDouble(4, amountOfMoney);
         return ps.executeUpdate() > 0;
     }
+
 
     //    @Override
 //    public double createAccount(String login, String paymentMethod, double amountOfMoney) throws DAOException, SQLException {

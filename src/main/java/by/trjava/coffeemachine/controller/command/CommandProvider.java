@@ -1,10 +1,7 @@
 package by.trjava.coffeemachine.controller.command;
 
 import by.trjava.coffeemachine.controller.command.impl.*;
-import by.trjava.coffeemachine.controller.command.impl.gotopage.GoToLoginPageCommand;
-import by.trjava.coffeemachine.controller.command.impl.gotopage.GoToMakeOrderCommand;
-import by.trjava.coffeemachine.controller.command.impl.gotopage.GoToRegistrationPageCommand;
-import by.trjava.coffeemachine.controller.command.impl.gotopage.GoToShowAllDrinksPageCommand;
+import by.trjava.coffeemachine.controller.command.impl.gotopage.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,15 +26,15 @@ public class CommandProvider {
         commands.put(CommandName.GOTOSHOWALLDRINKSPAGECOMMAND, new GoToShowAllDrinksPageCommand());
         commands.put(CommandName.CREATEACCOUNT, new CreateAccountCommand());
         commands.put(CommandName.INCREASEBALANCE, new IncreaseBalanceCommand());
-      //  commands.put(CommandName.ADDITIONALINGREDIENT, new AdditionalIngredientCommand());
+      commands.put(CommandName.GOTOPAGEINCREASEBALANCE, new GoToPageIncreaseBalanceCommand());
         commands.put(CommandName.LOGOUTCOMMAND, new LogOutCommand());
-   //     commands.put(CommandName.GETDRINK, new GetDrinkCommand());
+      commands.put(CommandName. GOTOINDEXPAGE, new GoToIndexPageCommand());
         commands.put(CommandName.DELETEORDER, new LogOutCommand());
         commands.put(CommandName.LOGOUT, new LogOutCommand());
         commands.put(CommandName.MAKEORDER, new MakeOrderCommand());
         commands.put(CommandName.NOSUCHCOMMAND, new NoSuchCommand());
         commands.put(CommandName.PERSONALCABINET, new PersonalCabinetCommand());
-      //  commands.put(CommandName.INCREASEBALANCE, new IncreaseBalanceCommand());
+        commands.put(CommandName.INCREASEBALANCE, new IncreaseBalanceCommand());
         commands.put(CommandName. ORDERJOURNAL, new OrderJournalCommand());
 
     }

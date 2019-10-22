@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 public class GoToShowAllDrinksPageCommand implements Command {
 
-	private static final String TARGET_PAGE = "/WEB-INF/jsp/showAllDrinks.jsp";
+	private static final String TARGET_PAGE = "/WEB-INF/index.jsp";
 	private static final String PARAMETER_PREVIOUS_REQUEST = "prev_request";
 	
 	@Override

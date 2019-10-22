@@ -25,7 +25,7 @@ public class OrderJournalServiceImpl implements OrderJournalService {
 
 
     @Override
-    public List<OrderJournal> getUserOrderHistory(String userLogin) {
-        return orderJournalDAO.getUserOrderHistory(userLogin);
+    public List<OrderJournal> getUserOrderHistory(int idUser) {
+        return orderJournalDAO.getUserOrderHistory(idUser);
     }
 }

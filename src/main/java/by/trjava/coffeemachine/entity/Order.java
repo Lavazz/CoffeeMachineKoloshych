@@ -5,8 +5,9 @@ import java.io.Serializable;
 public class Order implements Serializable {
     private int idOrder;
     private int idUser;
-    public Order(){}
 
+    public Order() {
+    }
 
     public Order(int idUser) {
         this.idUser = idUser;
@@ -47,17 +48,17 @@ public class Order implements Serializable {
         if (idOrder != other.idOrder) {
             return false;
         }
-        return  true;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31*idUser+idOrder);
+        return (int) (31 * idUser + idOrder);
     }
 
     @Override
     public String toString() {
-        return getClass().getName()+"@"+
+        return getClass().getName() + "@" +
                 "idOrder=" + idOrder +
                 ", idUser=" + idUser;
     }

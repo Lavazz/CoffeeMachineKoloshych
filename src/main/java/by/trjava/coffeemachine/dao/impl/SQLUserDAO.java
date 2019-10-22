@@ -168,8 +168,8 @@ public class SQLUserDAO implements UserDAO {
                 String login = rs.getString("login");
                 String password = rs.getString("password");
                 String name = rs.getString("name");
-
-                User user = new User(id, login, password, email, name);
+int status=rs.getInt("id_status");
+                User user = new User(id, login, password, email, name, status);
                 listUser.add(user);
             }
 
@@ -259,8 +259,8 @@ try{
         user.setLogin(rs.getString("login"));
         user.setPassword(rs.getString("password"));
         user.setName(rs.getString("name"));
-        //   user.setStatus(String.valueOf(rs.getInt("status")));
-
+         user.setStatus(rs.getInt("id_status"));
+            System.out.println("user"+user.getStatus());
 
         return user;
     }

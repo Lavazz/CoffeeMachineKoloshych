@@ -68,13 +68,12 @@ public class SQLOrderJournalDAO  implements OrderJournalDAO {
         }
 
     @Override
-    public List<OrderJournal> getUserOrderHistory(String userLogin) {
+    public List<OrderJournal> getUserOrderHistory(int idUser) {
         Connection con=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<OrderJournal> orderJournalList=new ArrayList<>();
 
-        int  idUser=DAOFactory.getInstance().getUserDAO().getIdUserByLogin(userLogin);
         try{
             con=pool.getConnection();
             ps=con.prepareStatement(QUERY_ORDER_JOURNAL_LIST);

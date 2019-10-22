@@ -17,8 +17,8 @@ public class SQLQuery {
     //Account
     static final String QUERY_CREATE_ACCOUNT = "INSERT INTO accounts( id_user, PaymentMethod, PaymentDate, " +
             "AmountOfMoney) VALUES( ?, ?, ?, ?)";
-    static final String QUERY_ACCOUNT_RECHARGE = "INSERT INTO accounts (id_user, PaymentMethod, PaymentDate, AmountOfMoney) " +
-           "VALUES(?, ?,? ?, ?";
+    static final String  QUERY_ACCOUNT_RECHARGE = "INSERT INTO accounts (id_user, PaymentMethod, PaymentDate, AmountOfMoney) " +
+           "VALUES(?, ?, ?, ?)";
     static final String QUERY_ACCOUNT_CHECK_BALANCE = "SELECT AmountOfMoney FROM accounts WHERE id_user=?";
     static final String  QUERY_ACCOUNT_DECREASE="UPDATE accounts SET  AmountOfMoney=? WHERE id_user=?";
    static final String QUERY_GET_BALANCE="SELECT amountOfMoney FROM accounts";

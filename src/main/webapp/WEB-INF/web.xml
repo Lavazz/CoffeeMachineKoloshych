@@ -24,24 +24,14 @@
             <url-pattern>/drinks</url-pattern>
         </servlet-mapping>
 
-
     <servlet>
-        <servlet-name>account</servlet-name>
-        <jsp-file>/WEB-INF/jsp/account.jsp</jsp-file>
+        <servlet-name>increaseBalance</servlet-name>
+        <jsp-file>/WEB-INF/jsp/increaseBalance.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>account</servlet-name>
-        <url-pattern>/account</url-pattern>
+        <servlet-name>increaseBalance</servlet-name>
+        <url-pattern>/increaseBalance</url-pattern>
     </servlet-mapping>
-
-<!--    <servlet>-->
-<!--        <servlet-name>authorization</servlet-name>-->
-<!--        <jsp-file>/WEB-INF/jsp/authorization.jsp</jsp-file>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>authorization</servlet-name>-->
-<!--        <url-pattern>/authorization</url-pattern>-->
-<!--    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>registration</servlet-name>

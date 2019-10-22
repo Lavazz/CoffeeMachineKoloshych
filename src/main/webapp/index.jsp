@@ -5,7 +5,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>redirecting...</title>
 </head>
 <body>
 <c:redirect url="home?command=showAllDrinks" />

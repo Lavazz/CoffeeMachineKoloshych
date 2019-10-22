@@ -78,13 +78,13 @@ public class OrderJournal implements Serializable {
     }
 
     @Override
-    public int hashCode(){
-        return  (int)(31*idOrder+idDrink+idAdditionalIngredient+portion);
+    public int hashCode() {
+        return (int) (31 * idOrder + idDrink + idAdditionalIngredient + portion);
     }
 
     @Override
     public String toString() {
-        return getClass().getName()+"@"+
+        return getClass().getName() + "@" +
                 "idOrder=" + idOrder +
                 ", idDrink=" + idDrink +
                 ", idAdditionalIngredient=" + idAdditionalIngredient +

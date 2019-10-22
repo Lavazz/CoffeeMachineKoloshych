@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 public interface AccountDAO {
-    double increaseBalance(String userLogin, String paymentMethod, double amountOfMoney) throws DAOException, SQLException;
+    double increaseBalance(int idUser, String paymentMethod, double amountOfMoney) throws DAOException, SQLException;
 
     double decreaseBalance(OrderJournal orderJournal, double totalCost) throws DAOException, SQLException;
 }

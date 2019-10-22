@@ -1,16 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vital
-  Date: 10.10.2019
-  Time: 09:05
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" var="loc"/>
 <html>
+<html lang="ru">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>
+        <fmt:message key="locale.drinks.title" bundle="${loc}"/>
+    </title>
 </head>
 <body>
+<fmt:message key="locale.drinks.welcome" bundle="${loc}"/>
+
+<c:import url="/header.jsp"/>
+
 
 </body>
 </html>

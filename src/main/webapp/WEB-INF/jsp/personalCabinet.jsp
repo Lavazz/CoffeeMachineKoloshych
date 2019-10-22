@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        <h3><fmt:message key="locale.drinks.title" bundle="${loc}"/></h3>
+      <fmt:message key="locale.drinks.title" bundle="${loc}"/>
     </title>
 </head>
 <body>
@@ -19,18 +19,24 @@
 <h2>
 <fmt:message key="personalCabinet.text" bundle="${loc}"/>
 </h2>
-<%--<p>--%>
+<p>
 
-<%--<c:out value="${balance}"/>--%>
-<%--</p>--%>
+<c:out value="${balance}"/>
+</p>
 <p>
     <a href="home?command=goToPageIncreaseBalance">
-      <fmt:message key="increaseBalance" bundle="${loc}"/>
+      <fmt:message key="increaseBalance.massage.balance" bundle="${loc}"/>
     </a>
 
 </p>
 <p>
-<fmt:message key="historyOfOrders" bundle="${loc}"/>
+    <a href="home?command=goToIndexPage">
+        <fmt:message key="increaseBalance.message.order" bundle="${loc}"/>
+    </a>
+
+</p>
+<p>
+<fmt:message key="personalCabinet.text.historyOfOrders" bundle="${loc}"/>
 <form method="post"  action="home" >
 <table border="=1">
     <c:forEach items="${orders}" var="order">
@@ -38,7 +44,7 @@
             <td>${order.idDrink}</td>
             <td>${order.idAdditionalIngredient}</td>
             <td>${order.portion}</td>
-            <td>${order.totalCost}</td>
+<%--            <td>${order.totalCost}</td>--%>
                     </tr>
     </c:forEach>
 </table>
@@ -46,7 +52,7 @@
 </p>
 
 <p>
-    <fmt:message key="changePassword" bundle="${loc}"/>
+    <fmt:message key="personalCabinet.message.changePassword" bundle="${loc}"/>
 </p>
 </body>
 </html>

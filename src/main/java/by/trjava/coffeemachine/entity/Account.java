@@ -7,8 +7,8 @@ public class Account implements Serializable {
     private int idAccount;
     private int idUser;
     private String paymentMethod;
-private Date paymentDate;
-private double amountOfMoney;
+    private Date paymentDate;
+    private double amountOfMoney;
 
     public Account(int idAccount, int idUser, String paymentMethod, Date paymentDate, double amountOfMoney) {
         this.idAccount = idAccount;
@@ -18,7 +18,8 @@ private double amountOfMoney;
         this.amountOfMoney = amountOfMoney;
     }
 
-    public Account(){}
+    public Account() {
+    }
 
     public int getIdAccount() {
         return idAccount;
@@ -64,7 +65,7 @@ private double amountOfMoney;
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-         }
+        }
         if (obj == null) {
             return false;
         }
@@ -92,23 +93,23 @@ private double amountOfMoney;
                 return false;
             }
         }
-        return  true;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31*idAccount+idUser+(paymentMethod==null? 0:paymentMethod.hashCode())
-                +(paymentDate==null?0:paymentDate.hashCode())+amountOfMoney);
+        return (int) (31 * idAccount + idUser + (paymentMethod == null ? 0 : paymentMethod.hashCode())
+                + (paymentDate == null ? 0 : paymentDate.hashCode()) + amountOfMoney);
     }
 
     @Override
-    public String toString(){
-        return getClass().getName()+"@"+
+    public String toString() {
+        return getClass().getName() + "@" +
                 "idAccount=" + idAccount +
                 ", idUser=" + idUser +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", paymentDate=" + paymentDate +
-                ", amountOfMoney=" + amountOfMoney ;
+                ", amountOfMoney=" + amountOfMoney;
     }
 }
 

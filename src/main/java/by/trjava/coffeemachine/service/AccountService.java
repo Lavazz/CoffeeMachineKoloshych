@@ -9,7 +9,7 @@ import by.trjava.coffeemachine.service.exception.ServiceException;
 import java.sql.SQLException;
 
 public interface AccountService {
-    double increaseBalance(String userLogin, String paymentMethod, double amountOfMoney) throws ServiceException, SQLException;
+    double increaseBalance(int idUser, String paymentMethod, double amountOfMoney) throws ServiceException, SQLException;
 
     double decreaseBalance(OrderJournal orderJournal, double totalCost) throws ServiceException, SQLException;
 }

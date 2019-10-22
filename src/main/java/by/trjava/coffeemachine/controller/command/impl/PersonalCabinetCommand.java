@@ -22,7 +22,7 @@ public class PersonalCabinetCommand implements Command {
         int idUser=user.getId();
         OrderService orderService= ServiceFactory.getInstance().getOrderService();
        // orderService.getUserOrder(idUser);
-
+//история заказов и баланс
         request.getRequestDispatcher("personalCabinet").forward(request, response);
     }
 }

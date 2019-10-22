@@ -6,7 +6,8 @@ public class AdditionalIngredient extends Ingredient implements Serializable {
     private int idAdditionalIngredient;
     private double price;
 
-    public AdditionalIngredient (){}
+    public AdditionalIngredient() {
+    }
 
     public AdditionalIngredient(String nameIngredient, String type, String brand, int idAdditionalIngredient, double price) {
         super(nameIngredient, brand);
@@ -31,37 +32,39 @@ public class AdditionalIngredient extends Ingredient implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(this==obj){
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if(obj==null){
+        if (obj == null) {
             return false;
         }
-        if(getClass()!=obj.getClass()){
+        if (getClass() != obj.getClass()) {
             return false;
         }
         if (!super.equals(obj)) {
-            return false;}
-        AdditionalIngredient other=(AdditionalIngredient) obj;
-      if(idAdditionalIngredient!=other.idAdditionalIngredient){
-          return false;
-      } if(price!=other.price){
-          return false;
+            return false;
         }
-return true;
+        AdditionalIngredient other = (AdditionalIngredient) obj;
+        if (idAdditionalIngredient != other.idAdditionalIngredient) {
+            return false;
+        }
+        if (price != other.price) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-   public int hashCode(){
-        return (int) (31*idAdditionalIngredient+price);
+    public int hashCode() {
+        return (int) (31 * idAdditionalIngredient + price);
 
     }
 
     @Override
-    public String toString(){
-        return getClass().getName()+"@"+
-               " idAdditionalIngredient"+idAdditionalIngredient+
-                " price"+price;
+    public String toString() {
+        return getClass().getName() + "@" +
+                " idAdditionalIngredient" + idAdditionalIngredient +
+                " price" + price;
     }
 }

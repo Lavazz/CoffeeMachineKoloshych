@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface OrderJournalService {
     double addOrderInJournal(List<OrderJournal> listOrderJournal) throws DAOException, SQLException;
-    List<OrderJournal> getUserOrderHistory(String userLogin);
+    List<OrderJournal> getUserOrderHistory(int idUser);
 }

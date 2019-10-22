@@ -18,17 +18,15 @@ public class AccountServiceImpl implements AccountService {
 DAOFactory daoFactory = DAOFactory.getInstance();
 AccountDAO accountDAO=daoFactory.getAccountDAO();
 
-
-
-
     @Override
-    public double increaseBalance(String userLogin, String paymentMethod, double amountOfMoney) throws ServiceException {
+    public double increaseBalance(int idUser, String paymentMethod, double amountOfMoney) throws ServiceException {
 //        if (!AccountValidator.getInstance().validate(userLogin, paymentMethod, amountOfMoney)) {
 //            throw new ServiceException("Incorrect sum of money");
 //        }
         try {
-            return accountDAO.increaseBalance(userLogin, paymentMethod, amountOfMoney);
+            return accountDAO.increaseBalance(idUser, paymentMethod, amountOfMoney);
         } catch (DAOException | SQLException e) {
+            e.printStackTrace();
             throw new ServiceException(e.getMessage(), e);
         }
     }

@@ -3,14 +3,15 @@ package by.trjava.coffeemachine.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class BasicIngredient extends  Ingredient implements Serializable {
+public class BasicIngredient extends Ingredient implements Serializable {
     private int idBasicIngredient;
 
-    public BasicIngredient(){}
+    public BasicIngredient() {
+    }
 
 
     public BasicIngredient(String nameIngredient, String type, String brand, int idBasicIngredient) {
-        super(nameIngredient,  brand);
+        super(nameIngredient, brand);
         this.idBasicIngredient = idBasicIngredient;
     }
 
@@ -24,13 +25,21 @@ public class BasicIngredient extends  Ingredient implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {return true;}
-        if (obj == null ) {return false;}
-        if(getClass() != obj.getClass()) {return false;}
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         if (!super.equals(obj)) return false;
         BasicIngredient other = (BasicIngredient) obj;
-       if(idBasicIngredient != other.idBasicIngredient){return  false;}
-       return true;
+        if (idBasicIngredient != other.idBasicIngredient) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class BasicIngredient extends  Ingredient implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName() +"@"+
+        return getClass().getName() + "@" +
                 "idBasicIngredient=" + idBasicIngredient;
     }
 }

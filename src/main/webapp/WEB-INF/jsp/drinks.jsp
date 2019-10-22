@@ -45,7 +45,6 @@
                 <td>${additionalIngredient.brand}</td>
                 <td>${additionalIngredient.price}</td>
                 <td><input type="radio" name="radioButtonIngredient" value="${additionalIngredient.idAdditionalIngredient}"></td>
-
             </tr>
         </c:forEach>
     </table>

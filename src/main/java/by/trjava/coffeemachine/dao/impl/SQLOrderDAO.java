@@ -3,6 +3,7 @@ package by.trjava.coffeemachine.dao.impl;
 import by.trjava.coffeemachine.dao.AccountDAO;
 import by.trjava.coffeemachine.dao.DAOFactory;
 import by.trjava.coffeemachine.dao.OrderDAO;
+import by.trjava.coffeemachine.dao.OrderJournalDAO;
 import by.trjava.coffeemachine.dao.exception.DAOException;
 import by.trjava.coffeemachine.dao.impl.pool.ConnectionPool;
 import by.trjava.coffeemachine.entity.*;
@@ -15,24 +16,24 @@ import static by.trjava.coffeemachine.dao.impl.SQLQuery.*;
 
 public class SQLOrderDAO implements OrderDAO {
     private static final ConnectionPool pool=ConnectionPool.getInstance();
-//    @Override
-//    public double makeOrder(int userLogin, int drink, int additionalIngredient, int portion) throws DAOException {
-//        int idUser=0;
+
+//    public List<Order> getOrderHistory(int idUser, int drink, int additionalIngredient, int portion) throws DAOException {
 //        Connection con = null;
 //        PreparedStatement ps = null;
 //        PreparedStatement ps2 = null;
 //        PreparedStatement ps3 = null;
 //        ResultSet rs = null;
-//
+//        OrderJournalDAO orderJournalDAO=DAOFactory.getInstance().getOrderJournalDAO();
+//        List<OrderJournal> listOrderJournal=orderJournalDAO.getUserOrderHistory(idUser);
+//        for(OrderJournal orderJournal:listOrderJournal){
+//            if(orderJournal.getIdOrder()==)
+//        }
 //        try {
 //            con = pool.getConnection();
 //            con.setAutoCommit(false);
-//            ps = con.prepareStatement(QUERY_USER_GET_ID);
-//            ps.setInt(1, userLogin);
-//            idUser=Integer.parseInt(ps.executeQuery().toString());
 //
-//            ps2=con.prepareStatement(QUERY_CREATE_ORDER);
-//            ps2.setInt(1, idUser);
+//            ps=con.prepareStatement(QUERY_CREATE_ORDER);
+//            ps.setInt(1, idUser);
 //            int idOrder=ps2.executeUpdate();
 //
 //            ps3=con.prepareStatement(QUERY_CREATE_ORDER_BASKET);
@@ -56,6 +57,8 @@ public class SQLOrderDAO implements OrderDAO {
 //           SQLUtil.shut(rs, ps, ps2, con);
 //        }
 //    }
+//
+
 @Override
     public int addOrder(int idUser) throws DAOException {
         Connection con = null;

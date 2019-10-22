@@ -8,16 +8,18 @@ public class User implements Serializable {
     private String password;
     private String email;
     private String name;
-    private String status;
+    private int status;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(int id, String login, String password, String email, String name) {
+    public User(int id, String login, String password, String email, String name, int status) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.name = name;
+        this.status=status;
     }
 
     public int getId() {
@@ -60,11 +62,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -111,24 +113,27 @@ public class User implements Serializable {
                 return false;
             }
         }
-        return  true;
+        if(status!=other.status){
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31*id+(login==null? 0:login.hashCode())
-                +(password==null?0:password.hashCode())+(email==null? 0:email.hashCode())
-                +(name==null?0:name.hashCode()));
+        return (int) (31 * id + (login == null ? 0 : login.hashCode())
+                + (password == null ? 0 : password.hashCode()) + (email == null ? 0 : email.hashCode())
+                + (name == null ? 0 : name.hashCode())+status);
     }
 
     @Override
     public String toString() {
-        return getClass().getName()+"@"+
+        return getClass().getName() + "@" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", status='" + status + '\'' ;
+                ", status='" + status + '\'';
     }
 }

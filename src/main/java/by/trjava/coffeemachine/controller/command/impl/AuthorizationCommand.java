@@ -41,7 +41,9 @@ public class AuthorizationCommand implements Command {
         String password = request.getParameter(PARAMETER_PASSWORD).trim();
 
         try {
+            System.out.println("user in aut"+login+password);
          User user= userService.authorization(login, password);
+
             if(user!=null) {
                 session.setAttribute(PARAMETER_USER, userService.getUserByLogin(login));
                 request.setAttribute("message", "Welcome!");
@@ -52,6 +54,7 @@ public class AuthorizationCommand implements Command {
                 request.getRequestDispatcher("/index").forward(request, response);
             }
         } catch (ServiceException e) {
+            System.out.println("Exs aut");
             request.setAttribute(PARAMETER_PREVIOUS_REQUEST, url);
             request.getRequestDispatcher("/index").forward(request, response);
         }

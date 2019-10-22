@@ -5,11 +5,12 @@ import java.util.Objects;
 
 public class Drink implements Serializable {
 
-private int idDrink;
-private String drinkName;
-private double price;
+    private int idDrink;
+    private String drinkName;
+    private double price;
 
-public Drink(){}
+    public Drink() {
+    }
 
     public Drink(int idDrink, String drinkName, double price) {
         this.idDrink = idDrink;
@@ -44,34 +45,36 @@ public Drink(){}
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null ){
-            return false;}
-        if(getClass() != obj.getClass()){
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
             return false;
         }
         Drink other = (Drink) obj;
-        if(idDrink != other.idDrink){
-            return  false;
+        if (idDrink != other.idDrink) {
+            return false;
         }
-        if(price!=other.price){return  false;
-            }
-        if(drinkName==null) {
+        if (price != other.price) {
+            return false;
+        }
+        if (drinkName == null) {
             if (other.drinkName != null) {
             } else if (!drinkName.equals(other.drinkName)) {
                 return false;
             }
         }
-            return true;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return (int)(31*idDrink+ (drinkName==null? 0: drinkName.hashCode())+price);
+        return (int) (31 * idDrink + (drinkName == null ? 0 : drinkName.hashCode()) + price);
     }
 
     @Override
     public String toString() {
-        return getClass().getName() +"@"+
+        return getClass().getName() + "@" +
                 "idDrink=" + idDrink +
                 ", drinkName='" + drinkName + '\'' +
                 ", price=" + price;
