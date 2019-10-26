@@ -8,6 +8,7 @@
 </head>
 <body>
 <c:redirect url="home?command=showAllDrinks" />
+<%--<c:redirect url="home?command=personalCabinet" />--%>
 
 </body>
 </html>

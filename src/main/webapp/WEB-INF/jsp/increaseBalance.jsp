@@ -15,24 +15,24 @@
 <body>
 <fmt:message key="increaseBalance.text.welcome" bundle="${loc}"/>
 
-<c:import url="/header.jsp"/>
+<c:import url="/WEB-INF/jsp/header.jsp"/>
 
 <c:if test="${user!=null}">
 <form method="post" action="home">
     <label>
         <select>
-            <option><fmt:message key="account.payment.method"/></option>
-            <option><fmt:message key="increaseBalance.label.ERIP"/></option>
-            <option><fmt:message key="increaseBalance.label.card"/></option>
-            <option><fmt:message key="increaseBalance.label.QR-code"/></option>
-            <option><fmt:message key="increaseBalance.label.webMoney"/></option>
+            <option><fmt:message key="account.payment.method" bundle="${loc}"/></option>
+            <option><fmt:message key="increaseBalance.label.ERIP" bundle="${loc}"/></option>
+            <option><fmt:message key="increaseBalance.label.card" bundle="${loc}"/></option>
+            <option><fmt:message key="increaseBalance.label.QR-code" bundle="${loc}"/></option>
+            <option><fmt:message key="increaseBalance.label.webMoney" bundle="${loc}"/></option>
         </select>
         <p>
     </label>
     <input type="hidden" name="paymentMethod" value=""/>
     <label><fmt:message key="increaseBalance.label.sum"/> </label>
     <input name="amountOfMoney" value="" type="text" placeholder="sum" required>
-    <input type="submit"  name="" value="<fmt:message key='increaseBalance.label.deposit'/>> ">
+    <input type="submit"  name="" value="<fmt:message key='increaseBalance.label.deposit' bundle="${loc}"/> ">
     <input type="hidden" name="command" value="increaseBalance">
     </p>
 </form>

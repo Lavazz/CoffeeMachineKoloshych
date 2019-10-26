@@ -15,7 +15,7 @@
 <body>
 <fmt:message key="locale.drinks.welcome" bundle="${loc}"/>
 
-<c:import url="/header.jsp"/>
+<c:import url="/WEB-INF/jsp/header.jsp"/>
 <h2>
 <fmt:message key="personalCabinet.text" bundle="${loc}"/>
 </h2>
@@ -54,5 +54,10 @@
 <p>
     <fmt:message key="personalCabinet.message.changePassword" bundle="${loc}"/>
 </p>
+<a href="${pageContext.request.contextPath}/home?command=${"fillingOperation"}">
+    filling
+<%--    <fmt:message key="per.message.order" bundle="${loc}"/>--%>
+</a>
+
 </body>
 </html>

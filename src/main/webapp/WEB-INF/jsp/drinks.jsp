@@ -12,16 +12,21 @@
         <fmt:message key="locale.drinks.title" bundle="${loc}"/>
     </title>
 </head>
-<body>
-<fmt:message key="locale.drinks.welcome" bundle="${loc}"/>
+<body style="background-image:url(${pageContext.request.contextPath}/images/6.jpg)">
+<%--<fmt:message key="locale.drinks.welcome" bundle="${loc}"/>--%>
+<nav class="navbar navbar-expand-lg fixed-top ">
+    <c:import url="/WEB-INF/jsp/header.jsp"/>
+</nav>
+<div class="container-fluid">
+<div class="row">
 
-<c:import url="/header.jsp"/>
+<c:out value="${message}"/>
+</div>
 <c:if test="${user != null}">
-    <p>
         <a href="${pageContext.request.contextPath}/home?command=${"personalCabinet"}">
             <fmt:message key="locale.drinks.cabinet" bundle="${loc}"/>
         </a>
-    </p>
+
 </c:if>
 <form method="post"  action="home" >
     <p>
@@ -40,11 +45,10 @@
     <table border="=1">
         <c:forEach items="${additionalIngredients}" var="additionalIngredient">
             <tr>
-                <td>${additionalIngredient.idAdditionalIngredient}</td>
+                <td>${additionalIngredient.idIngredient}</td>
                 <td>${additionalIngredient.nameIngredient}</td>
-                <td>${additionalIngredient.brand}</td>
                 <td>${additionalIngredient.price}</td>
-                <td><input type="radio" name="radioButtonIngredient" value="${additionalIngredient.idAdditionalIngredient}"></td>
+                <td><input type="radio" name="radioButtonIngredient" value="${additionalIngredient.idIngredient}"></td>
             </tr>
         </c:forEach>
     </table>
@@ -55,6 +59,7 @@
 
         <input type="submit"  name="portion" value="<fmt:message key='drinks.input.addInBasket' bundle='${loc}'/>" >
         <input type="hidden" name="command" value="orderJournal">
+
     </c:if>
     <p>
         <c:if test="${user == null}">
@@ -62,5 +67,12 @@
             </c:if>
     </p>
 </form>
+
+<c:if test="${user.status==1}">
+<%--    <a href="home?command=FillingOperation">--%>
+<%--        Filling Operation--%>
+<%--    </a>--%>
+    <a href="home?command=GoToPageAdminCabinet">admin cabinet</a>
+</c:if>
 </body>
 </html>

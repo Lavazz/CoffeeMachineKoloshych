@@ -2,6 +2,24 @@
 
     <display-name>Archetype Created Web Application</display-name>
 
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>by.trjava.kaloshych.controller.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
@@ -15,14 +33,14 @@
     </servlet-mapping>
 
 
-        <servlet>
-            <servlet-name>drinks</servlet-name>
-            <jsp-file>/WEB-INF/jsp/drinks.jsp</jsp-file>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>drinks</servlet-name>
-            <url-pattern>/drinks</url-pattern>
-        </servlet-mapping>
+    <servlet>
+        <servlet-name>drinks</servlet-name>
+        <jsp-file>/WEB-INF/jsp/drinks.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>drinks</servlet-name>
+        <url-pattern>/drinks</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>increaseBalance</servlet-name>
@@ -42,14 +60,16 @@
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>makeOrder</servlet-name>
-        <jsp-file>/WEB-INF/jsp/makeOrder.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>makeOrder</servlet-name>
-        <url-pattern>/MakeOrder</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>makeOrder</servlet-name>-->
+<!--        <jsp-file>/makeOrder.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>makeOrder</servlet-name>-->
+<!--        <url-pattern>/makeOrder</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+
 
     <servlet>
         <servlet-name>personalCabinet</servlet-name>
@@ -61,12 +81,39 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>adminCabinet</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/adminCabinet.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminCabinet</servlet-name>
+        <url-pattern>/adminCabinet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editIngredient</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/editIngredients.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editIngredient</servlet-name>
+        <url-pattern>/editIngredient</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>orderJournal</servlet-name>
         <jsp-file>/WEB-INF/jsp/orderJournal.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>orderJournal</servlet-name>
         <url-pattern>/orderJournal</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>fillingOperation</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/fillingOperation.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fillingOperation</servlet-name>
+        <url-pattern>/fillingOperation</url-pattern>
     </servlet-mapping>
 
     <context-param>
@@ -76,15 +123,7 @@
 
 
 
-<!--    <servlet>-->
-<!--        <sevlet-name>fillingOperation</sevlet-name>-->
-<!--        <jsp-file>/WEB-INF/jsp/fillingOperation.jsp</jsp-file>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>fillingOperation</servlet-name>-->
-<!--        <url-pattern>/fillingOperation</url-pattern>-->
-<!--    </servlet-mapping>-->
-</web-app>
 
+</web-app>
 
 
