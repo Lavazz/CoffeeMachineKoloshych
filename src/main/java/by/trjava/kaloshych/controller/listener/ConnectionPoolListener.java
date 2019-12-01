@@ -3,13 +3,10 @@ package by.trjava.kaloshych.controller.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import by.trjava.kaloshych.dao.exception.ConnectionPoolException;
-import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.impl.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
+import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import org.apache.log4j.Logger;
 
 @WebListener
@@ -29,13 +26,11 @@ public class ConnectionPoolListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent sce) {
 
 		try {
-			   ConnectionPool.getInstance().init();
-			logger.info("Connection pool initialized successfully");
-		} catch (DAOException e) {
-            logger.error("ConnectionPoolException during initializing", e);
-            throw new ExceptionInInitializerError("Could not initialize pool!");
-        }
-    }
-
-
+				DBConnectionPool.getInstance().init();
+				logger.info("Connection pool initialized successfully");
+			} catch (ConnectionPoolException e) {
+				logger.error("ConnectionPoolException during initializing", e);
+				throw new ExceptionInInitializerError("Could not initialize pool!");
+			}
+	}
 }

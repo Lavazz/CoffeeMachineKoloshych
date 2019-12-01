@@ -1,12 +1,13 @@
 package by.trjava.kaloshych.dao.impl;
 
-import by.trjava.kaloshych.dao.FillingOperationDAO;
-import by.trjava.kaloshych.dao.SQLDAO;
+import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.impl.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
+import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
-import by.trjava.kaloshych.entity.BasicIngredient;
-import by.trjava.kaloshych.entity.Ingredient;
+import by.trjava.kaloshych.entity.Component;
+import by.trjava.kaloshych.entity.Drink;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,30 +19,38 @@ import java.util.List;
 import static by.trjava.kaloshych.dao.impl.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
-public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDAO {
-    private static final ConnectionPool pool = ConnectionPool.getInstance();
+public class SQLFillingOperationDAO  implements FillingOperationDAO {
+    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
+    private static  final Logger logger=Logger.getLogger(SQLFillingOperationDAO.class);
 
     @Override
-    public List<Ingredient> getIngredient() throws DAOException {
-        Connection con = null;
+    public List<Component> getAllComponents() throws DAOException {
+        DrinkDAO drinkDAO= DAOFactory.getInstance().getDrinkDAO();
+        AdditionalIngredientDAO additionalIngredientDAO=DAOFactory.getInstance().getAdditionalIngredientDAO();
+
+        Connection con;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        List<Ingredient> ingredientList = new ArrayList<>();
+        List<Component> componentList = new ArrayList<>();
 
         try {
             con = pool.getConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        }
+        try{
             ps = con.prepareStatement(QUERY_FILLING_OPERATION);
             rs = ps.executeQuery();
             while (rs.next()) {
-                int idBasicIngredient = rs.getInt(PARAMETER_ID_BASIC_INGREDIENT);
+                int idDrink = rs.getInt(PARAMETER_ID_DRINK);
                 int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
-                if (idBasicIngredient != 0) {
-                    ingredientList.add(createBasicIngredient(idBasicIngredient));
+                if (idDrink != 0) {
+                    componentList.add(drinkDAO.createDrink(idDrink));
                 } else if (idAdditionalIngredient != 0) {
-                    ingredientList.add(createAdditionalIngredient(idAdditionalIngredient));
+                    componentList.add(additionalIngredientDAO.createAdditionalIngredient(idAdditionalIngredient));
                 }
             }
-            return ingredientList;
+            return componentList;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -49,74 +58,54 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
         }
     }
 
-    private Ingredient createBasicIngredient(int idBasicIngredient) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Ingredient ingredient = null;
-        try {
-            con = pool.getConnection();
-            ps = con.prepareStatement(QUERY_BASIC_INGREDIENT);
-            ps.setInt(1, idBasicIngredient);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                String nameIngredient = rs.getString(PARAMETER_BASIC_INGREDIENT);
-                String type = rs.getString(PARAMETER_TYPE);
-                String brand = rs.getString(PARAMETER_BRAND);
-                int portion = rs.getInt(PARAMETER_PORTION);
-                ingredient = new BasicIngredient(idBasicIngredient, nameIngredient, type, brand, portion);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            SQLUtil.shut(rs, ps, con);
-        }
-        return ingredient;
-    }
+        @Override
+    public boolean fillingOperation(int idComponent) throws DAOException {
+          DrinkDAO drinkDAO=DAOFactory.getInstance().getDrinkDAO();
+          boolean result;
 
-    private Ingredient createAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Ingredient ingredient = null;
-
-        try {
-            con = pool.getConnection();
-            ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID);
-            ps.setInt(1, idAdditionalIngredient);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                String nameIngredient = rs.getString(PARAMETER_ADDITIONAL_INGREDIENT);
-                double price = rs.getDouble(PARAMETER_PRICE);
-                int portion = rs.getInt(PARAMETER_PORTION);
-                ingredient = new AdditionalIngredient(idAdditionalIngredient, nameIngredient, price, portion);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            SQLUtil.shut(rs, ps, con);
+        if (drinkDAO.checkDrinkById(idComponent)) {
+            result = fillingDrinkComponent(idComponent);
+        } else {
+            result = fillingAdditionalIngredient(idComponent);
         }
-        return ingredient;
+        return result;
     }
 
     @Override
-    public int fillingOperation(int idIngredient) throws DAOException {
-        boolean result = false;
-        int portion = 0;
-
-        if (checkBasicByID(idIngredient)) {
-            result = fillingBasicIngredient(idIngredient);
-        } else {
-            result = fillingAdditionalIngredient(idIngredient);
-        }
-        if (result) {
-            portion = getPortion(idIngredient);
-        }
-        return portion;
+    public void addComponentToFillingOperation(Drink drink) throws DAOException {
+        addComponentToFillingOperationTable(drink, QUERY_DRINK_ADD_FILLING);
     }
 
-    private boolean fillingBasicIngredient(int idIngredient) throws DAOException {
-        Connection con = null;
+    @Override
+    public void addComponentToFillingOperation(AdditionalIngredient additionalIngredient) throws DAOException {
+        addComponentToFillingOperationTable(additionalIngredient, QUERY_ADDITIONAL_INGREDIENT_ADD_FILLING);
+    }
+
+
+    private void addComponentToFillingOperationTable(Component component, String query) throws DAOException {
+        Connection con;
+
+        try {
+            con = pool.getConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        }
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, component.getIdComponent());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            try {
+                DBConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                logger.debug("Can't close connection pool" + e);
+            }
+        }
+    }
+
+    private boolean fillingDrinkComponent(int idComponent) throws DAOException {
+        Connection con;
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
@@ -124,15 +113,19 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
 
         try {
             con = pool.getConnection();
-            ps = con.prepareStatement(QUERY_FILLING_OPERATION_BASIC_INGREDIENT);
-            ps.setInt(1, idIngredient);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        }
+        try {
+            ps = con.prepareStatement(QUERY_FILLING_OPERATION_DRINK);
+            ps.setInt(1, idComponent);
             rs = ps.executeQuery();
             if (rs.next()) {
                 maxPortion = rs.getInt(PARAMETER_MAX_PORTION);
             }
-            ps2 = con.prepareStatement(QUERY_FILLING_BASIC);
+            ps2 = con.prepareStatement(QUERY_FILLING_DRINK);
             ps2.setInt(1, maxPortion);
-            ps2.setInt(2, idIngredient);
+            ps2.setInt(2, idComponent);
             return ps2.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -141,8 +134,8 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
         }
     }
 
-    private boolean fillingAdditionalIngredient(int idIngredient) throws DAOException {
-        Connection con = null;
+    private boolean fillingAdditionalIngredient(int idComponent) throws DAOException {
+        Connection con ;
         PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
@@ -150,8 +143,12 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
 
         try {
             con = pool.getConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        }
+        try {
             ps = con.prepareStatement(QUERY_FILLING_OPERATION_ADDITIONAL_INGREDIENT);
-            ps.setInt(1, idIngredient);
+            ps.setInt(1, idComponent);
             rs = ps.executeQuery();
             if (rs.next()) {
                 maxPortion = rs.getInt(PARAMETER_MAX_PORTION);
@@ -159,59 +156,12 @@ public class SQLFillingOperationDAO extends SQLDAO implements FillingOperationDA
 
             ps2 = con.prepareStatement(QUERY_FILLING_ADDITIONAL);
             ps2.setInt(1, maxPortion);
-            ps2.setInt(2, idIngredient);
+            ps2.setInt(2, idComponent);
             return ps2.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
             SQLUtil.shut(rs, ps, ps2, con);
-        }
-    }
-
-    private int getPortion(int idIngredient) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int portion = 0;
-        try {
-            con = pool.getConnection();
-            if (checkBasicByID(idIngredient)) {
-                ps = con.prepareStatement(QUERY_FILLING_GET_BASIC);
-            } else {
-                ps = con.prepareStatement(QUERY_FILLING_GET_ADDITIONAL_PORTION);
-            }
-            ps.setInt(1, idIngredient);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                portion = rs.getInt(PARAMETER_PORTION);
-            }
-            return portion;
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            SQLUtil.shut(rs, ps, con);
-        }
-
-    }
-
-    private boolean checkBasicByID(int idIngredient) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            con = pool.getConnection();
-            ps = con.prepareStatement(QUERY_FILLING_GET_BASIC);
-            ps.setInt(1, idIngredient);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-            return false;
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            SQLUtil.shut(rs, ps, con);
         }
     }
 

@@ -1,12 +1,15 @@
 package by.trjava.kaloshych.service;
 
 import by.trjava.kaloshych.entity.AdditionalIngredient;
-import by.trjava.kaloshych.service.exception.AdditionalIngredientServiceException;
+import by.trjava.kaloshych.entity.Component;
+import by.trjava.kaloshych.service.exception.ServiceException;
 
 import java.util.List;
 
 public interface AdditionalIngredientService {
-   List<AdditionalIngredient> listAllAdditionalIngredient() throws AdditionalIngredientServiceException;
-    void addAdditionalIngredient(String nameAdditionalIngredient, double price) throws AdditionalIngredientServiceException;
-    void deleteAdditionalIngredient(int idAdditionalIngredient) throws AdditionalIngredientServiceException;
+    List<AdditionalIngredient> getAllAdditionalIngredients() throws ServiceException;
+   int decreasePortion(AdditionalIngredient additionalIngredient, int portion) throws ServiceException;
+    void addNewAdditionalIngredient(String nameAdditionalIngredient, String calories) throws  ServiceException;
+    boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws ServiceException;
+    AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws ServiceException;
 }

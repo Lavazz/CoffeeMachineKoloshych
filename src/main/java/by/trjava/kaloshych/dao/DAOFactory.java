@@ -1,54 +1,76 @@
 package by.trjava.kaloshych.dao;
 
 import by.trjava.kaloshych.dao.impl.*;
+import by.trjava.kaloshych.entity.CartAdditionalIngredient;
 
 public class DAOFactory {
 
-private static final DAOFactory instance=new DAOFactory();
-private final AccountDAO accountDAO=new SQLAccountDAO();
-private final AdditionalIngredientDAO additionalDAO=new SQLAdditionalIngredientDAO();
-private final DrinkDAO drinkDAO=new SQLDrinkDAO();
-private final FillingOperationDAO fillingDAO=new SQLFillingOperationDAO();
-private final OrderDAO orderDAO=new SQLOrderDAO();
-private final UserDAO userDAO=new SQLUserDAO();
-private final OrderJournalDAO orderJournalDAO=new SQLOrderJournalDAO();
+    private DAOFactory() {
+    }
 
-    private DAOFactory(){};
+    private static final DAOFactory instance = new DAOFactory();
+    private final AccountDAO accountDAO = new SQLAccountDAO();
+    private final AccountUserDAO accountUserDAO = new SQLAccountUserDAO();
+    private final AdditionalIngredientDAO additionalDAO = new SQLAdditionalIngredientDAO();
+    private final DrinkDAO drinkDAO = new SQLDrinkDAO();
+    private final FillingOperationDAO fillingDAO = new SQLFillingOperationDAO();
+    private final OrderDAO orderDAO = new SQLOrderDAO();
+    private final UserDAO userDAO = new SQLUserDAO();
+    private final CartUserDAO cartUserDAO = new SQLCartUserDAO();
+    private final CartDAO cartDAO = new SQLCartDAO();
+    private final CartAdditionalIngredientDAO cartAdditionalIngredientDAO = new SQLCartAdditionalIngredientDAO();
+    private final ComponentDAO componentDAO = new SQLComponentDAO();
+private final  PaymentMethodDAO paymentMethodDAO=new SQLPaymentMethodDAO();
 
-// private static volatile DAOFactory instance;
-//   public static DAOFactory getInstance() {
-//       if (instance == null) {
-//           instance = new DAOFactory();
-//       }
-//       return instance;
-//   }
-
-
-    public static DAOFactory getInstance(){
+    public static DAOFactory getInstance() {
         return instance;
     }
-public AccountDAO getAccountDAO(){
+
+
+    public AccountDAO getAccountDAO() {
         return accountDAO;
-}
+    }
 
-public AdditionalIngredientDAO getAdditionalIngredientDAO(){
+    public AccountUserDAO getAccountUserDAO() {
+        return accountUserDAO;
+    }
+
+    public AdditionalIngredientDAO getAdditionalIngredientDAO() {
         return additionalDAO;
-}
+    }
 
-public DrinkDAO getDrinkDAO(){
+    public DrinkDAO getDrinkDAO() {
         return drinkDAO;
-}
+    }
 
-public FillingOperationDAO getFillingOperationDAO(){
+    public FillingOperationDAO getFillingOperationDAO() {
         return fillingDAO;
-}
+    }
 
-public OrderDAO getOrderDAO(){
+    public OrderDAO getOrderDAO() {
         return orderDAO;
-}
+    }
 
-public UserDAO getUserDAO(){
+    public UserDAO getUserDAO() {
         return userDAO;
-}
-public OrderJournalDAO getOrderJournalDAO(){return orderJournalDAO;}
+    }
+
+    public CartUserDAO getCartUserDAO() {
+        return cartUserDAO;
+    }
+
+    public CartDAO getCartDAO() {
+        return cartDAO;
+    }
+
+    public CartAdditionalIngredientDAO getCartAdditionalIngredientDAO() {
+        return cartAdditionalIngredientDAO;
+    }
+
+    public ComponentDAO getComponentDAO() {
+        return componentDAO;
+    }
+
+    public PaymentMethodDAO getPaymentMethodDAO(){return  paymentMethodDAO;}
+
 }

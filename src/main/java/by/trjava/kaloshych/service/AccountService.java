@@ -1,12 +1,17 @@
 package by.trjava.kaloshych.service;
 
-import by.trjava.kaloshych.entity.OrderJournal;
+import by.trjava.kaloshych.entity.AccountUser;
+import by.trjava.kaloshych.entity.CartUser;
+import by.trjava.kaloshych.entity.Order;
+import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.exception.ServiceException;
 
 import java.sql.SQLException;
 
 public interface AccountService {
-    double increaseBalance(int idUser, String paymentMethod, double amountOfMoney) throws ServiceException, SQLException;
+    void addNewAccount(AccountUser accountUser) throws ServiceException;
+    void replenishBalance(AccountUser accountUser, String idPaymentMethod, String amountOfMoney) throws ServiceException;
 
-    double decreaseBalance(OrderJournal orderJournal, double totalCost) throws ServiceException, SQLException;
+    boolean decreaseBalance(Order order) throws  ServiceException;
+    double getBalance (AccountUser accountUser) throws ServiceException;
 }

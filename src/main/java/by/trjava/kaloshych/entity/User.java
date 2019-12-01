@@ -3,23 +3,28 @@ package by.trjava.kaloshych.entity;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String login;
     private String password;
     private String email;
     private String name;
-    private int status;
-
+    private UserStatus userStatus;
     public User() {
     }
 
-    public User(int id, String login, String password, String email, String name, int status) {
+    public User(int id, String login, String password, String email, String name, UserStatus userStatus) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.status=status;
+        this.userStatus=userStatus;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getId() {
@@ -62,12 +67,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     @Override
@@ -113,8 +118,12 @@ public class User implements Serializable {
                 return false;
             }
         }
-        if(status!=other.status){
-            return false;
+        if (userStatus == null) {
+            if (other.userStatus != null) {
+                return false;
+            } else if (!userStatus.equals(other.userStatus)) {
+                return false;
+            }
         }
         return true;
     }
@@ -123,7 +132,7 @@ public class User implements Serializable {
     public int hashCode() {
         return (int) (31 * id + (login == null ? 0 : login.hashCode())
                 + (password == null ? 0 : password.hashCode()) + (email == null ? 0 : email.hashCode())
-                + (name == null ? 0 : name.hashCode())+status);
+                + (name == null ? 0 : name.hashCode())+(userStatus == null ? 0 : userStatus.hashCode()));
     }
 
     @Override
@@ -134,6 +143,6 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", status='" + status + '\'';
+                ", userStatus='" + userStatus + '\'';
     }
 }

@@ -1,13 +1,15 @@
 package by.trjava.kaloshych.dao.impl;
 
-import by.trjava.kaloshych.dao.impl.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
+import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 
 public class SQLUtil {
-    protected static final ConnectionPool pool = ConnectionPool.getInstance();
+    protected static final ConnectionPool pool = DBConnectionPool.getInstance();
 
     protected static final Logger logger = LogManager.getLogger(SQLUtil.class);
 
@@ -34,7 +36,11 @@ public class SQLUtil {
             logger.warn("can't close st1" + e);
         }
 
-        pool.releaseConnection(con);
+        try {
+            pool.releaseConnection(con);
+        } catch (ConnectionPoolException e) {
+            logger.warn("can't close connection pool" + e);
+        }
     }
 
     public static void shut(ResultSet rs, PreparedStatement st, Connection con) {
@@ -53,7 +59,11 @@ public class SQLUtil {
             logger.warn("can't close st" + e);
         }
 
-        pool.releaseConnection(con);
+        try {
+            pool.releaseConnection(con);
+        } catch (ConnectionPoolException e) {
+            logger.warn("can't close connection pool" + e);
+        }
     }
 
     public static void shut(PreparedStatement st, Connection con) {
@@ -65,7 +75,11 @@ public class SQLUtil {
             logger.warn("can't close st" + e);
         }
 
-        pool.releaseConnection(con);
+        try {
+            pool.releaseConnection(con);
+        } catch (ConnectionPoolException e) {
+            logger.warn("can't close connection pool" + e);
+        }
     }
 
     public static void shut(ResultSet rs, PreparedStatement st1, PreparedStatement st2, PreparedStatement st3,
@@ -81,6 +95,10 @@ public class SQLUtil {
             logger.warn("can't close st3" + e);
         }
 
-        pool.releaseConnection(con);
+        try {
+            pool.releaseConnection(con);
+        } catch (ConnectionPoolException e) {
+            logger.warn("can't close connection pool" + e);
+        }
     }
 }

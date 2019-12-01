@@ -4,21 +4,27 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Account implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int idAccount;
-    private int idUser;
+    private AccountUser accountUser;
     private String paymentMethod;
     private Date paymentDate;
     private double amountOfMoney;
 
-    public Account(int idAccount, int idUser, String paymentMethod, Date paymentDate, double amountOfMoney) {
+    public Account(int idAccount, AccountUser accountUser, String paymentMethod, Date paymentDate, double amountOfMoney) {
         this.idAccount = idAccount;
-        this.idUser = idUser;
+        this.accountUser = accountUser;
         this.paymentMethod = paymentMethod;
         this.paymentDate = paymentDate;
         this.amountOfMoney = amountOfMoney;
     }
 
     public Account() {
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public int getIdAccount() {
@@ -29,12 +35,12 @@ public class Account implements Serializable {
         this.idAccount = idAccount;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public AccountUser getAccountUser() {
+        return accountUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setAccountUser(AccountUser accountUser) {
+        this.accountUser = accountUser;
     }
 
     public String getPaymentMethod() {
@@ -73,8 +79,12 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) obj;
-        if (idUser != other.idUser) {
-            return false;
+        if (accountUser == null) {
+            if (other.accountUser != null) {
+                return false;
+            } else if (!accountUser.equals(other.accountUser)) {
+                return false;
+            }
         }
         if (idAccount != other.idAccount) {
             return false;
@@ -98,7 +108,7 @@ public class Account implements Serializable {
 
     @Override
     public int hashCode() {
-        return (int) (31 * idAccount + idUser + (paymentMethod == null ? 0 : paymentMethod.hashCode())
+        return (int) (31 * idAccount + (accountUser == null ? 0 : accountUser.hashCode())  + (paymentMethod == null ? 0 : paymentMethod.hashCode())
                 + (paymentDate == null ? 0 : paymentDate.hashCode()) + amountOfMoney);
     }
 
@@ -106,7 +116,7 @@ public class Account implements Serializable {
     public String toString() {
         return getClass().getName() + "@" +
                 "idAccount=" + idAccount +
-                ", idUser=" + idUser +
+                ", accountUser=" + accountUser +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", paymentDate=" + paymentDate +
                 ", amountOfMoney=" + amountOfMoney;

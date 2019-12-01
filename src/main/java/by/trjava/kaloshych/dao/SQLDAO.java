@@ -1,14 +1,14 @@
 package by.trjava.kaloshych.dao;
 
-import by.trjava.kaloshych.dao.exception.NotDBDriverException;
+import by.trjava.kaloshych.dao.pool.exception.NotDBDriverException;
 
 import java.util.ResourceBundle;
 
 public class SQLDAO {
-    protected static final String driver;
-    protected static final String url;
-    protected static final String login;
-    protected static final String password;
+    private static final String driver;
+    private  static final String url;
+    private  static final String login;
+    private  static final String password;
 
 
     private static final String DB_DRIVER = "db.driver";

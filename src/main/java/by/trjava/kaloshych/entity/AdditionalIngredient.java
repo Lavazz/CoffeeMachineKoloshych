@@ -1,57 +1,51 @@
 package by.trjava.kaloshych.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class AdditionalIngredient extends Ingredient implements Serializable {
-    private double price;
+public class AdditionalIngredient extends Component implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+   private int calories;
 
     public AdditionalIngredient() {
     }
 
-    public AdditionalIngredient(int idIngredient, String nameIngredient, double price, int portion) {
-        super(idIngredient, nameIngredient, portion);
-        this.price = price;
+    public AdditionalIngredient(int idComponent, String nameComponent, int portion, String picturePath, int calories) {
+        super(idComponent, nameComponent, portion, picturePath);
+        this.calories = calories;
     }
 
-
-    public double getPrice() {
-        return price;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        AdditionalIngredient other = (AdditionalIngredient) obj;
-        if (price != other.price) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AdditionalIngredient that = (AdditionalIngredient) o;
+        return calories == that.calories;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * price);
-
+        return Objects.hash(super.hashCode(), calories);
     }
 
     @Override
     public String toString() {
-        return getClass().getName() + "@" +
-                " price" + price;
+        return "AdditionalIngredient{" +
+                "calories=" + calories +
+                '}';
     }
 }
