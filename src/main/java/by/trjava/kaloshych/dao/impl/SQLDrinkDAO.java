@@ -1,12 +1,10 @@
 package by.trjava.kaloshych.dao.impl;
 
-import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Cart;
-import by.trjava.kaloshych.entity.Component;
 import by.trjava.kaloshych.entity.Drink;
 import org.apache.log4j.Logger;
 
@@ -17,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.impl.SQLQuery.*;
+import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLDrinkDAO implements DrinkDAO {
@@ -27,46 +25,34 @@ public class SQLDrinkDAO implements DrinkDAO {
 
     @Override
     public List<Drink> getAllDrinks() throws DAOException {
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
         List<Drink> drinkList = new ArrayList<>();
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_ALL_DRINKS);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_ALL_DRINKS)){
             rs = ps.executeQuery();
             while (rs.next()) {
                 int idDrink = rs.getInt(PARAMETER_ID_DRINK);
                 drinkList.add(createDrink(idDrink));
             }
             return drinkList;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
     }
 
     @Override
     public int decreasePortion(Drink drink, int portion) throws DAOException {
         int newPortion = 0;
-        Connection con;
-        PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, drink.getIdComponent());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -78,27 +64,22 @@ public class SQLDrinkDAO implements DrinkDAO {
             ps2.setInt(2, drink.getIdComponent());
             ps2.executeUpdate();
             return  newPortion;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, ps2, con);
+            SQLUtil.shut(rs, ps2);
         }
     }
 
     @Override
     public double getDrinkPrice(int idDrink) throws DAOException {
         double price = 0;
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_DRINK_GET_PRICE);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PRICE)){
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
 
@@ -106,10 +87,36 @@ public class SQLDrinkDAO implements DrinkDAO {
                 price = rs.getDouble(PARAMETER_PRICE);
             }
             return price;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
+        }
+
+    }
+
+    @Override
+    public int getPortion(Drink drink) throws DAOException {
+        int portion=0;
+        ResultSet rs = null;
+
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PORTION)){
+            ps.setInt(1, drink.getIdComponent());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+               portion = rs.getInt(PARAMETER_PORTION);
+            }
+            return portion;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            SQLUtil.shut(rs);
         }
 
     }
@@ -117,18 +124,10 @@ public class SQLDrinkDAO implements DrinkDAO {
     @Override
     public Drink addNewDrink(String drink, double price, String description) throws DAOException {
         int idDrink = 0;
-        Connection con;
-        PreparedStatement ps = null;
-        PreparedStatement ps2 = null;
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_DRINK_ADD_NEW, PreparedStatement.RETURN_GENERATED_KEYS);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_ADD_NEW, PreparedStatement.RETURN_GENERATED_KEYS)){
             ps.setString(1, drink);
             ps.setDouble(2, price);
             ps.setString(3, description);
@@ -137,105 +136,72 @@ public class SQLDrinkDAO implements DrinkDAO {
             if (rs.next()) {
                 idDrink = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-//            ps2 = con.prepareStatement(QUERY_DRINK_ADD_FILLING);
-//            ps2.setInt(1, idDrink);
-//            ps2.executeUpdate();
             return createDrink(idDrink);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, ps2, con);
+            SQLUtil.shut(rs);
         }
     }
 
     @Override
     public void deleteDrink(String drinkName) throws DAOException {
-        Connection con;
-
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try (PreparedStatement  ps = con.prepareStatement(QUERY_DRINK_DELETE)){
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_DELETE)){
             ps.setString(1, drinkName);
             ps.executeUpdate();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                DBConnectionPool.getInstance().releaseConnection(con);
-            } catch (ConnectionPoolException e) {
-                logger.debug("Can't close connection pool" + e);
-            }
         }
     }
 
     @Override
     public boolean changePrice(String drink, int newPrice) throws DAOException {
-        Connection con;
-
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try (PreparedStatement ps = con.prepareStatement(QUERY_DRINK_CHANGE_PRICE)){
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_CHANGE_PRICE)){
             ps.setInt(1, newPrice);
             ps.setString(2, drink);
             return ps.executeUpdate() > 0;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                DBConnectionPool.getInstance().releaseConnection(con);
-            } catch (ConnectionPoolException e) {
-                logger.debug("Can't close connection pool" + e);
-            }
         }
     }
 
     @Override
     public boolean checkDrinkById(int idComponent) throws DAOException {
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
         boolean result=false;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, idComponent);
             rs = ps.executeQuery();
             while (rs.next()) {
                 result= true;
             }
             return result;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
     }
 
     @Override
     public Drink createDrink(int idDrink) throws DAOException {
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
         Drink drink = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_DRINK);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -247,10 +213,12 @@ public class SQLDrinkDAO implements DrinkDAO {
                 drink = new Drink(idDrink, nameDrink, portion, picturePath, description, price);
             }
             return drink;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
 
     }
@@ -258,18 +226,11 @@ public class SQLDrinkDAO implements DrinkDAO {
 
     @Override
     public Drink getDrink(Cart cart) throws DAOException {
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
         Drink drink = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_GET_DRINK_BY_CART);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_GET_DRINK_BY_CART)){
             ps.setInt(1, cart.getIdCart());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -277,10 +238,12 @@ public class SQLDrinkDAO implements DrinkDAO {
                 drink = createDrink(idDrink);
             }
             return drink;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
     }
 }

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -38,40 +38,49 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
+        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message
+                key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home" /></a></li>
+                    <fmt:message key="main.message.home"/></a></li>
                 <li class="nav-item active"><a href="main?command=showDrinks" class="nav-link">
                     <fmt:message key="main.message.drinks"/></a></li>
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients" /></a></li>
+                    <fmt:message key="main.message.additionalIngredients"/></a></li>
 
-                    <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
-                        <fmt:message key="main.message.personalCabinet" /></a>
-                    </li>
+                <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
+                    <fmt:message key="main.message.personalCabinet"/></a>
+                </li>
 
-               <li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout" /></a></li>
+                <li class="nav-item"><a href="main?command=logOut" class="nav-link">
+                    <fmt:message key="locale.drinks.logout"/></a></li>
 
                 <li class="nav-item active"><a href="main?command=showCart" class="nav-link">
-                    <fmt:message key="nav.cart" /></a></li>
+                    <fmt:message key="nav.cart"/></a></li>
             </ul>
             <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
     </div>
 </nav>
 
-
 <section class="ftco-section ftco-cart">
     <div class="row">
         <div class="col-1"></div>
         <div class="col-md-10 ftco-animate">
+            <c:if test="${sessionScope.messageCart!=null}">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><fmt:message key="${sessionScope.messageCart}"/></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <c:remove var="messageCart"/>
+            </c:if>
             <c:if test="${carts==null}">
-            <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
-        </c:if>
+                <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
+            </c:if>
             <c:if test="${carts!=null}">
             <div class="cart-list">
                 <table class="table">
@@ -90,11 +99,13 @@
                     <c:forEach items="${carts}" var="cart">
                         <tr class="text-center">
                             <td class="product-remove">
-                           <a href="main?command=deleteCartFromOrder&idCart=${cart.idCart}">
-                               <span class="icon-close"></span></a></td>
+                                <a href="main?command=deleteCartFromOrder&idCart=${cart.idCart}">
+                                    <span class="icon-close"></span></a></td>
                             </td>
 
-                            <td class="image-prod"><div class="img" style="background-image:url(${cart.drink.picturePath});"></div></td>
+                            <td class="image-prod">
+                                <div class="img" style="background-image:url(${cart.drink.picturePath});"></div>
+                            </td>
 
                             <td class="product-name">
                                 <h3>${cart.drink.nameComponent}</h3>
@@ -113,23 +124,24 @@
 
                             <td class="portion">
                                 <div class="input-group mb-3">
-<%--                                    <form method="post" action="main">--%>
-<%--                                    <input type="hidden" name="sign" value="minus">--%>
-<%--                                    <input type="hidden" name="command" value="changePortion">--%>
-<%--                                        <input type="hidden" name="cart" value="${cart.idCart}">--%>
-<%--    <input type="button" name="sign" value="<fmt:message key='cart.minus' />"--%>
-<%--    </form>--%>
+                                        <%--                                    <form method="post" action="main">--%>
+                                        <%--                                    <input type="hidden" name="sign" value="minus">--%>
+                                        <%--                                    <input type="hidden" name="command" value="changePortion">--%>
+                                        <%--                                        <input type="hidden" name="cart" value="${cart.idCart}">--%>
+                                        <%--    <input type="button" name="sign" value="<fmt:message key='cart.minus' />"--%>
+                                        <%--    </form>--%>
                                     <a href="main?command=changePortion&sign=minus&cart=${cart.idCart}">
-                                           <h2><fmt:message key='cart.minus' /></h2> </a>
+                                        <h2><fmt:message key='cart.minus'/></h2></a>
 
-                                    &ensp;   <h4> ${cart.portion}</h4> &ensp;
+                                    &ensp; <h4> ${cart.portion}</h4> &ensp;
                                     <a href="main?command=changePortion&sign=plus&cart=${cart.idCart}">
-                                        <h2>  <fmt:message key='cart.plus' /></h2></a>
+                                        <h2><fmt:message key='cart.plus'/></h2></a>
                                 </div>
                             </td>
 
                             <td class="total">${cart.drink.price*cart.portion}</td>
-                        </tr><!-- END TR-->
+                        </tr>
+                        <!-- END TR-->
 
                     </c:forEach>
                     </tbody>
@@ -148,9 +160,11 @@
                     <span>${totalCost}</span>
                 </p>
             </div>
-            <p class="text-center"><a href="main?command=addOrder" class="btn btn-primary py-3 px-4"><fmt:message key="cart.make_order"/></a></p>
+            <p class="text-center"><a href="main?command=addOrder" class="btn btn-primary py-3 px-4"><fmt:message
+                    key="cart.make_order"/></a></p>
             <c:if test="${carts!=null}">
-            <p class="text-center"><a href="main?command=cancelOrder" class="btn btn-primary py-3 px-4"><fmt:message key="cart.cancel_order"/></a></p>
+                <p class="text-center"><a href="main?command=cancelOrder" class="btn btn-primary py-3 px-4"><fmt:message
+                        key="cart.cancel_order"/></a></p>
             </c:if>
         </div>
         </c:if>
@@ -159,11 +173,13 @@
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

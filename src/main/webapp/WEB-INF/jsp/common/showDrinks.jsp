@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="custom" uri="http://trjava.by/kaloshych" %>
+<%@ taglib prefix="ctg" uri="http://trjava.by/kaloshych" %>
 
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="locale"/>
@@ -75,20 +77,22 @@
                 <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
                 </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
             </ul>
-            <li class="nav-item">
-                <a href="main?command=changeLocale&locale=ru">
-                    <fmt:message key="locale.language.ru" />
-                </a> |
-                <a href="main?command=changeLocale&locale=en">
-                    <fmt:message key="locale.language.en" />
-                </a>
-            </li>
+            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
     </div>
 </nav>
 
 <section class="ftco-section">
     <div class="container">
+        <c:if test="${sessionScope.messageDrinks!=null}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong><fmt:message key="${sessionScope.messageDrinks}"/></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <c:remove var="messageDrinks"/>
+        </c:if>
         <c:if test="${sessionScope.idUser == null}">
             <h2><fmt:message key="drinks.guest.recommendation" /></h2>
         </c:if>
@@ -96,52 +100,60 @@
             <h2><fmt:message key="drinks.admin.recommendation" /></h2>
         </c:if>
         <form action="main" method="post">
-        <c:forEach items="${drinks}" var="drink">
-        <div class="row">
-            <div class="col-lg-6 mb-5 ftco-animate">
-                <div class="form-group d-flex">
-                    <input type="radio" name="radioButtonDrink" value="${drink.idComponent}">
-                </div>
-                <a href="${drink.picturePath}" class="image-popup">
-                    <img src="${drink.picturePath}" class="img-fluid" alt="Colorlib Template"></a>
-            </div>
-            <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                <h3>${drink.nameComponent}</h3>
-                <p class="price"><span>${drink.price}</span></p>
-               <h5><p>${drink.description}</p></h5>
-                <div class="row mt-4">
-                    <div class="col-md-6">
-
+            <c:forEach items="${requestScope.drinks}" var="drink">
+            <div class="row">
+                <div class="col-lg-6 mb-5 ftco-animate">
+                    <div class="form-group d-flex">
+                        <label>
+                            <input type="radio" name="radioButtonDrink" value="${drink.idComponent}">
+                        </label>
                     </div>
+                    <a href="${drink.picturePath}" class="image-popup">
+                        <img src="${drink.picturePath}" class="img-fluid" alt="Colorlib Template"></a>
+                </div>
+                <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                    <h3> <ctg:outDrink drink="${drink}"/></h3>
+<%--                    ${drink.nameComponent}--%>
+                    <p class="price"><span>${drink.price}</span></p>
+                    <p><h5><ctg:outDescription drink="${drink}"/></h5></p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                </c:forEach>
+
+                <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
+                 <p><label>
+                     <input type="checkbox" name="idAdditionalIngredient"
+                               value="${additionalIngredient.idComponent}" />
+                 </label> <ctg:outAdditionalIngredient additionalIngredient="${additionalIngredient}"/></p>
+
+                </c:forEach>
+                <div class="w-100"></div>
+
+                <label for="portion">
+                    <input type="text" id="portion" name="portion" value="" placeholder="portion: 1-99" required >
+                </label>
             </div>
-        </div>
-    <br><br>
-    </c:forEach>
-
-            <c:forEach items="${additionalIngredients}" var="additionalIngredient">
-                <input type="checkbox" name="idAdditionalIngredient" value="${additionalIngredient.idComponent}" /> ${additionalIngredient.nameComponent}</p>
-
-            </c:forEach>
-            <div class="w-100"></div>
-
-                <input type="text" id="portion" name="portion" value=""  required >
-        </div>
             <c:if test="${sessionScope.idUserStatus==2}">
-            <input type="hidden" name="command" value="addToCart">
-            <input type="submit" name="submit" value="<fmt:message key='drinks.button.addToCart'/>  ">
+                <input type="hidden" name="command" value="addToCart">
+                <input type="submit" name="submit" value="<fmt:message key='drinks.button.addToCart'/>  ">
             </c:if>
         </form>
 
     </div>
 </section>
 
+
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

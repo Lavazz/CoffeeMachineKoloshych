@@ -101,4 +101,33 @@ public class SQLUtil {
             logger.warn("can't close connection pool" + e);
         }
     }
+
+    public static void shut(ResultSet rs) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            logger.warn("can't close rs" + e);
+        }
+
+    }
+
+    public static void shut(ResultSet rs, PreparedStatement st) {
+
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            logger.warn("can't close rs" + e);
+        }
+        try {
+            if (st != null) {
+                st.close();
+            }
+        } catch (SQLException e) {
+            logger.warn("can't close st" + e);
+        }
+    }
 }

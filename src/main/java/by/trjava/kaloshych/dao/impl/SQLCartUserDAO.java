@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.impl.SQLQuery.*;
+import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLCartUserDAO implements CartUserDAO {
@@ -25,115 +25,89 @@ public class SQLCartUserDAO implements CartUserDAO {
     private static final DBConnectionPool pool = DBConnectionPool.getInstance();
     private static final Logger logger = Logger.getLogger(SQLCartUserDAO.class);
 
-       @Override
+    @Override
     public CartUser addCartUser(User user) throws DAOException {
-           int idCartUser=0;
-           Connection con;
-           PreparedStatement ps = null;
-           ResultSet rs = null;
+        int idCartUser = 0;
+        ResultSet rs = null;
 
-           try {
-               con = pool.getConnection();
-           } catch (ConnectionPoolException e) {
-               throw new DAOException("Exception in Connection Pool", e);
-           }
-           try {
-               ps = con.prepareStatement(QUERY_CART_USER_CREATE, PreparedStatement.RETURN_GENERATED_KEYS);
-               ps.setInt(1, user.getId());
-               ps.executeUpdate();
-               rs = ps.getGeneratedKeys();
-               if (rs.next()) {
-                   idCartUser = rs.getInt(PARAMETER_COLUMN_INDEX);
-               }
-               return new CartUser(idCartUser, user);
-           } catch (SQLException e) {
-               throw new DAOException(e);
-           } finally {
-               SQLUtil.shut(rs, ps, con);
-           }
-       }
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, user.getId());
+            ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                idCartUser = rs.getInt(PARAMETER_COLUMN_INDEX);
+            }
+            return new CartUser(idCartUser, user);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            SQLUtil.shut(rs);
+        }
+    }
 
 
     @Override
     public void deleteCartUser(User user) throws DAOException {
-        Connection con;
-
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try(PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_DELETE)){
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_DELETE)) {
             ps.setInt(1, user.getId());
             ps.executeUpdate();
-
-                   } catch (SQLException e) {
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
+        } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                DBConnectionPool.getInstance().releaseConnection(con);
-            } catch (ConnectionPoolException e) {
-                logger.debug("Can't close connection pool" + e);
-            }
         }
     }
 
 
     @Override
     public List<CartUser> getCartUser(User user) throws DAOException {
-        List<CartUser> CartUserList =new ArrayList<>();
-        Connection con;
-        PreparedStatement ps = null;
+        List<CartUser> CartUserList = new ArrayList<>();
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_CART_USER_BY_ID_USER);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID_USER)){
             ps.setInt(1, user.getId());
-          rs= ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
-                int idCartUser= rs.getInt(PARAMETER_ID_CART_USER);
-             CartUserList.add(new CartUser(idCartUser, user));
+                int idCartUser = rs.getInt(PARAMETER_ID_CART_USER);
+                CartUserList.add(new CartUser(idCartUser, user));
             }
             return CartUserList;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
     }
 
     @Override
     public CartUser getCartUserById(int idCartUser) throws DAOException {
-        UserDAO userDAO= DAOFactory.getInstance().getUserDAO();
-       CartUser cartUser =null;
-        Connection con;
-        PreparedStatement ps = null;
+      final   UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+        CartUser cartUser = null;
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_CART_USER_BY_ID);
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID)){
             ps.setInt(1, idCartUser);
-            rs=  ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
-                int idUser= rs.getInt(PARAMETER_ID_USER);
-                User user=userDAO.getUserById(idUser);
-                cartUser=new CartUser(idCartUser, user);
+                int idUser = rs.getInt(PARAMETER_ID_USER);
+                User user = userDAO.getUserById(idUser);
+                cartUser = new CartUser(idCartUser, user);
             }
             return cartUser;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
     }
 

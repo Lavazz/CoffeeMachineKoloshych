@@ -35,7 +35,7 @@ public class AddOrderCommand implements Command {
             request.setAttribute(PARAMETER_MESSAGE_ORDER, MESSAGE_SUCCESSFUL_ADD_ORDER);
             path = PATH_TAKE_ORDER;
         } catch (InsufficientMoneyException e) {
-            request.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_INSUFFICIENT_MONEY);
+            session.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_INSUFFICIENT_MONEY);
             path = PATH_COMMAND_REPLENISH_BALANCE_FORM;
         } catch (ServiceException e) {
             throw new CommandException(e);

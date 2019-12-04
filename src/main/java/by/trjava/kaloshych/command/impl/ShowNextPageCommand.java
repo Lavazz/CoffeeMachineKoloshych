@@ -4,7 +4,6 @@ import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 import by.trjava.kaloshych.command.util.CreatorFullURL;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

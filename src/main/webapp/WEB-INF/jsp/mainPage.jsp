@@ -34,7 +34,7 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="mainPage.jsp"><fmt:message key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
+        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
@@ -45,7 +45,7 @@
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
                     <fmt:message key="main.message.additionalIngredients" /></a></li>
 
-                <c:if test="${sessionScope.idUser== null }">
+                <c:if test="${sessionScope.user== null }">
                 <li class="nav-item"><a href="main?command=goToRegistrationPage" class="nav-link">
                         <fmt:message key="main.message.registration"/></a>
                     </li>
@@ -71,32 +71,38 @@
                 <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
                 </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
             </ul>
-            <li class="nav-item">
-                <form method="post" action="main">
-                    <input type="hidden" name="command" value="changeLocale">
-                    <input type="submit" name="locale" value="ru" class="btn btn-white btn-outline-white">
-
-                </form>
-            </li>
-            <li class="nav-item">
-                <form method="post" action="main">
-                    <input type="hidden" name="command" value="changeLocale">
-                    <input type="submit" name="locale" value="en" class="btn btn-white btn-outline-white">
-                </form>
-            </li>
-
+            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
                 </div>
-
         </div>
     </div>
 </nav>
+
 
 <section class="home-slider owl-carousel">
     <div class="slider-item" style="background-image: url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
         <div class="overlay"></div>
         <div class="container">
-            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+            <div class="row">
                 <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <c:out value=" "/>
+                    <br><br><br><br><br>
+                </div></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-10 text-center ftco-animate">
+                 <c:if test="${sessionScope.mainMessage!=null}">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong> <c:out value="${sessionScope.user.name}, "/></strong><fmt:message key="${sessionScope.mainMessage}"/>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <c:remove var="mainMessage"/>
+                    </c:if>
+                </div>
+            </div>
+            <div class="row slider-text justify-content-center " data-scrollax-parent="true">
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <br><br>
                     <span class="subheading"><fmt:message key="main.message.welcome" /></span>
                     <h1 class="mb-4"><fmt:message key="main.message.forYou" /></h1>
                     <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood" /></p>
@@ -109,11 +115,11 @@
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

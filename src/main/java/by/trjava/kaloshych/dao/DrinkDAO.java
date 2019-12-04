@@ -12,6 +12,7 @@ public interface DrinkDAO {
     List<Drink> getAllDrinks() throws DAOException;
     int decreasePortion(Drink drink, int portion) throws DAOException;
     double getDrinkPrice(int idDrink) throws DAOException;
+    int getPortion(Drink drink) throws DAOException;
    Drink addNewDrink(String drink, double price, String description) throws DAOException;
     void deleteDrink(String drink) throws DAOException;
     boolean changePrice(String drink, int newPrice) throws DAOException;

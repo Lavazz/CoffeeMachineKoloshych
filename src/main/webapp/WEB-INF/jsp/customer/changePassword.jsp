@@ -64,14 +64,7 @@
                 </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
                 </li>
             </ul>
-            <li class="nav-item">
-                <a href="main?command=changeLocale&locale=ru">
-                    <fmt:message key="locale.language.ru"/>
-                </a> |
-                <a href="main?command=changeLocale&locale=en">
-                    <fmt:message key="locale.language.en"/>
-                </a>
-            </li>
+            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
     </div>
 </nav>
@@ -132,23 +125,16 @@
                 </form>
             </div>
         </div>
-<%--        <c:if test="${messageRegistration !=null}">--%>
-<%--            <script>--%>
-<%--                showAlertMessage("<fmt:message key="${messageRegistration}"/>");--%>
-<%--            </script>--%>
-<%--        </c:if>--%>
-
-<%--        <c:remove var="messageRegistration"/>--%>
     </div>
 </section>
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

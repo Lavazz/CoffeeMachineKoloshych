@@ -28,12 +28,13 @@ public class ShowCartCommand implements Command {
 
         final CartUser cartUser = (CartUser) session.getAttribute(PARAMETER_CART_USER);
         final User user = (User) session.getAttribute(PARAMETER_USER);
-
+        System.out.println("cartUser="+cartUser);
         List<CartAdditionalIngredient> cartAdditionalIngredients;
         List<Cart> carts;
         double totalCost;
         try {
             carts = cartService.getAllCarts(cartUser);
+
             if (carts.isEmpty()) {
                 request.setAttribute(PARAMETER_CARTS, null);
             } else {

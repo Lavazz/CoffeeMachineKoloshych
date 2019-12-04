@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-import static by.trjava.kaloshych.dao.impl.SQLQuery.*;
+import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLAccountDAO implements AccountDAO {
@@ -46,15 +46,10 @@ public class SQLAccountDAO implements AccountDAO {
 
     @Override
     public double getBalance(User user) throws DAOException {
-        Connection con;
         double balance = 0;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try (PreparedStatement ps = con.prepareStatement(QUERY_GET_BALANCE)) {
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_GET_BALANCE)) {
             ps.setInt(1, user.getId());
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.last()) {
@@ -62,27 +57,17 @@ public class SQLAccountDAO implements AccountDAO {
                 }
                 return balance;
             }
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-            try {
-                DBConnectionPool.getInstance().releaseConnection(con);
-            } catch (ConnectionPoolException e) {
-                logger.debug("Can't close connection pool" + e);
-            }
         }
     }
 
 
     private void addAccount(AccountUser accountUser, int paymentMethod, double amountOfMoney) throws DAOException {
-        Connection con;
-
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try (PreparedStatement ps = con.prepareStatement(QUERY_ACCOUNT_ADD)) {
+        try ( Connection con = pool.getConnection();
+              PreparedStatement ps = con.prepareStatement(QUERY_ACCOUNT_ADD)) {
             ps.setInt(1, accountUser.getIdAccountUser());
             ps.setInt(2, paymentMethod);
             java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
@@ -91,12 +76,9 @@ public class SQLAccountDAO implements AccountDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Exception in SQL: " + e.getMessage(), e);
-        } finally {
-            try {
-                DBConnectionPool.getInstance().releaseConnection(con);
             } catch (ConnectionPoolException e) {
                 logger.debug("Can't close connection pool" + e);
             }
         }
     }
-}
+

@@ -100,7 +100,7 @@
                             </c:forEach>
                         </td>
                         <td class="product-name"><H5>${cart.portion}</H5></td>
-                        <td class="price">${order.dateOrder}</td>
+                        <td class="date">${order.dateOrder}</td>
                         <td class="total">${order.totalCost}</td>
                     </tr>
                     </c:if>
@@ -155,11 +155,11 @@
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

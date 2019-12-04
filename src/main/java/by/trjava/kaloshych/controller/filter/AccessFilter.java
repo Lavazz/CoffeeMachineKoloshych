@@ -1,6 +1,6 @@
 package by.trjava.kaloshych.controller.filter;
 
-import by.trjava.kaloshych.command.CommandName;
+import by.trjava.kaloshych.command.util.CommandName;
 import by.trjava.kaloshych.entity.User;
 
 import javax.servlet.*;
@@ -26,7 +26,7 @@ public class AccessFilter implements Filter {
 
     }
 
-    private static final List<CommandName> ADMINISTRATION_COMMANDS = Arrays.asList(
+    private static final List<String> ADMINISTRATION_COMMANDS = Arrays.asList(
             CommandName.SHOW_ADMIN_CABINET,
             CommandName.ADD_NEW_ADDITIONAL_INGREDIENT,
             CommandName.ADD_NEW_DRINK,
@@ -46,7 +46,7 @@ public class AccessFilter implements Filter {
             CommandName.SHOW_DRINKS
     );
 
-    private final static List<CommandName> CUSTOMER_COMMANDS = Arrays.asList(
+    private final static List<String> CUSTOMER_COMMANDS = Arrays.asList(
             CommandName.ADD_ORDER,
             CommandName.ADD_TO_CART,
 
@@ -76,7 +76,7 @@ public class AccessFilter implements Filter {
             CommandName.GO_TO_ORDER_HISTORY_PAGE
     );
 
-    private final static List<CommandName> GUEST_COMMANDS = Arrays.asList(
+    private final static List<String> GUEST_COMMANDS = Arrays.asList(
             CommandName.AUTHORIZATION,
             CommandName.REGISTRATION,
             CommandName.CHANGE_LOCALE,
@@ -96,10 +96,9 @@ public class AccessFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
 
-        String commandName = request.getParameter(PARAMETER_COMMAND);
+        String command = request.getParameter(PARAMETER_COMMAND);
 
-        if (commandName != null) {
-            CommandName command = CommandName.get(commandName);
+        if (command != null) {
 
             int idUserStatus = GUEST.getIdUserStatus();
 
@@ -133,7 +132,7 @@ public class AccessFilter implements Filter {
      * @param command to be checked if the administration authorised to access it or not
      * @return true if the admin authorised or false if it is not authorised
      */
-    private boolean isAdministrationCommand(CommandName command) {
+    private boolean isAdministrationCommand(String command) {
         return ADMINISTRATION_COMMANDS.contains(command);
     }
 
@@ -141,7 +140,7 @@ public class AccessFilter implements Filter {
      * @param command to be checked if the user authorised to access on of this command or not
      * @return true if the user authorised or false if it is not authorised
      */
-    private boolean isCustomerCommand(CommandName command) {
+    private boolean isCustomerCommand(String command) {
         return CUSTOMER_COMMANDS.contains(command);
     }
 
@@ -149,7 +148,7 @@ public class AccessFilter implements Filter {
      * @param command that are common for all the users registered or not
      * @return true if it is for all the users or false.
      */
-    private boolean isGuestCommand(CommandName command) {
+    private boolean isGuestCommand(String command) {
         return GUEST_COMMANDS.contains(command);
     }
 }

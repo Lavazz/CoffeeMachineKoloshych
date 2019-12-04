@@ -11,8 +11,6 @@ public interface UserDAO {
 
     boolean updateUserPassword(User user, String newPassword) throws DAOException;
 
-   boolean removeUser(String login) throws DAOException;
-
     User logIn(String userLogin, String userPassword) throws DAOException, WrongAuthorizationDataException;
 
      User registration(String userLogin, String userPassword, String userEmail, String userName) throws DAOException;

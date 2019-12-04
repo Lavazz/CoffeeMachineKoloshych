@@ -41,7 +41,7 @@ public class AuthorizationCommand implements Command {
             session.setAttribute(PARAMETER_ID_USER, user.getId());
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
             session.setMaxInactiveInterval(60 * 20);
-
+            session.setAttribute(PARAMETER_MAIN_MESSAGE, MESSAGE_SUCCESSFUL_AUTHORIZATION);
             pagePath = PATH_INDEX;
 
         } catch (EmptyDataException e) {
@@ -55,6 +55,8 @@ public class AuthorizationCommand implements Command {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
+
+
         return pagePath;
     }
 

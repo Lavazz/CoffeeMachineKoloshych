@@ -34,8 +34,8 @@ public class ShowDrinksCommand implements Command {
 
             drinks = drinkService.getAllDrinks();
             additionalIngredients = additionalIngredientService.getAllAdditionalIngredients();
-            session.setAttribute(PARAMETER_DRINKS, drinks);
-            session.setAttribute(PARAMETER_ADDITIONAL_INGREDIENTS, additionalIngredients);
+            request.setAttribute(PARAMETER_DRINKS, drinks);
+            request.setAttribute(PARAMETER_ADDITIONAL_INGREDIENTS, additionalIngredients);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

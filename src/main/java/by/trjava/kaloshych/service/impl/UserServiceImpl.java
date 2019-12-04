@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUserPassword(int idUser, String currentPassword, String newPassword, String confirmedPassword)
-            throws ServiceException, WrongConfirmPasswordException, InvalidCurrentPasswordException, EmptyDataException {
+            throws ServiceException {
         String originalPassword;
         User user;
         if (inputDataValidator.isEmpty(confirmedPassword)
@@ -52,21 +52,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public boolean removeUser(String login) throws ServiceException {
-        if (!UserValidator.getInstance().validateLogin(login)) {
-            throw new ServiceException("There is no user with such data");
-        }
-        try {
-            return userDAO.removeUser(login);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     @Override
-    public User logIn(String login, String password) throws ServiceException, EmptyDataException,
-            WrongAuthorizationException, InvalidCurrentPasswordException, InvalidLoginException {
+    public User logIn(String login, String password) throws ServiceException {
         String originalPassword;
         User user;
         if (inputDataValidator.isEmpty(password)

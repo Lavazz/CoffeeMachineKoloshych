@@ -39,10 +39,11 @@ public class RegistrationCommand implements Command {
             session.setAttribute(PARAMETER_ACCOUNT_USER, accountUser);
             session.setAttribute(PARAMETER_CART_USER, cartUser);
             session.setAttribute(PARAMETER_USER, user);
-            //  session.setAttribute(PARAMETER_ID_USER, user.getId());
+             session.setAttribute(PARAMETER_ID_USER, user.getId());
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
             path = PATH_INDEX;
             session.setAttribute(REDIRECT_COMMAND, PATH_INDEX);
+            session.setAttribute(PARAMETER_MAIN_MESSAGE, MESSAGE_SUCCESSFUL_REGISTRATION);
         } catch (EmptyDataException e) {
             session.setAttribute(PARAMETER_MESSAGE_REGISTRATION, MESSAGE_EMPTY_DATA);
         } catch (LoginUsedException e) {

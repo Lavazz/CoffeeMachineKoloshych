@@ -33,10 +33,10 @@ public class ReplenishBalanceCommand implements Command {
         try {
             accountService.replenishBalance(accountUser, paymentMethod, amountOfMoney);
         } catch (EmptyDataException e) {
-            request.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_EMPTY_DATA);
+            session.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_EMPTY_DATA);
             path = PATH_COMMAND_REPLENISH_BALANCE;
         } catch (SmallAmountException e) {
-            request.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_SMALL_AMOUNT);
+           session.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_SMALL_AMOUNT);
             path = PATH_COMMAND_REPLENISH_BALANCE;
         } catch (ServiceException e) {
             throw new CommandException(e);

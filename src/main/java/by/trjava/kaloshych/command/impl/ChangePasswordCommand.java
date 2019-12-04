@@ -36,7 +36,7 @@ public class ChangePasswordCommand implements Command {
         try {
             userService.updateUserPassword(user.getId(), currentPassword, newPassword, confirmedPassword);
             request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_SUCCESSFUL);
-            path = request.getContextPath()+PATH_COMMAND_ADMIN_CABINET;;
+            path = request.getContextPath()+PATH_COMMAND_ADMIN_CABINET;
         } catch (EmptyDataException e) {
             request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_EMPTY_DATA);
         } catch (InvalidCurrentPasswordException e) {

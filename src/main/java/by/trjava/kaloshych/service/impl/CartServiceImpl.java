@@ -9,10 +9,7 @@ import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.Drink;
 import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.CartService;
-import by.trjava.kaloshych.service.exception.EmptyDataException;
-import by.trjava.kaloshych.service.exception.InsufficientPortionException;
-import by.trjava.kaloshych.service.exception.ServiceException;
-import by.trjava.kaloshych.service.exception.WrongPortionException;
+import by.trjava.kaloshych.service.exception.*;
 import by.trjava.kaloshych.service.validation.CartValidator;
 import by.trjava.kaloshych.service.validation.InputDataValidator;
 
@@ -27,24 +24,32 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart addDrinkToCart(CartUser cartUser, String idDrink, String portion) throws ServiceException {
-        int newPortion;
+        int currentPortion;
         Cart cart;
+        Drink drink;
+
         if (dataValidator.isEmpty(idDrink)||dataValidator.isEmpty(portion)) {
             throw new EmptyDataException("Empty data");
         }
-        if(!CartValidator.getInstance().validate(Integer.parseInt(portion))){
+        if(!CartValidator.getInstance().validate(portion)){
             throw new WrongPortionException("Wrong number of portions");
         }
 
         try {
-            Drink drink=drinkDAO.createDrink(Integer.parseInt(idDrink));
-            newPortion = drinkDAO.decreasePortion(drink, Integer.parseInt(portion));
-            cart=cartDAO.addDrinkToCart(cartUser, drink, Integer.parseInt(portion));
+             drink=drinkDAO.createDrink(Integer.parseInt(idDrink));
+            currentPortion= drinkDAO.getPortion(drink);
         } catch (DAOException e) {
             throw  new ServiceException(e);
         }
-        if (!CartValidator.getInstance().isSufficientPortion(newPortion)) {
-            throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
+            if (!CartValidator.getInstance().isSufficientPortion(currentPortion, Integer.parseInt(portion))) {
+                throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
+            }
+
+            try{
+            drinkDAO.decreasePortion(drink, Integer.parseInt(portion));
+            cart=cartDAO.addDrinkToCart(cartUser, drink, Integer.parseInt(portion));
+        } catch (DAOException e) {
+            throw  new ServiceException(e);
         }
         return cart;
     }
@@ -63,7 +68,6 @@ public class CartServiceImpl implements CartService {
     }
     @Override
     public boolean changePortion(String idCart, String sign) throws ServiceException {
-
         try {
             Cart cart= cartDAO.createCartById(Integer.parseInt(idCart));
             int portion=cart.getPortion();
@@ -75,9 +79,11 @@ public class CartServiceImpl implements CartService {
 if(!CartValidator.getInstance().validate(portion)){
     throw new WrongPortionException("Wrong number of portions");
 }
-if(!CartValidator.getInstance().isSufficientPortion(portion)){
-    throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
-}
+
+         int   currentPortion= drinkDAO.getPortion(cart.getDrink());
+if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
+                throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
+            }
             return cartDAO.changePortion(cart, portion);
         } catch (DAOException e) {
             throw new ServiceException(e);

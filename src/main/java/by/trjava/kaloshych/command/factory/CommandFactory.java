@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface CommandFactory {
 
-    Command createCommand(String actionName) throws CommandException;
+    Command createCommand(String commandName) throws CommandException;
 }

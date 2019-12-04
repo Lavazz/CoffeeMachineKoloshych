@@ -59,26 +59,26 @@
                 <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
                 </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
             </ul>
-            <li class="nav-item">
-                <a href="main?command=changeLocale&locale=ru">
-                    <fmt:message key="locale.language.ru" />
-                </a> |
-                <a href="main?command=changeLocale&locale=en">
-                    <fmt:message key="locale.language.en" />
-                </a>
-            </li>
+            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
     </div>
 </nav>
 
 <section class="ftco-section ftco-cart">
     <div class="container">
-        <div class="col-md-8 ">
-        <c:if test="${replenishBalanceMessage!=null}">
-            <h3> <fmt:message key="${replenishBalanceMessage}"/></h3>
-        </c:if>
-        <c:remove var="replenishBalanceMessage"/>
-    </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-10 text-center ftco-animate">
+                <c:if test="${sessionScope.replenishBalanceMessage!=null}">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong><fmt:message key="${sessionScope.replenishBalanceMessage}"/></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:remove var="replenishBalanceMessage"/>
+                </c:if>
+            </div>
+        </div>
         <div class="text-right">
         <h2><fmt:message key="personalCabinet.balance" /> ${balance}</h2>
     </div>
@@ -114,11 +114,11 @@
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.easing.1.3.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.stellar.min.js"></script>

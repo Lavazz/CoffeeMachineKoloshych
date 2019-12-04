@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>cst</short-name>
+    <uri>http://trjava.by/kaloshych</uri>
+    <tag>
+        <name>outDrink</name>
+        <tag-class>by.trjava.kaloshych.controller.tag.DrinkTranslator</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>drink</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+<tag>
+<name>outAdditionalIngredient</name>
+<tag-class>by.trjava.kaloshych.controller.tag.AdditionalIngredientTranslator</tag-class>
+<body-content>empty</body-content>
+<attribute>
+    <name>additionalIngredient</name>
+    <required>true</required>
+    <rtexprvalue>true</rtexprvalue>
+</attribute>
+</tag>
+
+    <tag>
+        <name>outDescription</name>
+        <tag-class>by.trjava.kaloshych.controller.tag.DescriptionTranslator</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>drink</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>date</name>
+        <tag-class>by.trjava.kaloshych.controller.tag.DateInfo</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>

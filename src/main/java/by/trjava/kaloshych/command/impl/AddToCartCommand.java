@@ -42,22 +42,22 @@ public class AddToCartCommand implements Command {
             try {
                 cart = cartService.addDrinkToCart(cartUser, idDrink, portion);
             } catch (EmptyDataException e) {
-                request.setAttribute(PARAMETER_MESSAGE_CART, MESSAGE_EMPTY_DATA);
+                session.setAttribute(PARAMETER_MESSAGE_DRINKS, MESSAGE_EMPTY_DATA);
             } catch (WrongPortionException e) {
-                request.setAttribute(PARAMETER_MESSAGE_CART, MESSAGE_WRONG_PORTION);
+                session.setAttribute(PARAMETER_MESSAGE_DRINKS, MESSAGE_WRONG_PORTION);
             } catch (InsufficientPortionException e) {
-                request.setAttribute(PARAMETER_MESSAGE_CART, MESSAGE_DRINK_INSUFFICIENT_PORTION);
+                session.setAttribute(PARAMETER_MESSAGE_DRINKS, MESSAGE_DRINK_INSUFFICIENT_PORTION);
             }
 
             try {
-                if (additionalIngredients != null) {
-                    for (String idAdditionalIngredient : additionalIngredients) {
-                        cartAdditionalIngredientService.addAdditionalIngredientToCartAI(cart, Integer.parseInt(idAdditionalIngredient));
+                if (cart != null) {
+                    if (additionalIngredients != null) {
+                        for (String idAdditionalIngredient : additionalIngredients) {
+                            cartAdditionalIngredientService.addAdditionalIngredientToCartAI(cart, Integer.parseInt(idAdditionalIngredient));
+                        }
                     }
                 }
-            } catch (WrongPortionException e) {
-                request.setAttribute(PARAMETER_MESSAGE_CART, MESSAGE_WRONG_PORTION);
-            } catch (InsufficientPortionException e) {
+            }catch (InsufficientPortionException e) {
                 request.setAttribute(PARAMETER_MESSAGE_CART, MESSAGE_ADDITIONAL_INGREDIENT_INSUFFICIENT_PORTION);
             }
         } catch (ServiceException e) {

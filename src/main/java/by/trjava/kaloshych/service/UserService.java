@@ -12,13 +12,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
-   boolean updateUserPassword(int idUser, String currentPassword, String newPassword, String confirmedPassword) throws ServiceException, WrongConfirmPasswordException;
+   boolean updateUserPassword(int idUser, String currentPassword, String newPassword, String confirmedPassword) throws ServiceException;
 
-     boolean removeUser(String login) throws ServiceException;
+    User logIn(String userLogin, String userPassword) throws ServiceException;
 
-    User logIn(String userLogin, String userPassword) throws ServiceException, WrongAuthorizationException;
-
-  User registration(String userLogin, String userPassword, String confirmPassword, String userEmail, String userName) throws ServiceException, WrongConfirmPasswordException, LoginUsedException;
+  User registration(String userLogin, String userPassword, String confirmPassword, String userEmail, String userName)
+          throws ServiceException;
 
     List<User> getAllUsers() throws ServiceException;
     User getUserByLogin(String login) throws ServiceException;

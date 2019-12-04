@@ -4,11 +4,9 @@ import by.trjava.kaloshych.dao.AdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.FillingOperationDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
-import by.trjava.kaloshych.entity.Component;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -19,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
-import static by.trjava.kaloshych.dao.impl.SQLQuery.*;
+import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 
 public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
     private static final DBConnectionPool pool = DBConnectionPool.getInstance();
     private static final Logger logger = Logger.getLogger(SQLAdditionalIngredientDAO.class);
+
 
     @Override
     public List<AdditionalIngredient> getAllAdditionalIngredients() throws DAOException {
@@ -53,19 +52,10 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
 
     @Override
     public AdditionalIngredient addNewAdditionalIngredient(String nameAdditionalIngredient, int calories) throws DAOException {
-        FillingOperationDAO fillingOperationDAO= DAOFactory.getInstance().getFillingOperationDAO();
         int idAdditionalIngredient = 0;
-        Connection con ;
-        PreparedStatement ps = null;
         ResultSet rs = null;
-
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_ADD, PreparedStatement.RETURN_GENERATED_KEYS);
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, nameAdditionalIngredient);
             ps.setInt(2, calories);
             ps.executeUpdate();
@@ -74,66 +64,53 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
                 idAdditionalIngredient = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
             return createAdditionalIngredient(idAdditionalIngredient);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
 
     }
 
     @Override
     public boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
-        Connection con;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-         try( PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_DELETE)){
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_DELETE)) {
             ps.setInt(1, idAdditionalIngredient);
             return ps.executeUpdate() > 0;
-
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
-         } finally {
-             try {
-                 DBConnectionPool.getInstance().releaseConnection(con);
-             } catch (ConnectionPoolException e) {
-                 logger.debug("Can't close connection pool" + e);
-             }
         }
     }
 
     @Override
     public AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
-       AdditionalIngredient component=null;
+        AdditionalIngredient component = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID);
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID)) {
             ps.setInt(1, idAdditionalIngredient);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String nameComponent = rs.getString(PARAMETER_ADDITIONAL_INGREDIENT);
-                int calories=rs.getInt(PARAMETER_CALORIES);
-                int portion=rs.getInt(PARAMETER_PORTION);
-                String picturePath=rs.getString(PARAMETER_PICTURE_PATH);
+                int calories = rs.getInt(PARAMETER_CALORIES);
+                int portion = rs.getInt(PARAMETER_PORTION);
+                String picturePath = rs.getString(PARAMETER_PICTURE_PATH);
                 component = new AdditionalIngredient(idAdditionalIngredient, nameComponent, portion, picturePath, calories);
             }
             return component;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, con);
+            SQLUtil.shut(rs);
         }
 
     }
@@ -141,32 +118,27 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
     @Override
     public int decreasePortion(AdditionalIngredient additionalIngredient, int portion) throws DAOException {
         int newPortion = 0;
-        Connection con ;
-        PreparedStatement ps = null;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
 
-        try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID);
-              ps.setInt(1, additionalIngredient.getIdComponent());
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID)) {
+            ps.setInt(1, additionalIngredient.getIdComponent());
             rs = ps.executeQuery();
             if (rs.next()) {
-                newPortion =  rs.getInt(PARAMETER_PORTION) - portion;
+                newPortion = rs.getInt(PARAMETER_PORTION) - portion;
             }
             ps2 = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_DECREASE_PORTION);
             ps2.setInt(1, newPortion);
             ps2.setInt(2, additionalIngredient.getIdComponent());
             ps2.executeUpdate();
-          return  newPortion;
+            return newPortion;
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps, ps2, con);
+            SQLUtil.shut(rs, ps2);
         }
     }
 
