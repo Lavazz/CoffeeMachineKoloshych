@@ -1,6 +1,7 @@
 package by.trjava.kaloshych.service.impl;
 
 import by.trjava.kaloshych.dao.AccountDAO;
+import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.entity.AccountUser;
@@ -17,8 +18,9 @@ import by.trjava.kaloshych.service.validation.InputDataValidator;
 import java.sql.SQLException;
 
 public class AccountServiceImpl implements AccountService {
-    private static final AccountDAO accountDAO = DAOFactory.getInstance().getAccountDAO();
-private static final InputDataValidator dataValidator=InputDataValidator.getInstance();
+    private final AccountUserDAO accountUserDAO= DAOFactory.getInstance().getAccountUserDAO();
+    private  final AccountDAO accountDAO = DAOFactory.getInstance().getAccountDAO();
+private  final InputDataValidator dataValidator=InputDataValidator.getInstance();
 
     @Override
     public void addNewAccount(AccountUser accountUser) throws ServiceException {
@@ -30,14 +32,16 @@ private static final InputDataValidator dataValidator=InputDataValidator.getInst
     }
 
     @Override
-    public void replenishBalance(AccountUser accountUser, String idPaymentMethod, String amountOfMoney) throws ServiceException {
-        if (dataValidator.isEmpty(accountUser)||dataValidator.isEmpty(idPaymentMethod)||dataValidator.isEmpty(amountOfMoney)) {
+    public void replenishBalance(int idAccountUser, String idPaymentMethod, String amountOfMoney) throws ServiceException {
+        if (dataValidator.isEmpty(idPaymentMethod)||dataValidator.isEmpty(amountOfMoney)) {
             throw new EmptyDataException("Empty data");
         }
         if (!AccountValidator.getInstance().validate(Double.parseDouble(amountOfMoney))) {
             throw new SmallAmountException("Incorrect sum of money");
         }
+
         try {
+            AccountUser accountUser=accountUserDAO.getAccountUser(idAccountUser);
             accountDAO.replenishBalance(accountUser, Integer.parseInt(idPaymentMethod), Double.parseDouble(amountOfMoney));
         } catch (DAOException e) {
             throw new ServiceException( e);
@@ -54,8 +58,9 @@ private static final InputDataValidator dataValidator=InputDataValidator.getInst
     }
 
     @Override
-    public double getBalance(AccountUser accountUser) throws ServiceException {
+    public double getBalance(int idAccountUser) throws ServiceException {
         try {
+           AccountUser accountUser= accountUserDAO.getAccountUser(idAccountUser);
             return accountDAO.getBalance(accountUser.getUser());
         } catch (DAOException e) {
             throw new ServiceException( e);

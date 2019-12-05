@@ -3,13 +3,10 @@ package by.trjava.kaloshych.command.impl.transition;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_REGISTRATION;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_REGISTRATION;
 
 public class GoToRegistrationPageCommand implements Command {
 

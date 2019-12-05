@@ -1,4 +1,4 @@
-package by.trjava.kaloshych.controller.tag;
+package by.trjava.kaloshych.presentation.tag;
 
 import by.trjava.kaloshych.entity.Drink;
 
@@ -7,7 +7,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_SESSION_LOCALE;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_SESSION_LOCALE;
 
 public class DescriptionTranslator extends TagSupport {
     private static final long serialVersionUID = 1L;

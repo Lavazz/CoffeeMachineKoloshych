@@ -12,12 +12,12 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface OrderService {
-  void addOrder(CartUser cartUser) throws ServiceException;
+  void addOrder(int idCartUser) throws ServiceException;
     Date getDateOrderByIdCartUser(CartUser cartUser) throws ServiceException;
     double getTotalCostByIdCartUser(CartUser cartUser) throws ServiceException;
     void addOrderWithAdditionalIngredient(CartUser cartUser) throws ServiceException;
-  List<Order> getAllOrdersByUser(User user) throws ServiceException;
-  boolean checkIdOrder(int idOrder) throws ServiceException;
-void cancelOrder(CartUser cartUser) throws ServiceException;
+  List<Order> getAllOrdersByUser(int idUser) throws ServiceException;
+ boolean checkIdOrder(int idOrder) throws ServiceException;
+void cancelOrder(int idCartUser) throws ServiceException;
 
 }

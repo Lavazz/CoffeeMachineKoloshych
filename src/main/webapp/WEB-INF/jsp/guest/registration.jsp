@@ -38,13 +38,11 @@
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home" /></a></li>
+                <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
                 <li class="nav-item "><a href="main?command=showDrinks" class="nav-link">
                     <fmt:message key="main.message.drinks"/></a></li>
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
                     <fmt:message key="main.message.additionalIngredients" /></a></li>
-
                 <c:if test="${sessionScope.idUser== null }">
                     <li class="nav-item active"><a href="main?command=goToRegistrationPage" class="nav-link">
                         <fmt:message key="main.message.registration"/></a>
@@ -53,23 +51,8 @@
                         <fmt:message key="main.message.authorization" /></a></li>
                 </c:if>
 
-                <c:if test="${sessionScope.idUserStatus ==1}"><li class="nav-item"><a href="main?command=showAdminCabinet" class="nav-link">
-                    <fmt:message key="main.message.admin_cabinet" /></a>
-                </li>
-                </c:if>
-
-                <c:if test="${sessionScope.idUserStatus ==2}">
-                    <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
-                        <fmt:message key="main.message.personalCabinet" /></a>
-                    </li>
-                </c:if>
-
-                <c:if test="${sessionScope.idUser != null }"><li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout" /></a></li>
-                </c:if>
-
-                <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
-                </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
+                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
+                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
             </ul>
             <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>

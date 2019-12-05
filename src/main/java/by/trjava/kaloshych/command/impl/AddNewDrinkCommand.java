@@ -11,10 +11,10 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_EMPTY_DATA;
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_INCORRECT_DATA;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_COMMAND_ADMIN_CABINET;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_EMPTY_DATA;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_INCORRECT_DATA;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_COMMAND_ADMIN_CABINET;
 
 
 public class AddNewDrinkCommand implements Command {

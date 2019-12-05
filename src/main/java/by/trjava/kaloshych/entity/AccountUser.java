@@ -37,24 +37,40 @@ public class AccountUser implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AccountUser that = (AccountUser) o;
-        return idAccountUser == that.idAccountUser &&
-                Objects.equals(user, that.user);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        AccountUser other = (AccountUser) obj;
+        if (idAccountUser!=other.idAccountUser) {
+            return false;
+        }
+        if (user == null) {
+            if (other.user != null) {
+                return false;
+            } else if (!user.equals(other.user)) {
+                return false;
+            }
+        }
+        return true;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAccountUser, user);
+        return (int) (31 * idAccountUser + (user == null ? 0 : user.hashCode()) );
     }
 
     @Override
     public String toString() {
-        return "AccountUser{" +
+        return getClass().getName() + "@" +
                 "idAccountUser=" + idAccountUser +
-                ", user=" + user +
-                '}';
+                ", user=" + user ;
     }
 }

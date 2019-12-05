@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_CART;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_CART;
 
 public class ShowCartCommand implements Command {
 
@@ -26,22 +26,21 @@ public class ShowCartCommand implements Command {
         session.removeAttribute(PARAMETER_ORDERS);
         session.removeAttribute(PARAMETER_CART_ADDITIONAL_INGREDIENTS);
 
-        final CartUser cartUser = (CartUser) session.getAttribute(PARAMETER_CART_USER);
-        final User user = (User) session.getAttribute(PARAMETER_USER);
-        System.out.println("cartUser="+cartUser);
+        final int idCartUser = (int) session.getAttribute(PARAMETER_ID_CART_USER);
+        final int idUser = (int) session.getAttribute(PARAMETER_ID_USER);
         List<CartAdditionalIngredient> cartAdditionalIngredients;
         List<Cart> carts;
         double totalCost;
         try {
-            carts = cartService.getAllCarts(cartUser);
+            carts = cartService.getAllCarts(idCartUser);
 
             if (carts.isEmpty()) {
                 request.setAttribute(PARAMETER_CARTS, null);
             } else {
                 request.setAttribute(PARAMETER_CARTS, carts);
             }
-            cartAdditionalIngredients = cartAdditionalIngredientService.getCartAdditionalIngredientsByUser(user);
-            totalCost = cartService.getTotalCost(cartUser);
+            cartAdditionalIngredients = cartAdditionalIngredientService.getCartAdditionalIngredientsByUser(idUser);
+            totalCost = cartService.getTotalCost(idCartUser);
             request.setAttribute(PARAMETER_CART_ADDITIONAL_INGREDIENTS, cartAdditionalIngredients);
             request.setAttribute(PARAMETER_TOTAL_COST, totalCost);
         } catch (ServiceException e) {

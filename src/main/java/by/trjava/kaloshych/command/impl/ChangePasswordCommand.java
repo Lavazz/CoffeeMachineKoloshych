@@ -2,7 +2,6 @@ package by.trjava.kaloshych.command.impl;
 
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
-import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.ServiceFactory;
 import by.trjava.kaloshych.service.UserService;
 import by.trjava.kaloshych.service.exception.EmptyDataException;
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Message.*;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.*;
+import static by.trjava.kaloshych.command.configuration.Message.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
 
 public class ChangePasswordCommand implements Command {
 
@@ -27,14 +26,15 @@ public class ChangePasswordCommand implements Command {
         final HttpSession session = request.getSession();
 
         String path = PATH_CHANGE_PASSWORD;
-        final User user = (User) session.getAttribute(PARAMETER_USER);
+
+        final int idUser = (int) session.getAttribute(PARAMETER_ID_USER);
 
         String currentPassword = request.getParameter(PARAMETER_CURRENT_PASSWORD);
         String newPassword = request.getParameter(PARAMETER_NEW_PASSWORD);
         String confirmedPassword = request.getParameter(PARAMETER_CONFIRMED_NEW_PASSWORD);
 
         try {
-            userService.updateUserPassword(user.getId(), currentPassword, newPassword, confirmedPassword);
+            userService.updateUserPassword(idUser, currentPassword, newPassword, confirmedPassword);
             request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_SUCCESSFUL);
             path = request.getContextPath()+PATH_COMMAND_ADMIN_CABINET;
         } catch (EmptyDataException e) {

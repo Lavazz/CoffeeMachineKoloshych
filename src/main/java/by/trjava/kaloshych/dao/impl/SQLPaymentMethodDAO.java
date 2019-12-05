@@ -3,6 +3,7 @@ package by.trjava.kaloshych.dao.impl;
 import by.trjava.kaloshych.dao.PaymentMethodDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.PaymentMethod;
@@ -20,15 +21,15 @@ import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.QUERY_GET_PAYM
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLPaymentMethodDAO implements PaymentMethodDAO {
-    private static final ConnectionPool pool = DBConnectionPool.getInstance();
-    private static final Logger logger = Logger.getLogger(SQLPaymentMethodDAO.class);
+    private final ConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
     public PaymentMethod createPaymentMethod(int idPaymentMethod) throws DAOException {
         ResultSet rs = null;
         String namePaymentMethod=null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_GET_PAYMENT_METHOD)){
             ps.setInt(1, idPaymentMethod);
          rs= ps.executeQuery();
@@ -36,8 +37,6 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
             namePaymentMethod = rs.getString(PARAMETER_NAME_PAYMENT_METHOD);
             }
             return new PaymentMethod(idPaymentMethod, namePaymentMethod);
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
 
@@ -51,7 +50,8 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
         ResultSet rs = null;
        List<PaymentMethod> paymentMethods=new ArrayList<>();
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_ALL_PAYMENT_METHOD)){
             rs= ps.executeQuery();
             while (rs.next()) {
@@ -63,8 +63,6 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
                 paymentMethods.add(new PaymentMethod(idPaymentMethod, namePaymentMethod));
             }
             return paymentMethods;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
 

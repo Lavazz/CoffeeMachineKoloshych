@@ -10,14 +10,14 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 import java.util.List;
 
 public interface CartService {
-    Cart addDrinkToCart(CartUser cartUser, String  idDrink, String portion) throws ServiceException;
+  Cart addDrinkToCart(int idCartUser, String  idDrink, String portion) throws ServiceException;
 
     void deleteDrinkFromCart(String idCart) throws ServiceException;
 
     boolean changePortion(String idCart, String sign) throws ServiceException;
-    List<Cart> getAllCarts(CartUser cartUser) throws ServiceException;
+    List<Cart> getAllCarts(int idCartUser) throws ServiceException;
     Cart createCartById(int idCart) throws ServiceException;
     int getPortionByCart(Cart cart) throws ServiceException;
-    double  getTotalCost(CartUser cartUser) throws ServiceException;
-    List<Cart> getAllCartsByUser(User user) throws ServiceException;
+    double  getTotalCost(int idCartUser) throws ServiceException;
+    List<Cart> getAllCartsByUser(int idUser) throws ServiceException;
 }

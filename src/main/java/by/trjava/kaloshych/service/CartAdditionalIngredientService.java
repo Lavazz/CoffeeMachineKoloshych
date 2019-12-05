@@ -13,5 +13,5 @@ public interface CartAdditionalIngredientService {
     void deleteAdditionalIngredientFromCartAI(int idCartAdditionalIngredient) throws ServiceException;
     List<CartAdditionalIngredient> getAllCartAdditionalIngredientByIdCart(Cart cart) throws ServiceException;
     List<CartAdditionalIngredient> getAllCartAdditionalIngredients() throws ServiceException;
-    List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(User user) throws ServiceException;
+    List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(int idUser) throws ServiceException;
 }

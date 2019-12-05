@@ -1,36 +1,37 @@
 package by.trjava.kaloshych.controller.listener;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import javax.servlet.annotation.WebListener;
 
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
-import org.apache.log4j.Logger;
 
 @WebListener
 public class ConnectionPoolListener implements ServletContextListener{
 
-	private static final Logger logger = Logger.getLogger(ConnectionPoolListener.class);
+	private static final String DRIVER = "db.driver";
+	private static final String URL = "db.url";
+	private static final String USER = "db.user";
+	private static final String PASSWORD = "db.password";
+	private static final String POOL_SIZE = "pool.size";
 
 	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
+	public void contextInitialized(ServletContextEvent servletContextEvent) {
+		final ServletContext servletContext = servletContextEvent.getServletContext();
+		final String driver = servletContext.getInitParameter(DRIVER);
+		final String url = servletContext.getInitParameter(URL);
+		final String user = servletContext.getInitParameter(USER);
+		final String password = servletContext.getInitParameter(PASSWORD);
+		final String poolSize = servletContext.getInitParameter(POOL_SIZE);
 
-	//	ConnectionPool.getInstance().releaseConnection();
-
-		logger.info("Connection pool destroyed successfully");
+		final DBConnectionPool pool = DBConnectionPool.getInstance();
+		pool.init(driver, url, user, password, poolSize);
 	}
 
 	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-
-		try {
-				DBConnectionPool.getInstance().init();
-				logger.info("Connection pool initialized successfully");
-			} catch (ConnectionPoolException e) {
-				logger.error("ConnectionPoolException during initializing", e);
-				throw new ExceptionInInitializerError("Could not initialize pool!");
-			}
+	public void contextDestroyed(ServletContextEvent servletContextEvent) {
+		DBConnectionPool.getInstance().destroyPool();
 	}
 }

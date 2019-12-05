@@ -6,7 +6,7 @@ import by.trjava.kaloshych.command.exception.CommandException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_REPLENISH_BALANCE;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_REPLENISH_BALANCE;
 
 public class GoToReplenishBalancePageCommand implements Command {
     @Override

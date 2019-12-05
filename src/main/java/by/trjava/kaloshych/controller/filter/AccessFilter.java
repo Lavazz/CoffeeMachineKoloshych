@@ -1,7 +1,6 @@
 package by.trjava.kaloshych.controller.filter;
 
 import by.trjava.kaloshych.command.util.CommandName;
-import by.trjava.kaloshych.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,9 +11,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_ACCESS;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_ACCESS;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
 import static by.trjava.kaloshych.entity.UserStatus.*;
 
 
@@ -102,8 +101,8 @@ public class AccessFilter implements Filter {
 
             int idUserStatus = GUEST.getIdUserStatus();
 
-            if (session.getAttribute(PARAMETER_USER) != null) {
-                idUserStatus = ((User) session.getAttribute(PARAMETER_USER)).getUserStatus().getIdUserStatus();
+            if (session.getAttribute(PARAMETER_ID_USER) != null) {
+                idUserStatus = (int) session.getAttribute(PARAMETER_ID_USER_STATUS);
             }
 
             if ((idUserStatus == GUEST.getIdUserStatus() && isGuestCommand(command))

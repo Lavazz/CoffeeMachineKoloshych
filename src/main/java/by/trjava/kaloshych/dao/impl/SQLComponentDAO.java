@@ -2,6 +2,7 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.ComponentDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Component;
@@ -16,8 +17,7 @@ import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.CL
 
 public class SQLComponentDAO implements ComponentDAO {
 
-    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private static final Logger logger = Logger.getLogger(SQLComponentDAO.class);
+    private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
         @Override
     public void deleteComponent(Component component, String type) throws DAOException {
@@ -28,13 +28,12 @@ public class SQLComponentDAO implements ComponentDAO {
                 query=QUERY_ADDITIONAL_INGREDIENT_DELETE;
             }
 
-            try ( Connection con = pool.getConnection();
-                  PreparedStatement ps = con.prepareStatement( query)) {
+            try (ProxyConnection proxyConnection = pool.getConnection();
+                 Connection con = proxyConnection.getConnectionWrapper();
+                 PreparedStatement ps = con.prepareStatement( query)) {
 
             ps.setInt(1, component.getIdComponent());
             ps.executeUpdate();
-            } catch (ConnectionPoolException e) {
-                throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -48,12 +47,11 @@ String query;
         }else{
             query=QUERY_DELETE_ADDITIONAL_INGREDIENT_FROM_FILLING_OPERATION;
         }
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, component.getIdComponent());
             ps.executeUpdate();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         }

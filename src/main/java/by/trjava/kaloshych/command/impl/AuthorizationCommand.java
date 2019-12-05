@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Message.*;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_AUTHORIZATION;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.Message.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_AUTHORIZATION;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
 
 public class AuthorizationCommand implements Command {
 
@@ -33,14 +33,14 @@ public class AuthorizationCommand implements Command {
         String pagePath = PATH_AUTHORIZATION;
         try {
             User user = userService.logIn(login, password);
-            CartUser cartUser = cartUserService.addCartUser(user);
+            CartUser cartUser = cartUserService.addCartUser(user.getId());
 
-            session.setAttribute(PARAMETER_CART_USER, cartUser);
-            session.setAttribute(PARAMETER_ACCOUNT_USER, accountUserService.getAccountUser(user));
-            session.setAttribute(PARAMETER_USER, user);
+            session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());
+            session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUserService.getAccountUser(user).getIdAccountUser());
+            session.setAttribute(PARAMETER_USER_NAME, user.getName());
             session.setAttribute(PARAMETER_ID_USER, user.getId());
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
-            session.setMaxInactiveInterval(60 * 20);
+            session.setMaxInactiveInterval(60 * 5);
             session.setAttribute(PARAMETER_MAIN_MESSAGE, MESSAGE_SUCCESSFUL_AUTHORIZATION);
             pagePath = PATH_INDEX;
 

@@ -72,9 +72,6 @@ public class Order implements Serializable {
         if (idOrder != other.idOrder) {
             return false;
         }
-//        if (idCartUser != other.idCartUser) {
-//            return false;
-//        }
         if (cartUser != other.cartUser) {
             return false;
         }

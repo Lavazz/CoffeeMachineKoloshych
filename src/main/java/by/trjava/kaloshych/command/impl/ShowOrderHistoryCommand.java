@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_CART_ADDITIONAL_INGREDIENTS;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_ORDER_HISTORY;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_CART_ADDITIONAL_INGREDIENTS;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_ORDER_HISTORY;
 
 
 public class ShowOrderHistoryCommand implements Command {
@@ -26,7 +26,7 @@ public class ShowOrderHistoryCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         final HttpSession session = request.getSession();
-        final User user = (User) session.getAttribute(PARAMETER_USER);
+        final int idUser = (int) session.getAttribute(PARAMETER_ID_USER);
         String url = CreatorFullURL.create(request);
 
         int firstIndex = 0;
@@ -38,9 +38,9 @@ public class ShowOrderHistoryCommand implements Command {
 
         try {
 
-            orders = orderService.getAllOrdersByUser(user);
-            carts = cartService.getAllCartsByUser(user);
-            cartAdditionalIngredients = cartAdditionalIngredientService.getCartAdditionalIngredientsByUser(user);
+            orders = orderService.getAllOrdersByUser(idUser);
+            carts = cartService.getAllCartsByUser(idUser);
+            cartAdditionalIngredients = cartAdditionalIngredientService.getCartAdditionalIngredientsByUser(idUser);
             session.setAttribute(PARAMETER_ORDERS_FIRST_ROW, firstIndex);
             session.setAttribute(PARAMETER_ORDERS_LAST_ROW, lastIndex);
 

@@ -8,7 +8,7 @@
     <uri>http://trjava.by/kaloshych</uri>
     <tag>
         <name>outDrink</name>
-        <tag-class>by.trjava.kaloshych.controller.tag.DrinkTranslator</tag-class>
+        <tag-class>by.trjava.kaloshych.presentation.tag.DrinkTranslator</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>drink</name>
@@ -19,7 +19,7 @@
 
 <tag>
 <name>outAdditionalIngredient</name>
-<tag-class>by.trjava.kaloshych.controller.tag.AdditionalIngredientTranslator</tag-class>
+<tag-class>by.trjava.kaloshych.presentation.tag.AdditionalIngredientTranslator</tag-class>
 <body-content>empty</body-content>
 <attribute>
     <name>additionalIngredient</name>
@@ -30,7 +30,7 @@
 
     <tag>
         <name>outDescription</name>
-        <tag-class>by.trjava.kaloshych.controller.tag.DescriptionTranslator</tag-class>
+        <tag-class>by.trjava.kaloshych.presentation.tag.DescriptionTranslator</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>drink</name>
@@ -41,7 +41,7 @@
 
     <tag>
         <name>date</name>
-        <tag-class>by.trjava.kaloshych.controller.tag.DateInfo</tag-class>
+        <tag-class>by.trjava.kaloshych.presentation.tag.DateInfo</tag-class>
         <body-content>empty</body-content>
     </tag>
 </taglib>

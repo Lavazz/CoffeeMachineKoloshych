@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="http://trjava.by/kaloshych" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
@@ -34,8 +35,7 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/><small>
-            <fmt:message key="main.brand.house"/></small></a>
+        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
@@ -45,19 +45,12 @@
                     <fmt:message key="main.message.drinks"/></a></li>
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
                     <fmt:message key="main.message.additionalIngredients"/></a></li>
-                <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
-                    <fmt:message key="main.message.personalCabinet" /></a>
-                </li>
                 <li class="nav-item active">
                     <a href="main?command=showOrderHistory" class="nav-link">
                         <fmt:message key="nav.orderHistory"/></a>
                 </li>
-                <li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout"/></a></li>
-                <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span
-                        class="icon icon-shopping_cart">
-                </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a>
-                </li>
+                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
+                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
             </ul>
             <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
@@ -89,13 +82,15 @@
                     <tr class="text-center">
                         <th>${count.count}</th>
                         <td class="product-name">
-                            <h3>${cart.drink.nameComponent}</h3>
+                            <h3> <ctg:outDrink drink="${cart.drink}"/></h3>
+<%--                            <h3>${cart.drink.nameComponent}</h3>--%>
                         </td>
 
                         <td class="product-name">
                             <c:forEach items="${sessionScope.cartAdditionalIngredients}" var="cartAdditionalIngredient">
                                 <c:if test="${cartAdditionalIngredient.cart.idCart==cart.idCart}">
-                                    <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>
+                                <h3> <ctg:outAdditionalIngredient additionalIngredient="${cartAdditionalIngredient.additionalIngredient}"/></h3>
+<%--                                    <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>--%>
                                 </c:if>
                             </c:forEach>
                         </td>

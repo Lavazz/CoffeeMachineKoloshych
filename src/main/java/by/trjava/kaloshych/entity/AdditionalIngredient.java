@@ -6,7 +6,7 @@ import java.util.Objects;
 public class AdditionalIngredient extends Component implements Serializable {
     private static final long serialVersionUID = 1L;
 
-   private int calories;
+    private int calories;
 
     public AdditionalIngredient() {
     }
@@ -29,22 +29,33 @@ public class AdditionalIngredient extends Component implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        AdditionalIngredient that = (AdditionalIngredient) o;
-        return calories == that.calories;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        if (!super.equals(obj)) return false;
+        AdditionalIngredient other = (AdditionalIngredient) obj;
+        if (calories != other.calories) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), calories);
+        return (int) (31 * super.hashCode() + calories);
     }
 
     @Override
     public String toString() {
-        return "AdditionalIngredient{" +
+        return getClass().getName() + "@" +
+                "AdditionalIngredient{" +
                 "calories=" + calories +
                 '}';
     }

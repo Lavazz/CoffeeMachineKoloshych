@@ -1,4 +1,4 @@
-package by.trjava.kaloshych.configuration;
+package by.trjava.kaloshych.command.configuration;
 
 public class Message {
     public static final String MESSAGE_SUCCESSFUL_ADD_COMPONENT = "component successfully added";

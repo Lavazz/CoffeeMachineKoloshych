@@ -4,6 +4,7 @@ import by.trjava.kaloshych.dao.AdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.FillingOperationDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
@@ -20,41 +21,36 @@ import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 
 public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
-    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private static final Logger logger = Logger.getLogger(SQLAdditionalIngredientDAO.class);
-
+    private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
     public List<AdditionalIngredient> getAllAdditionalIngredients() throws DAOException {
         List<AdditionalIngredient> listAdditionalIngredient = new ArrayList<>();
-        Connection con;
-        PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            con = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
-        }
-        try {
-            ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                listAdditionalIngredient.add(createAdditionalIngredient(rs));
+            try (ProxyConnection proxyConnection = pool.getConnection();
+                 Connection con = proxyConnection.getConnectionWrapper();
+                 PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT)) {
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    listAdditionalIngredient.add(createAdditionalIngredient(rs));
+                }
             }
-            return listAdditionalIngredient;
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            SQLUtil.shut(rs, ps, con);
+                return listAdditionalIngredient;
+            } catch (SQLException e) {
+            throw new DAOException("SQLAdditionalIngredient Exception can't get all ingredients "+e);
+            } finally {
+                SQLUtil.shut(rs);
+            }
         }
-    }
 
 
     @Override
     public AdditionalIngredient addNewAdditionalIngredient(String nameAdditionalIngredient, int calories) throws DAOException {
         int idAdditionalIngredient = 0;
         ResultSet rs = null;
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, nameAdditionalIngredient);
             ps.setInt(2, calories);
@@ -64,10 +60,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
                 idAdditionalIngredient = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
             return createAdditionalIngredient(idAdditionalIngredient);
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQLAdditionalIngredient Exception can't add new ingredients "+e);
         } finally {
             SQLUtil.shut(rs);
         }
@@ -77,14 +71,13 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
     @Override
     public boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_DELETE)) {
             ps.setInt(1, idAdditionalIngredient);
             return ps.executeUpdate() > 0;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQLAdditionalIngredient Exception can't delete ingredient "+e);
         }
     }
 
@@ -93,7 +86,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
         ResultSet rs = null;
         AdditionalIngredient component = null;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID)) {
             ps.setInt(1, idAdditionalIngredient);
             rs = ps.executeQuery();
@@ -105,10 +99,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
                 component = new AdditionalIngredient(idAdditionalIngredient, nameComponent, portion, picturePath, calories);
             }
             return component;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient "+e);
         } finally {
             SQLUtil.shut(rs);
         }
@@ -121,7 +113,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
         PreparedStatement ps2 = null;
         ResultSet rs = null;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_BY_ID)) {
             ps.setInt(1, additionalIngredient.getIdComponent());
             rs = ps.executeQuery();
@@ -133,10 +126,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
             ps2.setInt(2, additionalIngredient.getIdComponent());
             ps2.executeUpdate();
             return newPortion;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQLAdditionalIngredient Exception can't decrease portion ingredient "+e);
         } finally {
             SQLUtil.shut(rs, ps2);
         }
@@ -153,7 +144,7 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
             additionalIngredient.setPicturePath(rs.getString(PARAMETER_PICTURE_PATH));
             additionalIngredient.setPortion(rs.getInt(PARAMETER_PORTION));
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient "+e);
         }
         return additionalIngredient;
     }

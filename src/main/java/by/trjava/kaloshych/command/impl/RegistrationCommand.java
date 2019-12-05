@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Message.*;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_INDEX;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_REGISTRATION;
+import static by.trjava.kaloshych.command.configuration.Message.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_REGISTRATION;
 
 public class RegistrationCommand implements Command {
     private UserService userService = ServiceFactory.getInstance().getUserService();
@@ -35,11 +35,11 @@ public class RegistrationCommand implements Command {
         try {
             final User user = userService.registration(login, password, confirmPassword, email, name);
             final AccountUser accountUser = accountUserService.createAccountUser(user);
-            final CartUser cartUser = cartUserService.addCartUser(user);
-            session.setAttribute(PARAMETER_ACCOUNT_USER, accountUser);
-            session.setAttribute(PARAMETER_CART_USER, cartUser);
-            session.setAttribute(PARAMETER_USER, user);
-             session.setAttribute(PARAMETER_ID_USER, user.getId());
+            final CartUser cartUser = cartUserService.addCartUser(user.getId());
+            session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUser.getIdAccountUser());
+            session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());
+            session.setAttribute(PARAMETER_ID_USER, user.getId());
+            session.setAttribute(PARAMETER_USER_NAME, user.getName());
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
             path = PATH_INDEX;
             session.setAttribute(REDIRECT_COMMAND, PATH_INDEX);

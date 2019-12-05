@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_ADDITIONAL_INGREDIENTS;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_SHOW_ADDITIONAL_INGREDIENTS;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ADDITIONAL_INGREDIENTS;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_SHOW_ADDITIONAL_INGREDIENTS;
 
 public class ShowAdditionalIngredientsCommand implements Command {
 

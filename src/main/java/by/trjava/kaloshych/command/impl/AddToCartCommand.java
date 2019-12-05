@@ -17,9 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Message.*;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_SHOW_DRINKS;
+import static by.trjava.kaloshych.command.configuration.Message.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.PARAMETER_PORTION;
+
 
 public class AddToCartCommand implements Command {
 
@@ -31,7 +32,7 @@ public class AddToCartCommand implements Command {
         final HttpSession session = request.getSession();
 
         Cart cart = null;
-        final CartUser cartUser = (CartUser) session.getAttribute(PARAMETER_CART_USER);
+        final int idCartUser = (int) session.getAttribute(PARAMETER_ID_CART_USER);
 
         String idDrink = request.getParameter(PARAMETER_DRINK_RADIO_BUTTON);
         String portion = request.getParameter(PARAMETER_PORTION);
@@ -40,7 +41,7 @@ public class AddToCartCommand implements Command {
         try {
 
             try {
-                cart = cartService.addDrinkToCart(cartUser, idDrink, portion);
+                cart = cartService.addDrinkToCart(idCartUser, idDrink, portion);
             } catch (EmptyDataException e) {
                 session.setAttribute(PARAMETER_MESSAGE_DRINKS, MESSAGE_EMPTY_DATA);
             } catch (WrongPortionException e) {

@@ -12,10 +12,12 @@ public class SQLQuery {
     public   static final String QUERY_DELETE_LOGIN = "DELETE FROM users where login=?";
     public  static final String QUERY_UPDATE_PASSWORD = "UPDATE users SET password = ? WHERE id_user=?";
     public  static final String QUERY_USER_ALL =  "SELECT u.email, u.id_user, u.name, u.login, u.password, s.status" +
-            " FROM users u INNER JOIN user_statuses s ON u.id_status=s.id_user_status";
+            " FROM users u INNER JOIN user_statuses s" +
+            " ON u.id_status=s.id_user_status";
     public  static final String QUERY_USER_GET_ID = "SELECT id_user FROM users WHERE login=?";
     public    static final String QUERY_CHECK_USER_ID =  "SELECT u.email, u.id_user, u.name, u.login," +
-            " u.password, s.status FROM users u " +
+            " u.password, s.status" +
+            " FROM users u " +
             " INNER JOIN user_statuses s ON u.id_status=s.id_user_status" +
             " WHERE u.id_user=?";
     public   static final String QUERY_GET_PASSWORD =  "SELECT password FROM users  WHERE id_user=?";
@@ -34,7 +36,8 @@ public class SQLQuery {
 
 
     //AccountUser
-    public  static final String QUERY_GET_ACCOUNT_USER="SELECT * FROM account_users WHERE id_user=?";
+    public  static final String QUERY_GET_ACCOUNT_USER_BY_USER="SELECT id_account_user FROM account_users WHERE id_user=?";
+  public  static final String QUERY_GET_ACCOUNT_USER="SELECT id_user FROM account_users WHERE id_account_user=?";
 
     //Payment Method
     public    static final String   QUERY_GET_PAYMENT_METHOD="SELECT name_payment_method FROM payment_methods WHERE id_payment_method=?";

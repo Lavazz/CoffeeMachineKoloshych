@@ -38,24 +38,39 @@ public class PaymentMethod implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PaymentMethod that = (PaymentMethod) o;
-        return Objects.equals(idPaymentMethod, that.idPaymentMethod) &&
-                Objects.equals(namePaymentMethod, that.namePaymentMethod);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        PaymentMethod other = (PaymentMethod) obj;
+        if (idPaymentMethod!=other.idPaymentMethod) {
+            return  false;
+        }
+        if (namePaymentMethod == null) {
+            if (other.namePaymentMethod != null) {
+                return false;
+            } else if (!namePaymentMethod.equals(other.namePaymentMethod)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPaymentMethod, namePaymentMethod);
+        return (int) (31 * idPaymentMethod + (namePaymentMethod == null ? 0 : namePaymentMethod.hashCode()));
     }
 
     @Override
     public String toString() {
-        return "PaymentMethod{" +
+        return getClass().getName() + "@" +
                 "idPaymentMethod='" + idPaymentMethod + '\'' +
-                ", namePaymentMethod='" + namePaymentMethod + '\'' +
-                '}';
+                ", namePaymentMethod='" + namePaymentMethod;
     }
 }

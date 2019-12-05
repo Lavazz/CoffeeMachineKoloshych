@@ -2,6 +2,7 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Cart;
@@ -20,24 +21,22 @@ import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLDrinkDAO implements DrinkDAO {
 
-    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private static final Logger logger = Logger.getLogger(SQLCartUserDAO.class);
+    private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
     public List<Drink> getAllDrinks() throws DAOException {
         ResultSet rs = null;
         List<Drink> drinkList = new ArrayList<>();
 
-        try ( Connection con = pool.getConnection();
-              PreparedStatement ps = con.prepareStatement(QUERY_ALL_DRINKS)){
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_ALL_DRINKS)){
             rs = ps.executeQuery();
             while (rs.next()) {
                 int idDrink = rs.getInt(PARAMETER_ID_DRINK);
                 drinkList.add(createDrink(idDrink));
             }
             return drinkList;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -51,8 +50,9 @@ public class SQLDrinkDAO implements DrinkDAO {
         PreparedStatement ps2 = null;
         ResultSet rs = null;
 
-        try ( Connection con = pool.getConnection();
-              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, drink.getIdComponent());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -64,8 +64,6 @@ public class SQLDrinkDAO implements DrinkDAO {
             ps2.setInt(2, drink.getIdComponent());
             ps2.executeUpdate();
             return  newPortion;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -78,7 +76,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         double price = 0;
         ResultSet rs = null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PRICE)){
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
@@ -87,8 +86,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                 price = rs.getDouble(PARAMETER_PRICE);
             }
             return price;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -102,7 +99,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         int portion=0;
         ResultSet rs = null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PORTION)){
             ps.setInt(1, drink.getIdComponent());
             rs = ps.executeQuery();
@@ -111,8 +109,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                portion = rs.getInt(PARAMETER_PORTION);
             }
             return portion;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -126,7 +122,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         int idDrink = 0;
         ResultSet rs = null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_ADD_NEW, PreparedStatement.RETURN_GENERATED_KEYS)){
             ps.setString(1, drink);
             ps.setDouble(2, price);
@@ -137,8 +134,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                 idDrink = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
             return createDrink(idDrink);
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -148,12 +143,11 @@ public class SQLDrinkDAO implements DrinkDAO {
 
     @Override
     public void deleteDrink(String drinkName) throws DAOException {
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_DELETE)){
             ps.setString(1, drinkName);
             ps.executeUpdate();
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -161,13 +155,12 @@ public class SQLDrinkDAO implements DrinkDAO {
 
     @Override
     public boolean changePrice(String drink, int newPrice) throws DAOException {
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_CHANGE_PRICE)){
             ps.setInt(1, newPrice);
             ps.setString(2, drink);
             return ps.executeUpdate() > 0;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -178,7 +171,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         ResultSet rs = null;
         boolean result=false;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, idComponent);
             rs = ps.executeQuery();
@@ -186,8 +180,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                 result= true;
             }
             return result;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -200,7 +192,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         ResultSet rs = null;
         Drink drink = null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)){
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
@@ -213,8 +206,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                 drink = new Drink(idDrink, nameDrink, portion, picturePath, description, price);
             }
             return drink;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -229,7 +220,8 @@ public class SQLDrinkDAO implements DrinkDAO {
         ResultSet rs = null;
         Drink drink = null;
 
-        try ( Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
               PreparedStatement ps = con.prepareStatement(QUERY_GET_DRINK_BY_CART)){
             ps.setInt(1, cart.getIdCart());
             rs = ps.executeQuery();
@@ -238,8 +230,6 @@ public class SQLDrinkDAO implements DrinkDAO {
                 drink = createDrink(idDrink);
             }
             return drink;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {

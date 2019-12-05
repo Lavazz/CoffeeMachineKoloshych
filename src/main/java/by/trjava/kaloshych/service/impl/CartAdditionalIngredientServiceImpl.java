@@ -3,6 +3,7 @@ package by.trjava.kaloshych.service.impl;
 import by.trjava.kaloshych.dao.AdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.CartAdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
+import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.impl.SQLAdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.impl.SQLCartAdditionalIngredientDAO;
@@ -62,8 +63,10 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
     }
 
     @Override
-    public List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(User user) throws ServiceException {
+    public List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(int idUser) throws ServiceException {
+       final UserDAO userDAO=DAOFactory.getInstance().getUserDAO();
         try {
+            User user=userDAO.getUserById(idUser);
             return cartAdditionalIngredientDAO.getCartAdditionalIngredientsByUser(user);
         } catch (DAOException e) {
             throw new ServiceException(e);

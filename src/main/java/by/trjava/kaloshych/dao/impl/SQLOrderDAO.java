@@ -2,6 +2,7 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.CartUser;
@@ -17,8 +18,7 @@ import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLOrderDAO implements OrderDAO {
-    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private static final Logger logger = Logger.getLogger(SQLCartUserDAO.class);
+    private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
     public Order addOrder(CartUser cartUser, double totalCost) throws DAOException {
@@ -26,7 +26,8 @@ public class SQLOrderDAO implements OrderDAO {
         int idOrder = 0;
         java.sql.Date dateOrder;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ORDER_CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, cartUser.getIdCartUser());
             ps.setDouble(2, totalCost);
@@ -38,8 +39,6 @@ public class SQLOrderDAO implements OrderDAO {
                 idOrder = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
             return new Order(idOrder, cartUser, dateOrder, totalCost);
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
 
@@ -52,15 +51,14 @@ public class SQLOrderDAO implements OrderDAO {
     public boolean checkIdOrder(int idOrder) throws DAOException {
         ResultSet rs = null;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_ID_ORDER)) {
             ps.setInt(1, idOrder);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return true;
             }
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -74,7 +72,8 @@ public class SQLOrderDAO implements OrderDAO {
         ResultSet rs = null;
         double drinkPrice = 0;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PRICE)) {
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
@@ -82,8 +81,6 @@ public class SQLOrderDAO implements OrderDAO {
                 drinkPrice = rs.getDouble(PARAMETER_PRICE);
             }
             return drinkPrice;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -97,7 +94,8 @@ public class SQLOrderDAO implements OrderDAO {
         Date dateOrder = null;
         ResultSet rs = null;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_DATE_ORDER)) {
             ps.setInt(1, cartUser.getIdCartUser());
             rs = ps.executeQuery();
@@ -105,8 +103,6 @@ public class SQLOrderDAO implements OrderDAO {
                 dateOrder = rs.getDate(PARAMETER_DATE_ORDER);
             }
             return dateOrder;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -119,7 +115,8 @@ public class SQLOrderDAO implements OrderDAO {
         double totalCost = 0;
         ResultSet rs = null;
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_TOTAL_COST)) {
             ps.setInt(1, cartUser.getIdCartUser());
             rs = ps.executeQuery();
@@ -127,8 +124,6 @@ public class SQLOrderDAO implements OrderDAO {
                 totalCost = rs.getDouble(PARAMETER_TOTAL_COST);
             }
             return totalCost;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
@@ -142,7 +137,8 @@ public class SQLOrderDAO implements OrderDAO {
         ResultSet rs = null;
         List<Order> orders = new ArrayList<>();
 
-        try (Connection con = pool.getConnection();
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_ORDERS_BY_USER)) {
             ps.setInt(1, user.getId());
             rs = ps.executeQuery();
@@ -155,8 +151,6 @@ public class SQLOrderDAO implements OrderDAO {
                 orders.add(new Order(idOrder, cartUser, dateOrder, totalCost));
             }
             return orders;
-        } catch (ConnectionPoolException e) {
-            throw new DAOException("Exception in Connection Pool", e);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {

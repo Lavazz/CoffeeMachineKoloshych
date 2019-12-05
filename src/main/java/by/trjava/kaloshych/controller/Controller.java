@@ -1,7 +1,6 @@
 package by.trjava.kaloshych.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +14,9 @@ import by.trjava.kaloshych.command.factory.CommandFactory;
 import by.trjava.kaloshych.command.factory.impl.CommandFactoryImpl;
 import org.apache.log4j.Logger;
 
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_ACCESS_PROHIBITED;
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_SUCCESSFUL_AUTHORIZATION;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_ERROR;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_MAIN_PAGE;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_ERROR;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 
 
 @WebServlet("/main")

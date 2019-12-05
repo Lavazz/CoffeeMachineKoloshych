@@ -20,8 +20,7 @@ public class UserValidator {
     }
 
     public boolean validate(String login, String password, String email, String name){
-        return validate(login, password)&&email.matches(EMAIL_FORMAT_REGEX)
-                &&name.matches(NAME_FORMAT_REGEX);
+        return validate(login, password)&&validateEmail(email);
     }
 
     public boolean validatePasswords( String password, String confirmPassword){
@@ -37,5 +36,9 @@ public class UserValidator {
 
     public boolean validatePassword( String password){
         return password.matches(PASSWORD_FORMAT_REGEX);
+    }
+
+    public boolean validateEmail(String email){
+        return email.matches(EMAIL_FORMAT_REGEX);
     }
 }

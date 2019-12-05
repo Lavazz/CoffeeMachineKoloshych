@@ -10,10 +10,10 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_EMPTY_CHECKBOX;
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_ID_COMPONENTS;
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_MESSAGE_DELETE;
-import static by.trjava.kaloshych.configuration.PathToJSP.*;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_EMPTY_CHECKBOX;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ID_COMPONENTS;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_MESSAGE_DELETE;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
 
 public class DeleteComponentCommand implements Command {
 

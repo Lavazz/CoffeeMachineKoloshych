@@ -1,4 +1,4 @@
-package by.trjava.kaloshych.configuration;
+package by.trjava.kaloshych.command.configuration;
 
 public class Parameter {
 
@@ -28,7 +28,12 @@ public class Parameter {
     public static final String PARAMETER_ORDERS = "orders";
     public static final String PARAMETER_MONEY = "amountOfMoney";
     public static final String PARAMETER_ID_CART = "idCart";
+    public static final String PARAMETER_ID_CART_USER = "idCartUser";
+    public static final String PARAMETER_ID_ACCOUNT_USER = "idAccountUser";
+
     public static final String PARAMETER_MESSAGE_REGISTRATION = "messageRegistration";
+    public static final String PARAMETER_USER_NAME = "userName";
+
     public static final String PARAMETER_MESSAGE_DELETE = "messageDelete";
     public static final String PARAMETER_PORTION = "portion";
     public static final String PARAMETER_PRICE = "price";

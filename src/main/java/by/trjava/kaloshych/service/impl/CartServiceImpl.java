@@ -1,8 +1,6 @@
 package by.trjava.kaloshych.service.impl;
 
-import by.trjava.kaloshych.dao.CartDAO;
-import by.trjava.kaloshych.dao.DAOFactory;
-import by.trjava.kaloshych.dao.DrinkDAO;
+import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.CartUser;
@@ -20,15 +18,19 @@ public class CartServiceImpl implements CartService {
     private static final int PORTION_MODIFICATION=1;
   private  final   CartDAO cartDAO = DAOFactory.getInstance().getCartDAO();
   private  final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-    private  final InputDataValidator dataValidator=InputDataValidator.getInstance();
+    private  final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
+    private final CartUserDAO cartUserDAO=DAOFactory.getInstance().getCartUserDAO();
+    private final UserDAO userDAO=DAOFactory.getInstance().getUserDAO();
 
     @Override
-    public Cart addDrinkToCart(CartUser cartUser, String idDrink, String portion) throws ServiceException {
+    public Cart addDrinkToCart(int idCartUser, String idDrink, String portion) throws ServiceException {
         int currentPortion;
         Cart cart;
         Drink drink;
+        CartUser cartUser;
 
-        if (dataValidator.isEmpty(idDrink)||dataValidator.isEmpty(portion)) {
+        if (inputDataValidator.isEmpty(idDrink)||inputDataValidator.isEmpty(portion)
+                ||inputDataValidator.isEmpty(idCartUser)) {
             throw new EmptyDataException("Empty data");
         }
         if(!CartValidator.getInstance().validate(portion)){
@@ -36,6 +38,7 @@ public class CartServiceImpl implements CartService {
         }
 
         try {
+             cartUser= cartUserDAO.getCartUserById(idCartUser);
              drink=drinkDAO.createDrink(Integer.parseInt(idDrink));
             currentPortion= drinkDAO.getPortion(drink);
         } catch (DAOException e) {
@@ -56,7 +59,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteDrinkFromCart(String idCart) throws ServiceException {
-        if (dataValidator.isEmpty(idCart)) {
+        if (inputDataValidator.isEmpty(idCart)) {
             throw new EmptyDataException("Empty data");
         }
         try {
@@ -92,8 +95,9 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
 
 
     @Override
-    public List<Cart> getAllCarts(CartUser cartUser) throws ServiceException {
+    public List<Cart> getAllCarts(int idCartUser) throws ServiceException {
         try {
+            CartUser cartUser=cartUserDAO.getCartUserById(idCartUser);
             return cartDAO.getAllCarts(cartUser);
         } catch (DAOException e) {
             throw  new ServiceException(e);
@@ -120,9 +124,9 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
 
 
 @Override
-  public double getTotalCost(CartUser cartUser) throws ServiceException {
+  public double getTotalCost(int idCartUser) throws ServiceException {
         double totalCost=0;
-        List<Cart> carts=getAllCarts(cartUser);
+        List<Cart> carts=getAllCarts(idCartUser);
         for (Cart cart:carts){
             totalCost+=cart.getDrink().getPrice()*cart.getPortion();
         }
@@ -130,8 +134,9 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
   }
 
     @Override
-    public List<Cart> getAllCartsByUser(User user) throws ServiceException {
+    public List<Cart> getAllCartsByUser(int idUser) throws ServiceException {
         try {
+            User user=userDAO.getUserById(idUser);
             return cartDAO.getAllCartsByUser(user);
         } catch (DAOException e) {
             throw new ServiceException(e);

@@ -1,6 +1,32 @@
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Coffee machine</display-name>
+  <context-param>
+    <param-name>db.driver</param-name>
+    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>db.url</param-name>
+    <param-value>
+      jdbc:mysql://localhost:3306/coffeeMachine?allowPublicKeyRetrieval=true&amp;serverTimezone=Europe/Moscow&amp;useSSL=false
+    </param-value>
+  </context-param>
+  <context-param>
+    <param-name>db.user</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>
+    <param-name>db.password</param-name>
+    <param-value>632483</param-value>
+  </context-param>
+  <context-param>
+    <param-name>pool.size</param-name>
+    <param-value>16</param-value>
+  </context-param>
+
+  <session-config>
+    <session-timeout>5</session-timeout>
+  </session-config>
 
   <filter>
     <filter-name>encodingFilter</filter-name>
@@ -15,15 +41,10 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-
   <context-param>
     <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
     <param-value>messages</param-value>
   </context-param>
-
-  <session-config>
-    <session-timeout>5</session-timeout>
-  </session-config>
 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

@@ -2,7 +2,6 @@ package by.trjava.kaloshych.command.impl;
 
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
-import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.CartUserService;
 import by.trjava.kaloshych.service.ServiceFactory;
 import by.trjava.kaloshych.service.exception.ServiceException;
@@ -11,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_CART_USER;
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_USER;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
 
 
 public class CleanCartCommand implements Command {
@@ -23,12 +21,12 @@ public class CleanCartCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         final HttpSession session = request.getSession();
-      final User user = (User) session.getAttribute(PARAMETER_USER);
+      final int idUser = (int) session.getAttribute(PARAMETER_ID_USER);
 
-        session.removeAttribute(PARAMETER_CART_USER);
+        session.removeAttribute(PARAMETER_ID_CART_USER);
 
         try {
-            session.setAttribute(PARAMETER_CART_USER, cartUserService.addCartUser(user));
+            session.setAttribute(PARAMETER_ID_CART_USER, cartUserService.addCartUser(idUser).getIdCartUser());
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

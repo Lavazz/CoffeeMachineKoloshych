@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_COMPONENTS;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_SHOW_ADMIN_CABINET;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_COMPONENTS;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_SHOW_ADMIN_CABINET;
 
 public class ShowAdminCabinetCommand implements Command {
 

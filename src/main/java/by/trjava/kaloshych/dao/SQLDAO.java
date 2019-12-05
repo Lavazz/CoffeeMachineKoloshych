@@ -1,6 +1,7 @@
 package by.trjava.kaloshych.dao;
 
-import by.trjava.kaloshych.dao.pool.exception.NotDBDriverException;
+
+import by.trjava.kaloshych.dao.pool.exception.NotConnectionException;
 
 import java.util.ResourceBundle;
 
@@ -32,7 +33,7 @@ public class SQLDAO {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
             // log
-            throw new NotDBDriverException("Can't find driver.", e);
+            throw new NotConnectionException("Can't find driver.", e);
         }
     }
 

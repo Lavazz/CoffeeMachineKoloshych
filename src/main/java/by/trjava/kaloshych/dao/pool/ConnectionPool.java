@@ -1,16 +1,12 @@
 package by.trjava.kaloshych.dao.pool;
 
-
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
-
-import java.sql.Connection;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 
 public interface ConnectionPool {
-    void init() throws ConnectionPoolException;
 
-    Connection getConnection() throws ConnectionPoolException;
+        ProxyConnection getConnection();
 
-    void releaseConnection(Connection connection) throws ConnectionPoolException;
+        void putBackConnection(ProxyConnection connection);
 
-    void destroyPool() throws ConnectionPoolException;
-}
+        void destroyPool();
+    }

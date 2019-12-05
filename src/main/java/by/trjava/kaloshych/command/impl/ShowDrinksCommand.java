@@ -13,11 +13,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_ADDITIONAL_INGREDIENTS;
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_DRINKS;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_DRINKS;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ADDITIONAL_INGREDIENTS;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_DRINKS;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_DRINKS;
 
 public class ShowDrinksCommand implements Command {
 
@@ -26,7 +25,6 @@ public class ShowDrinksCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        final HttpSession session = request.getSession();
 
         List<Drink> drinks;
         List<AdditionalIngredient> additionalIngredients;

@@ -10,8 +10,7 @@ import java.sql.SQLException;
 
 public interface AccountService {
     void addNewAccount(AccountUser accountUser) throws ServiceException;
-    void replenishBalance(AccountUser accountUser, String idPaymentMethod, String amountOfMoney) throws ServiceException;
-
+    void replenishBalance(int idAccountUser, String idPaymentMethod, String amountOfMoney) throws ServiceException;
     boolean decreaseBalance(Order order) throws  ServiceException;
-    double getBalance (AccountUser accountUser) throws ServiceException;
+    double getBalance (int idAccountUser) throws ServiceException;
 }

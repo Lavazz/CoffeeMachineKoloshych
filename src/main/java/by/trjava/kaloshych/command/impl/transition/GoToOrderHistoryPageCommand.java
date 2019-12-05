@@ -5,16 +5,12 @@ import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 import by.trjava.kaloshych.command.util.CreatorFullURL;
 
-import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Parameter.PARAMETER_PREVIOUS_REQUEST;
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_ORDER_HISTORY;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_PREVIOUS_REQUEST;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_ORDER_HISTORY;
 
 public class GoToOrderHistoryPageCommand implements Command {
 

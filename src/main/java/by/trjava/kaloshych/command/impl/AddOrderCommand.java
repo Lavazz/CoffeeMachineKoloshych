@@ -3,7 +3,6 @@ package by.trjava.kaloshych.command.impl;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 
-import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.service.OrderService;
 import by.trjava.kaloshych.service.ServiceFactory;
 import by.trjava.kaloshych.service.exception.InsufficientMoneyException;
@@ -13,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_INSUFFICIENT_MONEY;
-import static by.trjava.kaloshych.configuration.Message.MESSAGE_SUCCESSFUL_ADD_ORDER;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.*;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_INSUFFICIENT_MONEY;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_SUCCESSFUL_ADD_ORDER;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
 
 public class AddOrderCommand implements Command {
 
@@ -26,12 +25,12 @@ public class AddOrderCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         final HttpSession session = request.getSession();
 
-        final CartUser cartUser = (CartUser) session.getAttribute(PARAMETER_CART_USER);
+        final int idCartUser = (int) session.getAttribute(PARAMETER_ID_CART_USER);
 
         String path;
 
         try {
-            orderService.addOrder(cartUser);
+            orderService.addOrder(idCartUser);
             request.setAttribute(PARAMETER_MESSAGE_ORDER, MESSAGE_SUCCESSFUL_ADD_ORDER);
             path = PATH_TAKE_ORDER;
         } catch (InsufficientMoneyException e) {

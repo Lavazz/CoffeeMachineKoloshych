@@ -1,9 +1,9 @@
 package by.trjava.kaloshych.dao.pool.impl;
 
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
-import by.trjava.kaloshych.dao.pool.ConnectionPool;
-import by.trjava.kaloshych.dao.pool.DBParameter;
-import by.trjava.kaloshych.dao.pool.DBResourceManager;
+import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
+import by.trjava.kaloshych.dao.pool.exception.NotConnectionException;
+import org.apache.log4j.Logger;
+import  by.trjava.kaloshych.dao.pool.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,79 +11,90 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+
 public class DBConnectionPool implements ConnectionPool {
-    private static final int POOL_SIZE = 20;
 
-    private static final DBConnectionPool instance = new DBConnectionPool();
+        private static final Logger logger = Logger.getLogger(DBConnectionPool.class);
 
-    private BlockingQueue<Connection> connectionQueue;
-    private BlockingQueue<Connection> usingQueue;
+        private static DBConnectionPool instance = new DBConnectionPool();
 
-    private String driverName;
-    private String url;
-    private String login;
-    private String password;
-
-    private DBConnectionPool() {
-        DBResourceManager resourceManager = DBResourceManager.getInstance();
-        driverName = resourceManager.getValue(DBParameter.DATABASE_DRIVER);
-        url = resourceManager.getValue(DBParameter.DATABASE_URL);
-        login = resourceManager.getValue(DBParameter.DATABASE_LOGIN);
-        password = resourceManager.getValue(DBParameter.DATABASE_PASSWORD);
-    }
-
-    public static DBConnectionPool getInstance() {
-        return instance;
-    }
-
-    public void init() throws ConnectionPoolException {
-        try {
-            Class.forName(driverName);
-            connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
-            usingQueue = new ArrayBlockingQueue<>(POOL_SIZE);
-            for (int i = 0; i < POOL_SIZE; i++) {
-                Connection connection = DriverManager.getConnection(url, login, password);
-                connectionQueue.add(connection);
-            }
-        } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("Database driver is not founded", e);
-        } catch (SQLException e) {
-            throw new ConnectionPoolException("Access error in database", e);
+        public static DBConnectionPool getInstance() {
+            return instance;
         }
-    }
 
-    @Override
-    public Connection getConnection() throws ConnectionPoolException {
-        Connection connection = null;
-        if (connectionQueue.size() != 0) {
+        private DBConnectionPool() {
+        }
+
+        /************************************************************************/
+
+        private BlockingQueue<ProxyConnection> availableConnections;
+        private BlockingQueue<ProxyConnection> usedConnections;
+        private static final int DEFAULT_POOL_SIZE = 16;
+
+        public void init(final String driver, final String url, final String user, final String password, String poolSize) {
             try {
-                connection = connectionQueue.take();
-                usingQueue.add(connection);
-            } catch (InterruptedException e) {
-                throw new ConnectionPoolException(e);
+                Class.forName(driver);
+
+                int initPoolSize = getInitPoolSize(poolSize);
+
+                availableConnections = new ArrayBlockingQueue<>(initPoolSize);
+                usedConnections = new ArrayBlockingQueue<>(initPoolSize);
+
+                for (int i = 0; i < initPoolSize; i++) {
+                    Connection connection = createConnection(url, user, password);
+                    ProxyConnection proxyConnection = new ProxyConnection(connection);
+                    availableConnections.add(proxyConnection);
+                }
+
+            } catch (ClassNotFoundException | SQLException e) {
+                logger.fatal(e);
+                throw new NotConnectionException(e);
             }
         }
-        return connection;
-    }
 
-    @Override
-    public void releaseConnection(Connection connection) throws ConnectionPoolException {
-        if (usingQueue.contains(connection)) {
-            usingQueue.remove(connection);
-            connectionQueue.add(connection);
-        } else {
-            throw new ConnectionPoolException("Cannot put connection which was created outside the pool");
-        }
-    }
-
-    @Override
-    public void destroyPool() throws ConnectionPoolException {
-        for (Connection connection : connectionQueue) {
+        private int getInitPoolSize(String poolSize){
             try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new ConnectionPoolException("Cannot close connection");
+                return Integer.parseInt(poolSize);
+            } catch (NumberFormatException e) {
+                logger.error("Can't convert pool size to int, will use default value", e);
+                return DEFAULT_POOL_SIZE;
             }
         }
+
+        private static Connection createConnection(final String url,
+                                                   final String user,
+                                                   final String password)
+                throws SQLException {
+            return DriverManager.getConnection(url, user, password);
+        }
+
+        @Override
+        public ProxyConnection getConnection() {
+            return doGetConnection();
+        }
+
+        private ProxyConnection doGetConnection() {
+            logger.info("\nPOOL FREE SIZE = " + availableConnections.size());
+            ProxyConnection proxyConnection;
+            try {
+                proxyConnection = availableConnections.take();
+                usedConnections.add(proxyConnection);
+            } catch (InterruptedException ex) {
+                logger.error(ex);
+                throw new NotConnectionException(ex);
+            }
+            return proxyConnection;
+        }
+
+        @Override
+        public void putBackConnection(ProxyConnection connection) {
+            availableConnections.add(connection);
+            usedConnections.remove(connection);
+        }
+
+        @Override
+        public void destroyPool() {
+            usedConnections.forEach(ProxyConnection::destroy);
+            availableConnections.forEach(ProxyConnection::destroy);
+        }
     }
-}

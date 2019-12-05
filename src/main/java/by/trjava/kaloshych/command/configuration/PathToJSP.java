@@ -1,4 +1,4 @@
-package by.trjava.kaloshych.configuration;
+package by.trjava.kaloshych.command.configuration;
 
 public class PathToJSP {
     public static final String PATH_TAKE_ORDER = "takeOrder";

@@ -3,12 +3,10 @@ package by.trjava.kaloshych.command.impl.transition;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-import static by.trjava.kaloshych.configuration.PathToJSP.PATH_CHANGE_PASSWORD;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_CHANGE_PASSWORD;
 
 public class GoToChangePasswordPageCommand implements Command {
     @Override

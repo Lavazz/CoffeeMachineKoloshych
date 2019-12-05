@@ -6,7 +6,6 @@ import by.trjava.kaloshych.entity.Component;
 import by.trjava.kaloshych.service.FillingOperationService;
 import by.trjava.kaloshych.service.ServiceFactory;
 import by.trjava.kaloshych.service.exception.EmptyDataException;
-import by.trjava.kaloshych.service.exception.IncorrectComponentInformationException;
 import by.trjava.kaloshych.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
-import static by.trjava.kaloshych.configuration.Message.*;
-import static by.trjava.kaloshych.configuration.Parameter.*;
-import static by.trjava.kaloshych.configuration.PathToJSP.*;
+import static by.trjava.kaloshych.command.configuration.Message.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
 
 public class FillToMaxCommand implements Command {
 

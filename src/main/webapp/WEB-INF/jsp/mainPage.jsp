@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -34,46 +34,30 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
+
+        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home" /></a></li>
+                    <fmt:message key="main.message.home"/></a></li>
                 <li class="nav-item "><a href="main?command=showDrinks" class="nav-link">
                     <fmt:message key="main.message.drinks"/></a></li>
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients" /></a></li>
-
-                <c:if test="${sessionScope.user== null }">
-                <li class="nav-item"><a href="main?command=goToRegistrationPage" class="nav-link">
+                    <fmt:message key="main.message.additionalIngredients"/></a></li>
+                <c:if test="${sessionScope.idUser== null }">
+                    <li class="nav-item"><a href="main?command=goToRegistrationPage" class="nav-link">
                         <fmt:message key="main.message.registration"/></a>
                     </li>
                     <li class="nav-item"><a href="main?command=goToAuthorizationPage" class="nav-link">
-                        <fmt:message key="main.message.authorization" /></a></li>
+                        <fmt:message key="main.message.authorization"/></a></li>
                 </c:if>
-
-                <c:if test="${sessionScope.idUserStatus ==1}"><li class="nav-item"><a href="main?command=showAdminCabinet" class="nav-link">
-                    <fmt:message key="main.message.admin_cabinet" /></a>
-               </li>
-                </c:if>
-
-                <c:if test="${sessionScope.idUserStatus ==2}">
-                <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
-                    <fmt:message key="main.message.personalCabinet" /></a>
-                </li>
-                </c:if>
-
-                <c:if test="${sessionScope.idUser != null }"><li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout" /></a></li>
-                </c:if>
-
-                <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
-                </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
+                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
+                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
             </ul>
             <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-                </div>
         </div>
+    </div>
     </div>
 </nav>
 
@@ -86,12 +70,14 @@
                 <div class="col-md-8 col-sm-12 text-center ftco-animate">
                     <c:out value=" "/>
                     <br><br><br><br><br>
-                </div></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12 col-sm-10 text-center ftco-animate">
-                 <c:if test="${sessionScope.mainMessage!=null}">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong> <c:out value="${sessionScope.user.name}, "/></strong><fmt:message key="${sessionScope.mainMessage}"/>
+                    <c:if test="${sessionScope.mainMessage!=null}">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong> <c:out value="${sessionScope.userName}, "/></strong><fmt:message
+                                key="${sessionScope.mainMessage}"/>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -103,10 +89,12 @@
             <div class="row slider-text justify-content-center " data-scrollax-parent="true">
                 <div class="col-md-8 col-sm-12 text-center ftco-animate">
                     <br><br>
-                    <span class="subheading"><fmt:message key="main.message.welcome" /></span>
-                    <h1 class="mb-4"><fmt:message key="main.message.forYou" /></h1>
-                    <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood" /></p>
-                    <p><a href="main?command=showDrinks" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"><fmt:message key="main.message.viewDrinks" /></a></p>
+                    <span class="subheading"><fmt:message key="main.message.welcome"/></span>
+                    <h1 class="mb-4"><fmt:message key="main.message.forYou"/></h1>
+                    <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood"/></p>
+                    <p><a href="main?command=showDrinks"
+                          class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"><fmt:message
+                            key="main.message.viewDrinks"/></a></p>
                 </div>
             </div>
         </div>
@@ -115,7 +103,9 @@
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

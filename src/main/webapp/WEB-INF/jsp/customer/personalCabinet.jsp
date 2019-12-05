@@ -33,8 +33,7 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
-
+        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
@@ -44,17 +43,8 @@
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
                     <fmt:message key="main.message.additionalIngredients" /></a></li>
 
-                <c:if test="${sessionScope.idUserStatus ==1}"><li class="nav-item active">
-                    <a href="main?command=showAdminCabinet" class="nav-link">
-                    <fmt:message key="main.message.admin_cabinet" /></a>
-                </li>
-                </c:if>
-
-               <li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout" /></a></li>
-
-                <li class="nav-item cart"><a href="main?command=showCart" class="nav-link"><span class="icon icon-shopping_cart">
-                </span><span class="bag d-flex justify-content-center align-items-center"><small>1</small></span></a></li>
+                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
+                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
             </ul>
             <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
         </div>
@@ -66,15 +56,13 @@
                  <br><div class="text-right">
                 <h2><fmt:message key="personalCabinet.balance" /> ${requestScope.balance}</h2>
             </div>
-                <p><a href= "main?command=showReplenishBalanceForm" class="btn btn-primary py-3 px-4">
-                    <fmt:message key="nav.replenishBalance" /></a></p>
 
                 <p><a href="main?command=showOrderHistory"   class="btn btn-primary py-3 px-4">
-                    <fmt:message key="personalCabinet.text.historyOfOrders" /> </a></p>
-
+                <fmt:message key="personalCabinet.text.historyOfOrders" /> </a></p>
+                <p><a href= "main?command=showReplenishBalanceForm" class="btn btn-primary py-3 px-4">
+                    <fmt:message key="nav.replenishBalance" /></a></p>
                 <p><a href="main?command=goToChangePasswordPage" class="btn btn-primary py-3 px-4">
                     <fmt:message key="nav.changePassword"/> </a></p>
-
             </div>
         </section>
 

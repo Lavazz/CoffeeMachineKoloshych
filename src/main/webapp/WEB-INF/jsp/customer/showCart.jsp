@@ -38,22 +38,16 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="main?command=goToMainPage"><fmt:message
-                key="main.brand.coffee"/><small><fmt:message key="main.brand.house"/></small></a>
-
+        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
                     <fmt:message key="main.message.home"/></a></li>
-                <li class="nav-item active"><a href="main?command=showDrinks" class="nav-link">
+                <li class="nav-item"><a href="main?command=showDrinks" class="nav-link">
                     <fmt:message key="main.message.drinks"/></a></li>
                 <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
                     <fmt:message key="main.message.additionalIngredients"/></a></li>
-
-                <li class="nav-item"><a href="main?command=personalCabinet" class="nav-link">
-                    <fmt:message key="main.message.personalCabinet"/></a>
-                </li>
-
+                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
                 <li class="nav-item"><a href="main?command=logOut" class="nav-link">
                     <fmt:message key="locale.drinks.logout"/></a></li>
 
@@ -124,17 +118,11 @@
 
                             <td class="portion">
                                 <div class="input-group mb-3">
-                                        <%--                                    <form method="post" action="main">--%>
-                                        <%--                                    <input type="hidden" name="sign" value="minus">--%>
-                                        <%--                                    <input type="hidden" name="command" value="changePortion">--%>
-                                        <%--                                        <input type="hidden" name="cart" value="${cart.idCart}">--%>
-                                        <%--    <input type="button" name="sign" value="<fmt:message key='cart.minus' />"--%>
-                                        <%--    </form>--%>
-                                    <a href="main?command=changePortion&sign=minus&cart=${cart.idCart}">
+                                    <a href="main?command=changePortion&sign=minus&idCart=${cart.idCart}">
                                         <h2><fmt:message key='cart.minus'/></h2></a>
 
                                     &ensp; <h4> ${cart.portion}</h4> &ensp;
-                                    <a href="main?command=changePortion&sign=plus&cart=${cart.idCart}">
+                                    <a href="main?command=changePortion&sign=plus&idCart=${cart.idCart}">
                                         <h2><fmt:message key='cart.plus'/></h2></a>
                                 </div>
                             </td>
