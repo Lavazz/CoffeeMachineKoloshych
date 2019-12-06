@@ -18,6 +18,7 @@ import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 
 public class SQLAccountDAO implements AccountDAO {
+
     private final ConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
@@ -62,12 +63,12 @@ public class SQLAccountDAO implements AccountDAO {
     }
 
 
-    private void addAccount(AccountUser accountUser, int paymentMethod, double amountOfMoney) throws DAOException {
+    private void addAccount(AccountUser accountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
              Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ACCOUNT_ADD)) {
             ps.setInt(1, accountUser.getIdAccountUser());
-            ps.setInt(2, paymentMethod);
+            ps.setInt(2, idPaymentMethod);
             java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
             ps.setDate(3, date);
             ps.setDouble(4, amountOfMoney);

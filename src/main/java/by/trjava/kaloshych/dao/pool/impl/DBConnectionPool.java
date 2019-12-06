@@ -14,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class DBConnectionPool implements ConnectionPool {
 
-        private static final Logger logger = Logger.getLogger(DBConnectionPool.class);
+      private static final Logger logger = Logger.getLogger(DBConnectionPool.class);
 
         private static DBConnectionPool instance = new DBConnectionPool();
 
@@ -74,7 +74,6 @@ public class DBConnectionPool implements ConnectionPool {
         }
 
         private ProxyConnection doGetConnection() {
-            logger.info("\nPOOL FREE SIZE = " + availableConnections.size());
             ProxyConnection proxyConnection;
             try {
                 proxyConnection = availableConnections.take();

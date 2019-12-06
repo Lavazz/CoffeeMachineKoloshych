@@ -28,7 +28,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
         int newPortion;
 
         try {
-            AdditionalIngredient additionalIngredient = additionalIngredientDAO.createAdditionalIngredient(idAdditionalIngredient);
+            AdditionalIngredient additionalIngredient = additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient);
             cartAdditionalIngredientDAO.addAdditionalIngredientToCartAI(cart, additionalIngredient);
             newPortion = additionalIngredientDAO.decreasePortion(additionalIngredient, cart.getPortion());
         } catch (DAOException e) {
@@ -40,8 +40,14 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
     }
 
     @Override
-    public void deleteAdditionalIngredientFromCartAI(int idCartAdditionalIngredient)  {
-//cartAdditionalIngredientDAO.deleteAdditionalIngredientFromCartAI(idCartAdditionalIngredient);
+    public void deleteAdditionalIngredientFromCartAI(int idCartAdditionalIngredient) throws ServiceException {
+        try {
+            CartAdditionalIngredient cartAdditionalIngredient=cartAdditionalIngredientDAO.getCartAdditionalIngredientsById(idCartAdditionalIngredient);
+            cartAdditionalIngredientDAO.deleteAdditionalIngredientFromCartAI(cartAdditionalIngredient);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
     }
 
     @Override

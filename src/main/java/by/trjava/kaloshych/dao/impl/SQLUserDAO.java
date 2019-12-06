@@ -4,12 +4,12 @@ import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.exception.WrongAuthorizationDataException;
 import by.trjava.kaloshych.dao.exception.WrongLoginDAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.entity.UserStatus;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLUserDAO implements UserDAO {
+
     private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     public SQLUserDAO() {
@@ -26,7 +27,6 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public User logIn(String userLogin, String userPassword) throws DAOException, WrongAuthorizationDataException {
-        User user;
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
@@ -34,18 +34,16 @@ public class SQLUserDAO implements UserDAO {
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER)) {
             ps.setString(1, userLogin);
             ps.setString(2, userPassword);
-
             rs = ps.executeQuery();
             if (rs.next()) {
-                user = createUser(rs);
+                return SQLUtil.getInstance().createUser(rs);
             } else {
                 throw new WrongAuthorizationDataException("This user is not founded");
             }
-            return user;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -96,34 +94,34 @@ public class SQLUserDAO implements UserDAO {
              Connection con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_ALL)) {
             rs = ps.executeQuery();
-
             while (rs.next()) {
-                listUser.add(createUser(rs));
+                listUser.add(SQLUtil.getInstance().createUser(rs));
             }
             return listUser;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
     @Override
     public boolean checkId(int idUser) throws DAOException {
         ResultSet rs = null;
+        boolean result=false;
         try (ProxyConnection proxyConnection = pool.getConnection();
              Connection con = proxyConnection.getConnectionWrapper();
-              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)){
+             PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)) {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return true;
+                result=true;
             }
-            return false;
+            return result;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -138,13 +136,13 @@ public class SQLUserDAO implements UserDAO {
             ps.setString(1, login);
             rs = ps.executeQuery();
             if (rs.next()) {
-                user = createUser(rs);
+                user = SQLUtil.getInstance().createUser(rs);
             }
             return user;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -164,7 +162,7 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -185,7 +183,7 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -200,13 +198,13 @@ public class SQLUserDAO implements UserDAO {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
             if (rs.next()) {
-                user = createUser(rs);
+                user = SQLUtil.getInstance().createUser(rs);
             }
             return user;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -228,23 +226,8 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
-    }
-
-    private static User createUser(ResultSet rs) throws SQLException {
-        User user = new User();
-
-        user.setId(rs.getInt(PARAMETER_ID_USER));
-        user.setEmail(rs.getString(PARAMETER_EMAIL));
-        user.setLogin(rs.getString(PARAMETER_LOGIN));
-        user.setPassword(rs.getString(PARAMETER_PASSWORD));
-        user.setName(rs.getString(PARAMETER_NAME));
-        String status = rs.getString(PARAMETER_STATUS);
-        UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
-        user.setUserStatus(userStatus);
-
-        return user;
     }
 
     @Override
@@ -266,9 +249,8 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
-
 
 }

@@ -91,9 +91,9 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
-    public Drink createDrink(int idDrink) throws ServiceException {
+    public Drink getDrink(int idDrink) throws ServiceException {
         try {
-          return   drinkDAO.createDrink(idDrink);
+          return   drinkDAO.getDrink(idDrink);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

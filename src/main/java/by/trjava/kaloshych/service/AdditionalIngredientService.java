@@ -11,5 +11,5 @@ public interface AdditionalIngredientService {
    int decreasePortion(AdditionalIngredient additionalIngredient, int portion) throws ServiceException;
     void addNewAdditionalIngredient(String nameAdditionalIngredient, String calories) throws  ServiceException;
     boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws ServiceException;
-    AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws ServiceException;
+    AdditionalIngredient getAdditionalIngredient(int idAdditionalIngredient) throws ServiceException;
 }

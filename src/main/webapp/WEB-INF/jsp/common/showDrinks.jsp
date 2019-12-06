@@ -99,7 +99,7 @@
                     <h3> <ctg:outDrink drink="${drink}"/></h3>
 <%--                    ${drink.nameComponent}--%>
                     <p class="price"><span>${drink.price}</span></p>
-                    <p><h5><ctg:outDescription drink="${drink}"/></h5></p>
+                    <p><h5><ctg:outDescription drink="${drink}"/></h5>
                     <div class="row mt-4">
                         <div class="col-md-6">
                         </div>

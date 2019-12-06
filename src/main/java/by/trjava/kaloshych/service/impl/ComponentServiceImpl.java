@@ -32,11 +32,11 @@ public class ComponentServiceImpl implements ComponentService {
         try {
             for (String idComponent : idComponents) {
                 if (drinkDAO.checkDrinkById(Integer.parseInt(idComponent))) {
-                    component = drinkDAO.createDrink(Integer.parseInt(idComponent));
+                    component = drinkDAO.getDrink(Integer.parseInt(idComponent));
                     componentDAO.deleteComponent(component, COMPONENT_DRINK);
                     componentDAO.deleteComponentFromFillingOperation(component, COMPONENT_DRINK );
                 } else {
-                    component = additionalIngredientDAO.createAdditionalIngredient(Integer.parseInt(idComponent));
+                    component = additionalIngredientDAO.getAdditionalIngredient(Integer.parseInt(idComponent));
                     componentDAO.deleteComponent(component, COMPONENT_ADDITIONAL_INGREDIENT);
                     componentDAO.deleteComponentFromFillingOperation(component, COMPONENT_ADDITIONAL_INGREDIENT);
                 }

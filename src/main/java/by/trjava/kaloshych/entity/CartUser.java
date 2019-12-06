@@ -20,6 +20,10 @@ public class CartUser implements Serializable {
         return serialVersionUID;
     }
 
+    public void setIdCartUser(int idCartUser) {
+        this.idCartUser = idCartUser;
+    }
+
     public int getIdCartUser() {
         return idCartUser;
     }

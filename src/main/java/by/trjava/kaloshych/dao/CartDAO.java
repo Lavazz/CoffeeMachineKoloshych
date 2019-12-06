@@ -17,7 +17,7 @@ public interface CartDAO {
     List<Cart> getAllCarts(CartUser cartUser) throws DAOException;
 
     int getPortionByCart(Cart cart)  throws DAOException;
-    Cart createCartById(int idCart) throws DAOException;
+    Cart getCartById(int idCart) throws DAOException;
     List<Cart> getAllCartsByUser(User user) throws DAOException;
 
 

@@ -36,11 +36,11 @@ public class SQLQuery {
 
 
     //AccountUser
-    public  static final String QUERY_GET_ACCOUNT_USER_BY_USER="SELECT id_account_user FROM account_users WHERE id_user=?";
-  public  static final String QUERY_GET_ACCOUNT_USER="SELECT id_user FROM account_users WHERE id_account_user=?";
+    public  static final String QUERY_GET_ACCOUNT_USER_BY_USER="SELECT id_account_user, id_user FROM account_users WHERE id_user=?";
+  public  static final String QUERY_GET_ACCOUNT_USER="SELECT id_account_user, id_user FROM account_users WHERE id_account_user=?";
 
     //Payment Method
-    public    static final String   QUERY_GET_PAYMENT_METHOD="SELECT name_payment_method FROM payment_methods WHERE id_payment_method=?";
+    public    static final String   QUERY_GET_PAYMENT_METHOD="SELECT name_payment_method, id_payment_method FROM payment_methods WHERE id_payment_method=?";
     public   static final String   QUERY_ALL_PAYMENT_METHOD="SELECT id_payment_method, name_payment_method FROM payment_methods";
 
     //Drink
@@ -114,21 +114,24 @@ public class SQLQuery {
             "(id_Cart_User, id_drink, portion) VALUES (?, ?, ?)";
 
 
-    public   static final String QUERY_GET_ALL_INGREDIENTS="SELECT * FROM Cart_additional_ingredients WHERE id_Cart=?";
+    public   static final String QUERY_GET_ALL_INGREDIENTS="SELECT id_cart_additional_ingredient, " +
+            "id_cart, id_additional_ingredient FROM Cart_additional_ingredients WHERE id_Cart=?";
 
 
     public   static final String QUERY_CART_DELETE="DELETE FROM Carts WHERE id_Cart=?";
 
-    public   static final String  QUERY_CART_CHANGE_PORTION="UPDATE carts SET portion=? WHERE id_Cart=?";
+    public   static final String  QUERY_CART_CHANGE_PORTION="UPDATE carts SET portion=? WHERE id_cart=?";
 
-    public   static final String QUERY_ALL_INGREDIENTS="SELECT * FROM Cart_additional_ingredients";
-    public   static final String QUERY_ALL_CARTS_BY_CART_USER="SELECT * FROM carts WHERE id_cart_user=?";
-    public   static final String QUERY_ALL_CARTS_BY_USER="SELECT carts.id_cart, carts.id_cart_user, carts.id_drink, " +
-            "carts.portion FROM carts INNER JOIN cart_users ON carts.id_cart_user=cart_users.id_cart_user" +
+    public   static final String QUERY_ALL_INGREDIENTS="SELECT * FROM cart_additional_ingredients";
+    public   static final String QUERY_ALL_CARTS_BY_CART_USER="SELECT id_cart,  id_cart_user, id_drink, portion" +
+            " FROM carts WHERE id_cart_user=?";
+    public   static final String QUERY_ALL_CARTS_BY_USER="SELECT c.id_cart, c.id_cart_user, c.id_drink, " +
+            "c.portion FROM carts c INNER JOIN cart_users cu ON c.id_cart_user=cu.id_cart_user" +
             " WHERE id_user=?";
-    public   static final String QUERY_GET_DRINK_BY_CART="SELECT id_drink FROM Carts WHERE id_Cart=?";
+    public   static final String QUERY_GET_DRINK_BY_CART="SELECT id_cart,  id_cart_user, id_drink, portion FROM Carts WHERE id_Cart=?";
     public   static final String QUERY_GET_PORTION_BY_CART="SELECT portion FROM carts WHERE id_cart=?";
-    public   static final String QUERY_GET_CART_BY_ID="SELECT * FROM carts WHERE id_cart=?";
+    public   static final String QUERY_GET_CART_BY_ID="SELECT id_cart,  id_cart_user, id_drink, portion" +
+            " FROM carts WHERE id_cart=?";
 
     //CartAdditionalIngredient
     public   static final String  QUERY_CART_ADDITIONAL_INGREDIENT_ADD="INSERT INTO cart_additional_ingredients " +
@@ -142,6 +145,8 @@ public class SQLQuery {
             " INNER JOIN cart_users u ON u.id_cart_user=c.id_cart_user" +
             " WHERE id_user=?";
 
+  public   static final String  QUERY_INGREDIENTS_BY_ID="SELECT id_cart_additional_ingredient," +
+          " id_cart, id_additional_ingredient FROM cart_additional_ingredients WHERE id_cart_additional_ingredient=?";
 
 
 }

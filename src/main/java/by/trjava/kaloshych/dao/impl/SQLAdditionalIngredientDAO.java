@@ -1,14 +1,12 @@
 package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.AdditionalIngredientDAO;
-import by.trjava.kaloshych.dao.DAOFactory;
-import by.trjava.kaloshych.dao.FillingOperationDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,14 +31,14 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
                  PreparedStatement ps = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT)) {
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    listAdditionalIngredient.add(createAdditionalIngredient(rs));
+                    listAdditionalIngredient.add(SQLUtil.getInstance().createAdditionalIngredient(rs));
                 }
             }
                 return listAdditionalIngredient;
             } catch (SQLException e) {
             throw new DAOException("SQLAdditionalIngredient Exception can't get all ingredients "+e);
             } finally {
-                SQLUtil.shut(rs);
+                JDBCShutter.shut(rs);
             }
         }
 
@@ -59,11 +57,11 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
             while (rs.next()) {
                 idAdditionalIngredient = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return createAdditionalIngredient(idAdditionalIngredient);
+            return getAdditionalIngredient(idAdditionalIngredient);
         } catch (SQLException e) {
             throw new DAOException("SQLAdditionalIngredient Exception can't add new ingredients "+e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
 
     }
@@ -82,9 +80,9 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
     }
 
     @Override
-    public AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
+    public AdditionalIngredient getAdditionalIngredient(int idAdditionalIngredient) throws DAOException {
         ResultSet rs = null;
-        AdditionalIngredient component = null;
+       AdditionalIngredient additionalIngredient = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
              Connection con = proxyConnection.getConnectionWrapper();
@@ -92,17 +90,13 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
             ps.setInt(1, idAdditionalIngredient);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String nameComponent = rs.getString(PARAMETER_ADDITIONAL_INGREDIENT);
-                int calories = rs.getInt(PARAMETER_CALORIES);
-                int portion = rs.getInt(PARAMETER_PORTION);
-                String picturePath = rs.getString(PARAMETER_PICTURE_PATH);
-                component = new AdditionalIngredient(idAdditionalIngredient, nameComponent, portion, picturePath, calories);
+             additionalIngredient=SQLUtil.getInstance().createAdditionalIngredient(rs);
             }
-            return component;
+            return additionalIngredient;
         } catch (SQLException e) {
             throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient "+e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
 
     }
@@ -129,24 +123,8 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
         } catch (SQLException e) {
             throw new DAOException("SQLAdditionalIngredient Exception can't decrease portion ingredient "+e);
         } finally {
-            SQLUtil.shut(rs, ps2);
+            JDBCShutter.shut(rs, ps2);
         }
-    }
-
-
-    private AdditionalIngredient createAdditionalIngredient(ResultSet rs) throws DAOException {
-        AdditionalIngredient additionalIngredient = new AdditionalIngredient();
-
-        try {
-            additionalIngredient.setIdComponent(rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT));
-            additionalIngredient.setNameComponent(rs.getString(PARAMETER_ADDITIONAL_INGREDIENT));
-            additionalIngredient.setCalories(rs.getInt(PARAMETER_CALORIES));
-            additionalIngredient.setPicturePath(rs.getString(PARAMETER_PICTURE_PATH));
-            additionalIngredient.setPortion(rs.getInt(PARAMETER_PORTION));
-        } catch (SQLException e) {
-            throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient "+e);
-        }
-        return additionalIngredient;
     }
 
 }

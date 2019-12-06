@@ -13,8 +13,13 @@ public class ConfigurationManager {
     public static final String PARAMETER_ID_ACCOUNT = "id_account";
     public static final String PARAMETER_ID_ACCOUNT_USER = "id_account_user";
     public static final String PARAMETER_ID_PAYMENT_METHOD = "id_payment_method";
+    public static final String PARAMETER_ID_OPERATION = "id_operation";
+
 
     public static final String PARAMETER_MONEY = "amount_of_money";
+    public static final String PARAMETER_PAYMENT_DATE = "payment_date";
+
+
     public static final String CLASS_DRINK = "drink";
     public static final String PARAMETER_ADDITIONAL_INGREDIENT = "additional_Ingredient";
     public static final String PARAMETER_PORTION = "portion";

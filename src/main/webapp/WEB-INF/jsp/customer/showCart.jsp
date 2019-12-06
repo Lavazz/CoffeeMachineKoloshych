@@ -72,10 +72,10 @@
                 </div>
                 <c:remove var="messageCart"/>
             </c:if>
-            <c:if test="${carts==null}">
+            <c:if test="${requestScope.carts==null}">
                 <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
             </c:if>
-            <c:if test="${carts!=null}">
+            <c:if test="${requestScope.carts!=null}">
             <div class="cart-list">
                 <table class="table">
                     <thead class="thead-primary">
@@ -90,12 +90,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${carts}" var="cart">
+                    <c:forEach items="${requestScope.carts}" var="cart">
                         <tr class="text-center">
                             <td class="product-remove">
                                 <a href="main?command=deleteCartFromOrder&idCart=${cart.idCart}">
                                     <span class="icon-close"></span></a></td>
-                            </td>
 
                             <td class="image-prod">
                                 <div class="img" style="background-image:url(${cart.drink.picturePath});"></div>
@@ -107,7 +106,7 @@
                             </td>
 
                             <td class="product-name">
-                                <c:forEach items="${cartAdditionalIngredients}" var="cartAdditionalIngredient">
+                                <c:forEach items="${requestScope.cartAdditionalIngredients}" var="cartAdditionalIngredient">
                                     <c:if test="${cartAdditionalIngredient.cart.idCart==cart.idCart}">
                                         <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>
                                     </c:if>
@@ -145,12 +144,12 @@
                 <hr>
                 <p class="d-flex total-price">
                     <span><fmt:message key="cart.total"/></span>
-                    <span>${totalCost}</span>
+                    <span>${requestScope.totalCost}</span>
                 </p>
             </div>
             <p class="text-center"><a href="main?command=addOrder" class="btn btn-primary py-3 px-4"><fmt:message
                     key="cart.make_order"/></a></p>
-            <c:if test="${carts!=null}">
+            <c:if test="${requestScope.carts!=null}">
                 <p class="text-center"><a href="main?command=cancelOrder" class="btn btn-primary py-3 px-4"><fmt:message
                         key="cart.cancel_order"/></a></p>
             </c:if>

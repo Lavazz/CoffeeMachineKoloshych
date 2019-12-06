@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="text-right">
-        <h2><fmt:message key="personalCabinet.balance" /> ${balance}</h2>
+        <h2><fmt:message key="personalCabinet.balance" /> ${requestScope.balance}</h2>
     </div>
 
     <div class="col-md-4 d-flex">
@@ -84,7 +84,7 @@
                     <div class="col-md-12">
                            <div class="radio">
                             <form action="main" method="post">
-                            <c:forEach items="${paymentMethods}" var="paymentMethod">
+                            <c:forEach items="${requestScope.paymentMethods}" var="paymentMethod">
                                 <br>    <label>
                                     <input type="radio" name="radioIdPaymentMethod"  value="${paymentMethod.idPaymentMethod}">
                                         ${paymentMethod.namePaymentMethod}  </label>
@@ -103,7 +103,6 @@
             </div>
     </div>
     </div>
-</div>
 </section>
 
 <c:import url="/WEB-INF/jsp/footer.jsp"/>

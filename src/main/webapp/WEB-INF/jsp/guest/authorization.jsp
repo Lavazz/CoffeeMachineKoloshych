@@ -65,8 +65,8 @@
 
 <section class="ftco-section">
     <div class="container">
-        <c:if test="${wrongMessage!=null}">
-       <h3> <fmt:message key="${wrongMessage}"/></h3>
+        <c:if test="${sessionScope.wrongMessage!=null}">
+       <h3> <fmt:message key="${sessionScope.wrongMessage}"/></h3>
         </c:if>
 <c:remove var="wrongMessage"/>
         <div class="row">

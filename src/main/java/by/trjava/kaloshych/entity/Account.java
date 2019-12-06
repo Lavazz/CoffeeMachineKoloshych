@@ -8,11 +8,11 @@ public class Account implements Serializable {
 
     private int idAccount;
     private AccountUser accountUser;
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
     private Date paymentDate;
     private double amountOfMoney;
 
-    public Account(int idAccount, AccountUser accountUser, String paymentMethod, Date paymentDate, double amountOfMoney) {
+    public Account(int idAccount, AccountUser accountUser, PaymentMethod paymentMethod, Date paymentDate, double amountOfMoney) {
         this.idAccount = idAccount;
         this.accountUser = accountUser;
         this.paymentMethod = paymentMethod;
@@ -43,11 +43,11 @@ public class Account implements Serializable {
         this.accountUser = accountUser;
     }
 
-    public String getPaymentMethod() {
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 

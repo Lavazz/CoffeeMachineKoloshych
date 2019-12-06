@@ -16,7 +16,7 @@ public interface CartService {
 
     boolean changePortion(String idCart, String sign) throws ServiceException;
     List<Cart> getAllCarts(int idCartUser) throws ServiceException;
-    Cart createCartById(int idCart) throws ServiceException;
+    Cart getCartById(int idCart) throws ServiceException;
     int getPortionByCart(Cart cart) throws ServiceException;
     double  getTotalCost(int idCartUser) throws ServiceException;
     List<Cart> getAllCartsByUser(int idUser) throws ServiceException;

@@ -11,6 +11,6 @@ public interface AdditionalIngredientDAO {
    int decreasePortion(AdditionalIngredient additionalIngredient, int portion) throws DAOException;
     AdditionalIngredient addNewAdditionalIngredient(String nameAdditionalIngredient, int calories) throws  DAOException;
     boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws DAOException;
-   AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws DAOException;
+   AdditionalIngredient getAdditionalIngredient(int idAdditionalIngredient) throws DAOException;
 
 }

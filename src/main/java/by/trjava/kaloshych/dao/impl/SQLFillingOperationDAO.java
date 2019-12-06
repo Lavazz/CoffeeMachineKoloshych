@@ -2,13 +2,12 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
 import by.trjava.kaloshych.entity.Component;
 import by.trjava.kaloshych.entity.Drink;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,16 +38,16 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
                 int idDrink = rs.getInt(PARAMETER_ID_DRINK);
                 int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
                 if (idDrink != 0) {
-                    componentList.add(drinkDAO.createDrink(idDrink));
+                    componentList.add(drinkDAO.getDrink(idDrink));
                 } else if (idAdditionalIngredient != 0) {
-                    componentList.add(additionalIngredientDAO.createAdditionalIngredient(idAdditionalIngredient));
+                    componentList.add(additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient));
                 }
             }
             return componentList;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -107,7 +106,7 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps2);
+            JDBCShutter.shut(rs, ps2);
         }
     }
 
@@ -132,7 +131,7 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps2);
+            JDBCShutter.shut(rs, ps2);
         }
     }
 

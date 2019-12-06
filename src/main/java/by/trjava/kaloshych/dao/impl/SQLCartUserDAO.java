@@ -4,12 +4,12 @@ import by.trjava.kaloshych.dao.CartUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.User;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class SQLCartUserDAO implements CartUserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -79,13 +79,13 @@ public class SQLCartUserDAO implements CartUserDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+           JDBCShutter.shut(rs);
         }
     }
 
     @Override
     public CartUser getCartUserById(int idCartUser) throws DAOException {
-      final   UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+
         CartUser cartUser = null;
         ResultSet rs = null;
 
@@ -95,15 +95,13 @@ public class SQLCartUserDAO implements CartUserDAO {
             ps.setInt(1, idCartUser);
             rs = ps.executeQuery();
             while (rs.next()) {
-                int idUser = rs.getInt(PARAMETER_ID_USER);
-                User user = userDAO.getUserById(idUser);
-                cartUser = new CartUser(idCartUser, user);
+                cartUser= SQLUtil.getInstance().createCartUser(rs);
             }
             return cartUser;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 

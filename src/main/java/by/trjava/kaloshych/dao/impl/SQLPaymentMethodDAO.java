@@ -2,12 +2,12 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.PaymentMethodDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.PaymentMethod;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,9 +24,9 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
     private final ConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
-    public PaymentMethod createPaymentMethod(int idPaymentMethod) throws DAOException {
+    public PaymentMethod getPaymentMethod(int idPaymentMethod) throws DAOException {
         ResultSet rs = null;
-        String namePaymentMethod=null;
+       PaymentMethod paymentMethod=null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
              Connection con = proxyConnection.getConnectionWrapper();
@@ -34,14 +34,14 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
             ps.setInt(1, idPaymentMethod);
          rs= ps.executeQuery();
             while (rs.next()) {
-            namePaymentMethod = rs.getString(PARAMETER_NAME_PAYMENT_METHOD);
+            paymentMethod = SQLUtil.getInstance().createPaymentMethod(rs);
             }
-            return new PaymentMethod(idPaymentMethod, namePaymentMethod);
+            return paymentMethod;
         } catch (SQLException e) {
             throw new DAOException(e);
 
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -67,7 +67,7 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
             throw new DAOException(e);
 
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 

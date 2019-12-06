@@ -2,12 +2,12 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.Drink;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,14 +33,13 @@ public class SQLDrinkDAO implements DrinkDAO {
              PreparedStatement ps = con.prepareStatement(QUERY_ALL_DRINKS)){
             rs = ps.executeQuery();
             while (rs.next()) {
-                int idDrink = rs.getInt(PARAMETER_ID_DRINK);
-                drinkList.add(createDrink(idDrink));
+                drinkList.add(SQLUtil.getInstance().createDrink(rs));
             }
             return drinkList;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -67,7 +66,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs, ps2);
+            JDBCShutter.shut(rs, ps2);
         }
     }
 
@@ -89,7 +88,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
 
     }
@@ -112,7 +111,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
 
     }
@@ -133,11 +132,11 @@ public class SQLDrinkDAO implements DrinkDAO {
             if (rs.next()) {
                 idDrink = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return createDrink(idDrink);
+            return getDrink(idDrink);
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -183,12 +182,12 @@ public class SQLDrinkDAO implements DrinkDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
     @Override
-    public Drink createDrink(int idDrink) throws DAOException {
+    public Drink getDrink(int idDrink) throws DAOException {
         ResultSet rs = null;
         Drink drink = null;
 
@@ -198,18 +197,14 @@ public class SQLDrinkDAO implements DrinkDAO {
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String nameDrink = rs.getString(PARAMETER_DRINK);
-                String description = rs.getString(PARAMETER_DESCRIPTION);
-                String picturePath = rs.getString(PARAMETER_PICTURE_PATH);
-                int portion = rs.getInt(PARAMETER_PORTION);
-                double price = rs.getDouble(PARAMETER_PRICE);
-                drink = new Drink(idDrink, nameDrink, portion, picturePath, description, price);
+
+                drink = SQLUtil.getInstance().createDrink(rs);
             }
             return drink;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
 
     }
@@ -226,14 +221,13 @@ public class SQLDrinkDAO implements DrinkDAO {
             ps.setInt(1, cart.getIdCart());
             rs = ps.executeQuery();
             while (rs.next()) {
-                int idDrink = rs.getInt(PARAMETER_ID_DRINK);
-                drink = createDrink(idDrink);
+                drink = SQLUtil.getInstance().createDrink(rs);
             }
             return drink;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 }

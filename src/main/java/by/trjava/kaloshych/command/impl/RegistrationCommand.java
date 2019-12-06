@@ -34,7 +34,7 @@ public class RegistrationCommand implements Command {
 
         try {
             final User user = userService.registration(login, password, confirmPassword, email, name);
-            final AccountUser accountUser = accountUserService.createAccountUser(user);
+            final AccountUser accountUser = accountUserService.addAccountUser(user);
             final CartUser cartUser = cartUserService.addCartUser(user.getId());
             session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUser.getIdAccountUser());
             session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());

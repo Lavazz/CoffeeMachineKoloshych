@@ -67,9 +67,9 @@ public class AdditionalIngredientServiceImpl implements AdditionalIngredientServ
     }
 
     @Override
-    public AdditionalIngredient createAdditionalIngredient(int idAdditionalIngredient) throws ServiceException {
+    public AdditionalIngredient getAdditionalIngredient(int idAdditionalIngredient) throws ServiceException {
         try {
-            return additionalIngredientDAO.createAdditionalIngredient(idAdditionalIngredient);
+            return additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

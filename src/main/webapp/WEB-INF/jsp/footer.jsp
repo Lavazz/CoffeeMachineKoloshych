@@ -13,7 +13,7 @@
             <div class="col-lg-6 col-md-6 mb-5 mb-md-5">
                 <div class="ftco-footer-widget mb-4">
                     <h2 class="ftco-heading-2"><fmt:message key="footer.about"/> </h2>
-                    <p><fmt:message key="footer.coffe_house"></fmt:message> </p>
+                    <p><fmt:message key="footer.coffe_house"/> </p>
                     <div><a href="#"><span class="icon-calendar"></span><ctg:date/></a></div>
                     <div><a href="#"><span class="icon-person"></span><fmt:message key="footer.admin"/> </a></div>
                     <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">

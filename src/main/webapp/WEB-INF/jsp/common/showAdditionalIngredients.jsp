@@ -70,7 +70,7 @@
         <div class="row">
 <div class="col-md-6 mb-5 pb-3">
     <h3 class="mb-5 heading-pricing ftco-animate"><fmt:message key="main.message.additionalIngredients"/> </h3>
-    <c:forEach items="${additionalIngredients}" var="additionalIngredient">
+    <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
         <div class="pricing-entry d-flex ftco-animate">
             <div class="img" style="background-image: url(${additionalIngredient.picturePath});"></div>
             <div class="desc pl-3">

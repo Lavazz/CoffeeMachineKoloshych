@@ -6,6 +6,6 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 import java.util.List;
 
 public interface PaymentMethodService {
-    PaymentMethod createPaymentMethod(int idPaymentMethod) throws ServiceException;
+    PaymentMethod getPaymentMethod(int idPaymentMethod) throws ServiceException;
     List<PaymentMethod> getAllPaymentMethods() throws ServiceException;
 }

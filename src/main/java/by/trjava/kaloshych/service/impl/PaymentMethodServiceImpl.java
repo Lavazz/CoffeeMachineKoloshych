@@ -13,10 +13,10 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     private static final  PaymentMethodDAO paymentMethodDAO= DAOFactory.getInstance().getPaymentMethodDAO();
 
     @Override
-    public PaymentMethod createPaymentMethod(int idPaymentMethod) throws ServiceException {
+    public PaymentMethod getPaymentMethod(int idPaymentMethod) throws ServiceException {
 
         try {
-            return paymentMethodDAO.createPaymentMethod(idPaymentMethod);
+            return paymentMethodDAO.getPaymentMethod(idPaymentMethod);
         } catch (DAOException e) {
             throw  new ServiceException(e);
         }

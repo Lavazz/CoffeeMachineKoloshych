@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
 
         try {
              cartUser= cartUserDAO.getCartUserById(idCartUser);
-             drink=drinkDAO.createDrink(Integer.parseInt(idDrink));
+             drink=drinkDAO.getDrink(Integer.parseInt(idDrink));
             currentPortion= drinkDAO.getPortion(drink);
         } catch (DAOException e) {
             throw  new ServiceException(e);
@@ -63,7 +63,7 @@ public class CartServiceImpl implements CartService {
             throw new EmptyDataException("Empty data");
         }
         try {
-            Cart cart= cartDAO.createCartById(Integer.parseInt(idCart));
+            Cart cart= cartDAO.getCartById(Integer.parseInt(idCart));
             cartDAO.deleteDrinkFromCart(cart);
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -72,7 +72,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean changePortion(String idCart, String sign) throws ServiceException {
         try {
-            Cart cart= cartDAO.createCartById(Integer.parseInt(idCart));
+            Cart cart= cartDAO.getCartById(Integer.parseInt(idCart));
             int portion=cart.getPortion();
             if(sign.equals("plus")){
                 portion+=PORTION_MODIFICATION;
@@ -105,9 +105,9 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
     }
 
     @Override
-    public Cart createCartById(int idCart) throws ServiceException {
+    public Cart getCartById(int idCart) throws ServiceException {
         try {
-            return cartDAO.createCartById(idCart);
+            return cartDAO.getCartById(idCart);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

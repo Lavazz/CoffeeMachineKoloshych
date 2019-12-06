@@ -72,7 +72,7 @@
         </tr>
         </thead>
 
-        <c:forEach items="${components}" var="component">
+        <c:forEach items="${sessionScope.components}" var="component">
         <tbody>   <tr>
             <td><h6>${component.idComponent}</h6></td>
             <td><h6>${component.nameComponent}</h6></td>

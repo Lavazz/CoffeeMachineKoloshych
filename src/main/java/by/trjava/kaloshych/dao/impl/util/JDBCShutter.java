@@ -1,17 +1,16 @@
-package by.trjava.kaloshych.dao.impl;
+package by.trjava.kaloshych.dao.impl.util;
 
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 
-public class SQLUtil {
+public class JDBCShutter {
     protected  final ConnectionPool pool = DBConnectionPool.getInstance();
 
-    protected static final Logger logger = LogManager.getLogger(SQLUtil.class);
+    private static final Logger logger = LogManager.getLogger(JDBCShutter.class);
 
 
     public static void shut(ResultSet rs) {

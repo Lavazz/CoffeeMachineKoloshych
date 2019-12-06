@@ -2,13 +2,13 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.Order;
 import by.trjava.kaloshych.entity.User;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class SQLOrderDAO implements OrderDAO {
             throw new DAOException(e);
 
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -62,7 +62,7 @@ public class SQLOrderDAO implements OrderDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
         return false;
     }
@@ -84,7 +84,7 @@ public class SQLOrderDAO implements OrderDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -106,7 +106,7 @@ public class SQLOrderDAO implements OrderDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -127,7 +127,7 @@ public class SQLOrderDAO implements OrderDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -143,18 +143,13 @@ public class SQLOrderDAO implements OrderDAO {
             ps.setInt(1, user.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
-                int idOrder = rs.getInt(PARAMETER_ID_ORDER);
-                int idCartUser = rs.getInt(PARAMETER_ID_CART_USER);
-                Date dateOrder = rs.getDate(PARAMETER_DATE_ORDER);
-                double totalCost = rs.getDouble(PARAMETER_TOTAL_COST);
-                CartUser cartUser = new CartUser(idCartUser, user);
-                orders.add(new Order(idOrder, cartUser, dateOrder, totalCost));
+                orders.add(SQLUtil.getInstance().createOrder(rs));
             }
             return orders;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 

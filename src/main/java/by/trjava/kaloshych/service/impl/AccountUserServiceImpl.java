@@ -16,10 +16,10 @@ public class AccountUserServiceImpl implements AccountUserService {
     private  final AccountDAO accountDAO=DAOFactory.getInstance().getAccountDAO();
 
     @Override
-    public AccountUser createAccountUser(User user) throws ServiceException {
+    public AccountUser addAccountUser(User user) throws ServiceException {
 AccountUser accountUser;
         try {
-            accountUser=accountUserDAO.createAccountUser(user);
+            accountUser=accountUserDAO.addAccountUser(user);
             accountDAO.addNewAccount(accountUser);
             return accountUser;
         } catch (DAOException e) {

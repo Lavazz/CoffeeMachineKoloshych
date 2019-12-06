@@ -58,8 +58,8 @@
     <div class="container">
        <div class="row">
         <div class="col-md-6">
-            <c:if test="${fillingMessage!=null}">
-                <h3> <fmt:message key="${fillingMessage}"/></h3>
+            <c:if test="${sessionScope.fillingMessage!=null}">
+                <h3> <fmt:message key="${sessionScope.fillingMessage}"/></h3>
             </c:if>
             <c:remove var="fillingMessage"/>
         </div>
@@ -76,7 +76,7 @@
                 </tr>
                 </thead>
 
-                <c:forEach items="${components}" var="component">
+                <c:forEach items="${sessionScope.components}" var="component">
                     <tbody>   <tr>
                         <td><h6>${component.idComponent}</h6></td>
                         <td><h6>${component.nameComponent}</h6></td>

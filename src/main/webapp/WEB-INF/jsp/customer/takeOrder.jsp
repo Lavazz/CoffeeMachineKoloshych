@@ -57,7 +57,7 @@
                 <div class="col-md-8 col-sm-12 text-center ftco-animate">
                     <h2 class="mb-4">
                         <script>
-                            showAlertMessage(" <fmt:message key="${messageOrder}"/>");
+                            showAlertMessage(" <fmt:message key="${sessionScope.messageOrder}"/>");
                         </script>
                        </h2>
                     <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood" /></p>

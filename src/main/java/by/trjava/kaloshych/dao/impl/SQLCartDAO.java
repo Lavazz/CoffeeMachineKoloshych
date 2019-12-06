@@ -1,18 +1,15 @@
 package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.CartDAO;
-import by.trjava.kaloshych.dao.CartUserDAO;
-import by.trjava.kaloshych.dao.DAOFactory;
-import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
+import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.impl.util.SQLUtil;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.Drink;
 import by.trjava.kaloshych.entity.User;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +44,7 @@ public class SQLCartDAO implements CartDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -88,14 +85,13 @@ public class SQLCartDAO implements CartDAO {
             ps.setInt(1, cartUser.getIdCartUser());
             rs = ps.executeQuery();
             while (rs.next()) {
-                cartList.add(makeCart(rs));
+                cartList.add(SQLUtil.getInstance().createCart(rs));
             }
-            System.out.println("getAllCarts" + cartList);
             return cartList;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -117,12 +113,12 @@ public class SQLCartDAO implements CartDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
     @Override
-    public Cart createCartById(int idCart) throws DAOException {
+    public Cart getCartById(int idCart) throws DAOException {
         ResultSet rs = null;
         Cart cart = null;
 
@@ -132,13 +128,13 @@ public class SQLCartDAO implements CartDAO {
             ps.setInt(1, idCart);
             rs = ps.executeQuery();
             while (rs.next()) {
-                cart = makeCart(rs);
+                cart = SQLUtil.getInstance().createCart(rs);
             }
             return cart;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
@@ -153,28 +149,16 @@ public class SQLCartDAO implements CartDAO {
             ps.setInt(1, user.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
-                carts.add(makeCart(rs));
+                carts.add(SQLUtil.getInstance().createCart(rs));
             }
             return carts;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {
-            SQLUtil.shut(rs);
+            JDBCShutter.shut(rs);
         }
     }
 
-    private Cart makeCart(ResultSet rs) throws SQLException, DAOException {
-        final CartUserDAO cartUserDAO = DAOFactory.getInstance().getCartUserDAO();
-        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-
-        int idCart = rs.getInt(PARAMETER_ID_CART);
-        int idCartUser = rs.getInt(PARAMETER_ID_CART_USER);
-        CartUser cartUser = cartUserDAO.getCartUserById(idCartUser);
-        int idDrink = rs.getInt(PARAMETER_ID_DRINK);
-        Drink drink = drinkDAO.createDrink(idDrink);
-        int portion = rs.getInt(PARAMETER_PORTION);
-        return new Cart(idCart, cartUser, drink, portion);
-    }
 }
 
 

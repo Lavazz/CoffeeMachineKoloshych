@@ -8,7 +8,7 @@ import java.util.List;
 public interface PaymentMethodDAO {
 
 
-    PaymentMethod createPaymentMethod(int idPaymentMethod) throws DAOException;
+    PaymentMethod getPaymentMethod(int idPaymentMethod) throws DAOException;
     List<PaymentMethod> getAllPaymentMethods() throws DAOException;
     }
 

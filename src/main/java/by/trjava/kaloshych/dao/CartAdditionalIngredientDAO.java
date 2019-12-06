@@ -15,4 +15,5 @@ public interface CartAdditionalIngredientDAO {
     List<CartAdditionalIngredient> getAllCartAdditionalIngredientByCart(Cart cart) throws DAOException;
     List<CartAdditionalIngredient> getAllCartAdditionalIngredients() throws DAOException;
     List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(User user) throws DAOException;
+    CartAdditionalIngredient getCartAdditionalIngredientsById(int idCartAdditionalIngredient) throws DAOException;
 }

@@ -16,7 +16,7 @@ public interface DrinkDAO {
    Drink addNewDrink(String drink, double price, String description) throws DAOException;
     void deleteDrink(String drink) throws DAOException;
     boolean changePrice(String drink, int newPrice) throws DAOException;
-    Drink createDrink(int idDrink) throws DAOException;
+    Drink getDrink(int idDrink) throws DAOException;
     boolean checkDrinkById(int idComponent) throws DAOException;
     Drink getDrink(Cart cart) throws DAOException;
 
