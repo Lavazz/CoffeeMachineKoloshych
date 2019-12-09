@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface FillingOperationDAO {
     List<Component> getAllComponents() throws DAOException;
-    boolean fillingOperation(int idComponent) throws DAOException;
-    void addComponentToFillingOperation(Drink drink) throws DAOException;
-    void addComponentToFillingOperation(AdditionalIngredient additionalIngredient) throws DAOException;
+   void fillingOperation(int idComponent) throws DAOException;
+    void addComponentToFillingOperation(Component component) throws DAOException;
 }

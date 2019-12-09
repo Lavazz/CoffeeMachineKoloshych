@@ -4,6 +4,7 @@ import by.trjava.kaloshych.dao.CartDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
 import by.trjava.kaloshych.dao.impl.util.SQLUtil;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.Cart;
@@ -22,16 +23,16 @@ import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 
 public class SQLCartDAO implements CartDAO {
-    private  final DBConnectionPool pool = DBConnectionPool.getInstance();
+    private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
-    public Cart addDrinkToCart(CartUser cartUser, Drink drink, int portion) throws DAOException {
+    public int addDrinkToCart(CartUser cartUser, Drink drink, int portion) throws DAOException {
         ResultSet rs = null;
         int idCart = 0;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-            PreparedStatement ps = con.prepareStatement(QUERY_CART_ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, cartUser.getIdCartUser());
             ps.setInt(2, drink.getIdComponent());
             ps.setInt(3, portion);
@@ -40,9 +41,9 @@ public class SQLCartDAO implements CartDAO {
             while (rs.next()) {
                 idCart = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return new Cart(idCart, cartUser, drink, portion);
+            return idCart;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't add drink to cart " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -51,45 +52,45 @@ public class SQLCartDAO implements CartDAO {
     @Override
     public void deleteDrinkFromCart(Cart cart) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CART_DELETE)) {
             ps.setInt(1, cart.getIdCart());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't delete drink from cart " + e);
         }
     }
 
     @Override
     public boolean changePortion(Cart cart, int newPortion) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CART_CHANGE_PORTION)) {
             ps.setInt(1, newPortion);
             ps.setInt(2, cart.getIdCart());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't change portion  drink to cart " + e);
         }
     }
 
     @Override
     public List<Cart> getAllCarts(CartUser cartUser) throws DAOException {
-        List<Cart> cartList = new ArrayList<>();
+        List<Cart> carts = new ArrayList<>();
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ALL_CARTS_BY_CART_USER)) {
             ps.setInt(1, cartUser.getIdCartUser());
             rs = ps.executeQuery();
             while (rs.next()) {
-                cartList.add(SQLUtil.getInstance().createCart(rs));
+                carts.add(SQLUtil.getInstance().createCart(rs));
             }
-            return cartList;
+            return carts;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't get all carts by cartUser" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -102,7 +103,7 @@ public class SQLCartDAO implements CartDAO {
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_PORTION_BY_CART)) {
             ps.setInt(1, cart.getIdCart());
             rs = ps.executeQuery();
@@ -111,7 +112,7 @@ public class SQLCartDAO implements CartDAO {
             }
             return portion;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't get portion by cart " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -123,7 +124,7 @@ public class SQLCartDAO implements CartDAO {
         Cart cart = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_CART_BY_ID)) {
             ps.setInt(1, idCart);
             rs = ps.executeQuery();
@@ -132,7 +133,7 @@ public class SQLCartDAO implements CartDAO {
             }
             return cart;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't get cart by id " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -144,7 +145,7 @@ public class SQLCartDAO implements CartDAO {
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ALL_CARTS_BY_USER)) {
             ps.setInt(1, user.getId());
             rs = ps.executeQuery();
@@ -153,7 +154,7 @@ public class SQLCartDAO implements CartDAO {
             }
             return carts;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL cart Exception can't get all carts by user " + e);
         } finally {
             JDBCShutter.shut(rs);
         }

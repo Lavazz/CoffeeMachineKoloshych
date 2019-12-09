@@ -1,11 +1,10 @@
 package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.CartUserDAO;
-import by.trjava.kaloshych.dao.DAOFactory;
-import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
 import by.trjava.kaloshych.dao.impl.util.SQLUtil;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.CartUser;
@@ -26,22 +25,21 @@ public class SQLCartUserDAO implements CartUserDAO {
     private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
-    public CartUser addCartUser(User user) throws DAOException {
+    public int addCartUser(User user) throws DAOException {
         int idCartUser = 0;
         ResultSet rs = null;
-
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, user.getId());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            if (rs.next()) {
+            while (rs.next()) {
                 idCartUser = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return new CartUser(idCartUser, user);
+            return idCartUser;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL CartUser Exception can't add cartUser " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -51,37 +49,55 @@ public class SQLCartUserDAO implements CartUserDAO {
     @Override
     public void deleteCartUser(User user) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_DELETE)) {
             ps.setInt(1, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL CartUser Exception can't delete cartUser " + e);
         }
     }
 
 
     @Override
     public List<CartUser> getCartUser(User user) throws DAOException {
-        List<CartUser> CartUserList = new ArrayList<>();
-        ResultSet rs = null;
-
+        List<CartUser> cartUserList = new ArrayList<>();
+        ResultSet rs=null;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-              PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID_USER)){
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID_USER)) {
             ps.setInt(1, user.getId());
-            rs = ps.executeQuery();
+            rs= ps.executeQuery();
             while (rs.next()) {
-                int idCartUser = rs.getInt(PARAMETER_ID_CART_USER);
-                CartUserList.add(new CartUser(idCartUser, user));
+                cartUserList.add(SQLUtil.getInstance().createCartUser(rs));
             }
-            return CartUserList;
+            return cartUserList;
         } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-           JDBCShutter.shut(rs);
+            throw new DAOException("SQL CartUser Exception can't get list cartUser " + e);
         }
     }
+
+    @Override
+    public CartUser getLastCartUser(User user) throws DAOException {
+        CartUser cartUser = null;
+        ResultSet rs=null;
+        System.out.println("in last cartUser dao");
+        try (ProxyConnection proxyConnection = pool.getConnection();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID_USER)) {
+            ps.setInt(1, user.getId());
+            rs= ps.executeQuery();
+            if (rs.last()) {
+              cartUser =  SQLUtil.getInstance().createCartUser(rs);
+            }
+            return cartUser;
+        } catch (SQLException e) {
+            throw new DAOException("SQL CartUser Exception can't get last cartUser " + e);
+        } finally {
+            JDBCShutter.shut(rs);
+        }
+    }
+
 
     @Override
     public CartUser getCartUserById(int idCartUser) throws DAOException {
@@ -90,16 +106,16 @@ public class SQLCartUserDAO implements CartUserDAO {
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID)){
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+             PreparedStatement ps = con.prepareStatement(QUERY_CART_USER_BY_ID)) {
             ps.setInt(1, idCartUser);
             rs = ps.executeQuery();
             while (rs.next()) {
-                cartUser= SQLUtil.getInstance().createCartUser(rs);
+                cartUser = SQLUtil.getInstance().createCartUser(rs);
             }
             return cartUser;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL CartUser Exception can't add cartUser by id " + e);
         } finally {
             JDBCShutter.shut(rs);
         }

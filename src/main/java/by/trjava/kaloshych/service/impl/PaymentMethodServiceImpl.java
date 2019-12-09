@@ -18,7 +18,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             return paymentMethodDAO.getPaymentMethod(idPaymentMethod);
         } catch (DAOException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException("DAO Exception in PaymentMethodService can't get payment method" + e);
         }
     }
 
@@ -27,7 +27,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             return paymentMethodDAO.getAllPaymentMethods();
         } catch (DAOException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException("DAO Exception in PaymentMethodService can't get all payment methods" + e);
         }
     }
 

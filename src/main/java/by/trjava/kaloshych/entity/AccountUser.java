@@ -48,23 +48,14 @@ public class AccountUser implements Serializable {
             return false;
         }
         AccountUser other = (AccountUser) obj;
-        if (idAccountUser!=other.idAccountUser) {
-            return false;
-        }
-        if (user == null) {
-            if (other.user != null) {
-                return false;
-            } else if (!user.equals(other.user)) {
-                return false;
-            }
-        }
-        return true;
+        return idAccountUser!=other.idAccountUser
+                &&(user == null ? user == other.user : user.equals(other.user));
     }
 
 
     @Override
     public int hashCode() {
-        return (int) (31 * idAccountUser + (user == null ? 0 : user.hashCode()) );
+        return 31 * idAccountUser + (user == null ? 0 : user.hashCode());
     }
 
     @Override

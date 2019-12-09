@@ -25,11 +25,10 @@ public class DBConnectionPool implements ConnectionPool {
         private DBConnectionPool() {
         }
 
-        /************************************************************************/
 
         private BlockingQueue<ProxyConnection> availableConnections;
         private BlockingQueue<ProxyConnection> usedConnections;
-        private static final int DEFAULT_POOL_SIZE = 16;
+        private static final int DEFAULT_POOL_SIZE = 12;
 
         public void init(final String driver, final String url, final String user, final String password, String poolSize) {
             try {

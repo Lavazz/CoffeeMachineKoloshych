@@ -63,21 +63,20 @@ public class CartAdditionalIngredient implements Serializable {
             return false;
         }
         if (cart == null){
-            if(other.cart!=null){
-                return false;
-            }else if(!cart.equals(other.cart)){
+            if(other.cart!=null) {
                 return false;
             }
+            }else if(!cart.equals(other.cart)){
+                return false;
         }
         if (additionalIngredient == null){
-            if(other.additionalIngredient!=null){
+            if(other.additionalIngredient!=null) {
                 return false;
+            }
             }else if(!additionalIngredient.equals(other.additionalIngredient)){
                 return false;
             }
-        }
-
-        return true;
+               return true;
     }
 
     @Override

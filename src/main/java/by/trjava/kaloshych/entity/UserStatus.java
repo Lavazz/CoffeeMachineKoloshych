@@ -17,4 +17,9 @@ public enum UserStatus {
         return idUserStatus;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getName()+
+                "@ idUserStatus=" + idUserStatus;
+    }
 }

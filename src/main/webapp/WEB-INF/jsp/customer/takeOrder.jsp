@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -10,10 +10,6 @@
     <title><fmt:message key="title.additionalIngredients"/></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/animate.css">
@@ -38,13 +34,12 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
+        <c:import url="/WEB-INF/jsp/form/navBrand.jsp"/>
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
 
-               <li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout" /></a></li>
-</ul>
+                <c:import url="/WEB-INF/jsp/form/nawLogout.jsp"/>
+            </ul>
         </div>
     </div>
 </nav>
@@ -59,18 +54,22 @@
                         <script>
                             showAlertMessage(" <fmt:message key="${sessionScope.messageOrder}"/>");
                         </script>
-                       </h2>
-                    <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood" /></p>
-                    <p><a href="main?command=cleanCart" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"><fmt:message key="order.message.takeDrinks" /></a></p>
+                    </h2>
+                    <p class="mb-4 mb-md-5"><fmt:message key="main.message.goodMood"/></p>
+                    <p><a href="main?command=cleanCart"
+                          class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"><fmt:message
+                            key="order.message.takeDrinks"/></a></p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

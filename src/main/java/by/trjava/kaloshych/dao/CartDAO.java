@@ -9,7 +9,7 @@ import by.trjava.kaloshych.entity.User;
 import java.util.List;
 
 public interface CartDAO {
-    Cart addDrinkToCart(CartUser cartUser, Drink drink, int quantity) throws DAOException;
+    int addDrinkToCart(CartUser cartUser, Drink drink, int quantity) throws DAOException;
 
     void deleteDrinkFromCart(Cart cart) throws DAOException;
 

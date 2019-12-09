@@ -41,15 +41,12 @@ public class AdditionalIngredient extends Component implements Serializable {
         }
         if (!super.equals(obj)) return false;
         AdditionalIngredient other = (AdditionalIngredient) obj;
-        if (calories != other.calories) {
-            return false;
-        }
-        return true;
+        return calories == other.calories;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * super.hashCode() + calories);
+        return 31 * super.hashCode() + calories;
     }
 
     @Override

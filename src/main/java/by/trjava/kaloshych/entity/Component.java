@@ -2,7 +2,7 @@ package by.trjava.kaloshych.entity;
 
 import java.io.Serializable;
 
-public class Component implements Serializable {
+public abstract  class Component implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int idComponent;
@@ -76,21 +76,20 @@ public class Component implements Serializable {
         if (nameComponent == null) {
             if (other.nameComponent != null) {
                 return false;
+            }
             } else if (!nameComponent.equals(other.nameComponent)) {
                 return false;
             }
-        }
         if (portion != other.portion) {
             return false;
         }
-
             if (picturePath == null) {
                 if (other.picturePath != null) {
                     return false;
+                }
                 } else if (!picturePath.equals(other.picturePath)) {
                     return false;
                 }
-            }
          return true;
     }
 

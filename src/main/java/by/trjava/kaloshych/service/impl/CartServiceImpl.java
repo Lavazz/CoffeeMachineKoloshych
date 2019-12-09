@@ -15,46 +15,49 @@ import java.util.List;
 
 public class CartServiceImpl implements CartService {
 
-    private static final int PORTION_MODIFICATION=1;
-  private  final   CartDAO cartDAO = DAOFactory.getInstance().getCartDAO();
-  private  final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-    private  final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
-    private final CartUserDAO cartUserDAO=DAOFactory.getInstance().getCartUserDAO();
-    private final UserDAO userDAO=DAOFactory.getInstance().getUserDAO();
+    private static final int PORTION_MODIFICATION = 1;
+    private static final String SIGN_PLUS="plus";
+    private static final String SIGN_MINUS="minus";
+    private final CartDAO cartDAO = DAOFactory.getInstance().getCartDAO();
+    private final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
+    private final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
+    private final CartUserDAO cartUserDAO = DAOFactory.getInstance().getCartUserDAO();
+    private final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
 
     @Override
     public Cart addDrinkToCart(int idCartUser, String idDrink, String portion) throws ServiceException {
         int currentPortion;
-        Cart cart;
         Drink drink;
         CartUser cartUser;
 
-        if (inputDataValidator.isEmpty(idDrink)||inputDataValidator.isEmpty(portion)
-                ||inputDataValidator.isEmpty(idCartUser)) {
+        if (inputDataValidator.isEmpty(idDrink) || inputDataValidator.isEmpty(portion)
+                || inputDataValidator.isEmpty(idCartUser)) {
             throw new EmptyDataException("Empty data");
         }
-        if(!CartValidator.getInstance().validate(portion)){
+        if (!CartValidator.getInstance().validate(portion)) {
             throw new WrongPortionException("Wrong number of portions");
         }
 
         try {
-             cartUser= cartUserDAO.getCartUserById(idCartUser);
-             drink=drinkDAO.getDrink(Integer.parseInt(idDrink));
-            currentPortion= drinkDAO.getPortion(drink);
+            cartUser = cartUserDAO.getCartUserById(idCartUser);
+            drink = drinkDAO.getDrink(Integer.parseInt(idDrink));
+            currentPortion = drinkDAO.getPortion(drink);
+            System.out.println("current portion=" + currentPortion);
         } catch (DAOException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException(e);
         }
-            if (!CartValidator.getInstance().isSufficientPortion(currentPortion, Integer.parseInt(portion))) {
-                throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
-            }
+        if (!CartValidator.getInstance().isSufficientPortion(currentPortion, Integer.parseInt(portion))) {
+            throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
+        }
 
-            try{
+        try {
             drinkDAO.decreasePortion(drink, Integer.parseInt(portion));
-            cart=cartDAO.addDrinkToCart(cartUser, drink, Integer.parseInt(portion));
+
+            int idCart = cartDAO.addDrinkToCart(cartUser, drink, Integer.parseInt(portion));
+            return cartDAO.getCartById(idCart);
         } catch (DAOException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't add drink to cart" + e);
         }
-        return cart;
     }
 
     @Override
@@ -63,33 +66,33 @@ public class CartServiceImpl implements CartService {
             throw new EmptyDataException("Empty data");
         }
         try {
-            Cart cart= cartDAO.getCartById(Integer.parseInt(idCart));
+            Cart cart = cartDAO.getCartById(Integer.parseInt(idCart));
             cartDAO.deleteDrinkFromCart(cart);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't delete drink from cart" + e);
         }
     }
+
     @Override
     public boolean changePortion(String idCart, String sign) throws ServiceException {
         try {
-            Cart cart= cartDAO.getCartById(Integer.parseInt(idCart));
-            int portion=cart.getPortion();
-            if(sign.equals("plus")){
-                portion+=PORTION_MODIFICATION;
-            }else if(sign.equals("minus")){
-                portion-=PORTION_MODIFICATION;
+            Cart cart = cartDAO.getCartById(Integer.parseInt(idCart));
+            int portion = cart.getPortion();
+            if (sign.equals(SIGN_PLUS)) {
+                portion += PORTION_MODIFICATION;
+            } else if (sign.equals(SIGN_MINUS)) {
+                portion -= PORTION_MODIFICATION;
             }
-if(!CartValidator.getInstance().validate(portion)){
-    throw new WrongPortionException("Wrong number of portions");
-}
-
-         int   currentPortion= drinkDAO.getPortion(cart.getDrink());
-if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
+            if (!CartValidator.getInstance().validate(portion)) {
+                throw new WrongPortionException("Wrong number of portions");
+            }
+            int currentPortion = drinkDAO.getPortion(cart.getDrink());
+            if (!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)) {
                 throw new InsufficientPortionException("In coffee machine insufficient portion of this drink");
             }
             return cartDAO.changePortion(cart, portion);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't change portion" + e);
         }
     }
 
@@ -97,10 +100,10 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
     @Override
     public List<Cart> getAllCarts(int idCartUser) throws ServiceException {
         try {
-            CartUser cartUser=cartUserDAO.getCartUserById(idCartUser);
+            CartUser cartUser = cartUserDAO.getCartUserById(idCartUser);
             return cartDAO.getAllCarts(cartUser);
         } catch (DAOException e) {
-            throw  new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't get all carts" + e);
         }
     }
 
@@ -109,7 +112,7 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
         try {
             return cartDAO.getCartById(idCart);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't get cart by id" + e);
         }
     }
 
@@ -118,28 +121,28 @@ if(!CartValidator.getInstance().isSufficientPortion(currentPortion, portion)){
         try {
             return cartDAO.getPortionByCart(cart);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't get portion" + e);
         }
     }
 
 
-@Override
-  public double getTotalCost(int idCartUser) throws ServiceException {
-        double totalCost=0;
-        List<Cart> carts=getAllCarts(idCartUser);
-        for (Cart cart:carts){
-            totalCost+=cart.getDrink().getPrice()*cart.getPortion();
+    @Override
+    public double getTotalCost(int idCartUser) throws ServiceException {
+        double totalCost = 0;
+        List<Cart> carts = getAllCarts(idCartUser);
+        for (Cart cart : carts) {
+            totalCost += cart.getDrink().getPrice() * cart.getPortion();
         }
         return totalCost;
-  }
+    }
 
     @Override
     public List<Cart> getAllCartsByUser(int idUser) throws ServiceException {
         try {
-            User user=userDAO.getUserById(idUser);
+            User user = userDAO.getUserById(idUser);
             return cartDAO.getAllCartsByUser(user);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in CartService can't get all carts by user" + e);
         }
     }
 }

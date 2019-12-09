@@ -32,7 +32,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
             cartAdditionalIngredientDAO.addAdditionalIngredientToCartAI(cart, additionalIngredient);
             newPortion = additionalIngredientDAO.decreasePortion(additionalIngredient, cart.getPortion());
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't add to cart" + e);
         }
         if (!CartAdditionalIngredientValidator.getInstance().isSufficientPortion(newPortion)) {
             throw new InsufficientPortionException("In coffee machine insufficient portion of this additional ingredient");
@@ -45,7 +45,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
             CartAdditionalIngredient cartAdditionalIngredient=cartAdditionalIngredientDAO.getCartAdditionalIngredientsById(idCartAdditionalIngredient);
             cartAdditionalIngredientDAO.deleteAdditionalIngredientFromCartAI(cartAdditionalIngredient);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't delete from cart" + e);
         }
 
     }
@@ -55,7 +55,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
         try {
             return cartAdditionalIngredientDAO.getAllCartAdditionalIngredientByCart(cart);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get all by id" + e);
         }
     }
 
@@ -64,7 +64,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
         try {
             return cartAdditionalIngredientDAO.getAllCartAdditionalIngredients();
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get all " + e);
         }
     }
 
@@ -75,7 +75,7 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
             User user=userDAO.getUserById(idUser);
             return cartAdditionalIngredientDAO.getCartAdditionalIngredientsByUser(user);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get  CartAI" + e);
         }
     }
 }

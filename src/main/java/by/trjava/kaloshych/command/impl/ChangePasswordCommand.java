@@ -38,11 +38,11 @@ public class ChangePasswordCommand implements Command {
             request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_SUCCESSFUL);
             path = request.getContextPath()+PATH_COMMAND_ADMIN_CABINET;
         } catch (EmptyDataException e) {
-            request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_EMPTY_DATA);
+            session.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_EMPTY_DATA);
         } catch (InvalidCurrentPasswordException e) {
-            request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_INVALID);
+            session.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_INVALID);
         } catch (WrongConfirmPasswordException e) {
-            request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_NOT_MATH);
+            session.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_NOT_MATH);
         } catch (ServiceException e) {
             throw new CommandException();
         }

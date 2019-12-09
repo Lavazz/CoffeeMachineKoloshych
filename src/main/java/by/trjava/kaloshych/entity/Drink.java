@@ -50,15 +50,15 @@ public class Drink extends Component implements Serializable {
         }
         if (!super.equals(obj)) return false;
         Drink other = (Drink) obj;
-        if (price!=other.price) {
-          return  false;
+        if (Double.compare(price, other.price) != 0) {
+            return false;
         }
         if (description == null) {
             if (other.description != null) {
                 return false;
+            }
             } else if (!description.equals(other.description)) {
                 return false;
-            }
         }
         return true;
     }

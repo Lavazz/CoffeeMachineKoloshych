@@ -37,36 +37,14 @@ public class OrderServiceImpl implements OrderService {
             if (currentBalance < totalCost) {
                 throw new InsufficientMoneyException("In account insufficient money");
             }
-            Order order = orderDAO.addOrder(cartUser, totalCost);
+            int idOrder = orderDAO.addOrder(cartUser, totalCost);
+            Order order=orderDAO.getOrder(idOrder);
             accountDAO.decreaseBalance(order);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in OrderService can't add order" + e);
         }
     }
 
-    @Override
-    public void addOrderWithAdditionalIngredient(CartUser cartUser) throws ServiceException {
-
-        AdditionalIngredientDAO additionalIngredientDAO = DAOFactory.getInstance().getAdditionalIngredientDAO();
-        int newPortion;
-
-        try {
-
-            List<Cart> carts = cartDAO.getAllCarts(cartUser);
-            for (Cart cart : carts) {
-
-                List<CartAdditionalIngredient> cartAdditionalIngredients = cartAdditionalIngredientDAO.getAllCartAdditionalIngredientByCart(cart);
-                for (CartAdditionalIngredient cartAdditionalIngredient : cartAdditionalIngredients) {
-                    newPortion = additionalIngredientDAO.decreasePortion(cartAdditionalIngredient.getAdditionalIngredient(), cart.getPortion());
-                    if (newPortion < 1) {
-                        throw new InsufficientPortionException("In coffee machine insufficient portion of this additional ingredient");
-                    }
-                }
-            }
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     @Override
     public List<Order> getAllOrdersByUser(int idUser) throws ServiceException {
@@ -74,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
             User user = userDAO.getUserById(idUser);
             return orderDAO.getAllOrdersByUser(user);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in OrderService can't get all orders" + e);
         }
     }
 
@@ -83,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             return orderDAO.checkIdOrder(idOrder);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in OrderService can't check order" + e);
         }
     }
 
@@ -101,27 +79,8 @@ public class OrderServiceImpl implements OrderService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in OrderService can't cancel order" + e);
         }
     }
-
-    @Override
-    public Date getDateOrderByIdCartUser(CartUser cartUser) throws ServiceException {
-        try {
-            return orderDAO.getDateOrderByIdCartUser(cartUser);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
-    public double getTotalCostByIdCartUser(CartUser cartUser) throws ServiceException {
-        try {
-            return orderDAO.getTotalCostByIdCartUser(cartUser);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
-
 
 }

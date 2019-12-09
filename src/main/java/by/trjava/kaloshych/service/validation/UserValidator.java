@@ -1,8 +1,5 @@
 package by.trjava.kaloshych.service.validation;
 
-import by.trjava.kaloshych.service.ServiceFactory;
-import by.trjava.kaloshych.service.UserService;
-
 public class UserValidator {
     private static final String LOGIN_FORMAT_REGEX = "^[a-zA-Z][a-zA-Z0-9-_.]{3,12}$";
 

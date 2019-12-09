@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdditionalIngredientDAO {
     List<AdditionalIngredient> getAllAdditionalIngredients() throws DAOException;
    int decreasePortion(AdditionalIngredient additionalIngredient, int portion) throws DAOException;
-    AdditionalIngredient addNewAdditionalIngredient(String nameAdditionalIngredient, int calories) throws  DAOException;
+   int addNewAdditionalIngredient(String nameAdditionalIngredient, int calories) throws  DAOException;
     boolean deleteAdditionalIngredient(int idAdditionalIngredient) throws DAOException;
    AdditionalIngredient getAdditionalIngredient(int idAdditionalIngredient) throws DAOException;
 

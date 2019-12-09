@@ -51,7 +51,7 @@ public class Controller extends HttpServlet {
     }
 
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         final boolean permission = (boolean) request.getAttribute(PARAMETER_PERMISSION);
 
         if (permission) {

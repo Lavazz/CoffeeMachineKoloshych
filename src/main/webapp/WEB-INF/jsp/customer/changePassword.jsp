@@ -32,49 +32,30 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
 
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home"/></a></li>
-                <li class="nav-item "><a href="main?command=showDrinks" class="nav-link">
-                    <fmt:message key="main.message.drinks"/></a></li>
-                <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients"/></a></li>
-
-                <li class="nav-item active">
-                    <a href="main?command=goToChangePasswordPage" class="nav-link">
-                        <fmt:message key="nav.changePassword"/></a>
-                </li>
-
-                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
-                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
-            </ul>
-            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-        </div>
-    </div>
-</nav>
-
+<c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="ftco-section">
     <div class="container">
-        <c:if test="${messageChangePassword!=null}">
-            <h3> <fmt:message key="${messageChangePassword}"/></h3>
-        </c:if>
-        <c:remove var="messageChangePassword"/>
+        <div class="row">
+                <div class="col-md-12 col-sm-8 text-center ftco-animate">
+                    <c:if test="${sessionScope.messageChangePassword!=null}">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <fmt:message key="${sessionScope.messageChangePassword}"/>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <c:remove var="messageChangePassword"/>
+                    </c:if>
+                </div>
+        </div>
         <div class="row">
             <div class="col-xl-8 ftco-animate">
                 <form action="main" method="post" class="billing-form ftco-bg-dark p-3 p-md-5">
                     <h3 class="mb-4 billing-heading"><fmt:message key="changePassword.table.title" /></h3>
                     <div class="row align-items-end">
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                        <div class="w-100"></div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="current_password">
                                     <fmt:message key="changePassword.label.user.currentPassword" />
@@ -109,15 +90,13 @@
                             </div>
                         </div>
                     </div>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>

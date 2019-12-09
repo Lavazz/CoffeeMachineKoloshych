@@ -14,8 +14,6 @@ public interface DrinkService {
    double getDrinkPrice(int idDrink) throws ServiceException;
     void addNewDrink(String drink, String price, String description) throws ServiceException;
     void deleteDrink(String drink) throws ServiceException;
-    boolean changePrice(String drink, int newPrice) throws ServiceException;
     Drink getDrink(int idDrink) throws ServiceException;
     boolean checkDrinkById(int idComponent) throws  ServiceException;
-    Drink getDrink(Cart cart) throws ServiceException;
 }

@@ -3,16 +3,12 @@ package by.trjava.kaloshych.service.impl;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.exception.WrongAuthorizationDataException;
 import by.trjava.kaloshych.entity.User;
-import by.trjava.kaloshych.service.ServiceFactory;
 import by.trjava.kaloshych.service.UserService;
 import by.trjava.kaloshych.service.exception.*;
 import by.trjava.kaloshych.service.util.encrypting.PasswordEncrypting;
 import by.trjava.kaloshych.service.validation.InputDataValidator;
 import by.trjava.kaloshych.service.validation.UserValidator;
-
-import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private  final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
@@ -48,13 +44,13 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.updateUserPassword(user, encodedPassword);
         } catch (DAOException e) {
-            throw new ServiceException(e.getMessage(), e);
+            throw new ServiceException("DAO Exception in UserService can't update password" + e);
         }
     }
 
 
     @Override
-    public User logIn(String login, String password) throws ServiceException {
+    public User authorization(String login, String password) throws ServiceException {
         String originalPassword;
         User user;
         if (inputDataValidator.isEmpty(password)
@@ -72,7 +68,7 @@ public class UserServiceImpl implements UserService {
            }
             originalPassword = user.getPassword();
         } catch (DAOException e) {
-            throw new ServiceException(e.getMessage(), e);
+            throw new ServiceException("DAO Exception in UserService can't log in" + e);
         }
         if (!originalPassword.equals(encrypting.generateHash(login, password))) {
             throw new InvalidCurrentPasswordException("Incorrect  password");
@@ -102,28 +98,20 @@ public class UserServiceImpl implements UserService {
 
         String encodedPassword = encrypting.generateHash(login, password);
         try {
-            return userDAO.registration(login, encodedPassword, email, name);
+           int idUser=userDAO.registration(login, encodedPassword, email, name);
+            return userDAO.getUserById(idUser);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in UserService in registration" + e);
         }
     }
 
-
-    @Override
-    public List<User> getAllUsers() throws ServiceException {
-        try {
-            return userDAO.getAllUsers();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     @Override
     public boolean checkId(int id) throws ServiceException {
         try {
             return userDAO.checkId(id);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in UserService can't check id user" + e);
         }
     }
 
@@ -132,7 +120,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.getUserById(idUser);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in UserService can't check user by id" + e);
         }
     }
 
@@ -141,7 +129,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.checkUserExists(login);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in UserService can't check if user exists" + e);
         }
     }
 
@@ -150,7 +138,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.getUserByLogin(login);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in UserService can't get user by login" + e);
         }
     }
 }

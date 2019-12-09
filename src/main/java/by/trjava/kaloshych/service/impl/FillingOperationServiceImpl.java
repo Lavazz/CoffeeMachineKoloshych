@@ -25,7 +25,7 @@ public class FillingOperationServiceImpl implements FillingOperationService {
         try {
             return fillingOperationDAO.getAllComponents();
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in FillingOperationService can't get all components" + e);
         }
     }
 
@@ -40,7 +40,7 @@ public class FillingOperationServiceImpl implements FillingOperationService {
                 fillingOperationDAO.fillingOperation(Integer.parseInt(idComponent));
         }
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in FillingOperationService can't filling" + e);
         }
     }
 

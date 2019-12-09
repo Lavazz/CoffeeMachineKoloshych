@@ -32,27 +32,8 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home" /></a></li>
-                <li class="nav-item "><a href="main?command=showDrinks" class="nav-link">
-                    <fmt:message key="main.message.drinks"/></a></li>
-                <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients" /></a></li>
-                <li class="nav-item active"><a href="main?command=goToFillingOperationPage" class="nav-link">
-                    <fmt:message key="main.message.fillingOperation" /></a>
-                </li>
-                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
-                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
-            </ul>
-            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-        </div>
-    </div>
-</nav>
+
+<c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="ftco-section ftco-cart">
     <div class="container">
@@ -97,7 +78,7 @@
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>

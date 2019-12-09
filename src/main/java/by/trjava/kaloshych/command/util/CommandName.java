@@ -1,5 +1,14 @@
 package by.trjava.kaloshych.command.util;
 
+/**
+ * final class with all commands from jsp
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see by.trjava.kaloshych.command.Command
+ * @since JDK1.0
+ */
+
 public class CommandName {
     private CommandName() {
     }

@@ -3,6 +3,7 @@ package by.trjava.kaloshych.dao.impl;
 import by.trjava.kaloshych.dao.*;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AdditionalIngredient;
@@ -20,18 +21,20 @@ import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
 import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
 
 public class SQLFillingOperationDAO implements FillingOperationDAO {
+
     private final DBConnectionPool pool = DBConnectionPool.getInstance();
+
 
     @Override
     public List<Component> getAllComponents() throws DAOException {
-        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
         final AdditionalIngredientDAO additionalIngredientDAO = DAOFactory.getInstance().getAdditionalIngredientDAO();
+        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
 
         ResultSet rs = null;
         List<Component> componentList = new ArrayList<>();
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_FILLING_OPERATION)) {
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -45,91 +48,74 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
             }
             return componentList;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL Filling operation Exception can't get all components " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
     }
 
     @Override
-    public boolean fillingOperation(int idComponent) throws DAOException {
+    public void fillingOperation(int idComponent) throws DAOException {
         final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-        boolean result;
-
         if (drinkDAO.checkDrinkById(idComponent)) {
-            result = fillingDrinkComponent(idComponent);
+            fillingComponent(idComponent, QUERY_FILLING_MAX_PORTION_DRINK, QUERY_FILLING_DRINK);
         } else {
-            result = fillingAdditionalIngredient(idComponent);
+            fillingComponent(idComponent, QUERY_FILLING_ADDITIONAL, QUERY_FILLING_ADDITIONAL);
         }
-        return result;
+
     }
 
     @Override
-    public void addComponentToFillingOperation(Drink drink) throws DAOException {
-        addComponentToFillingOperationTable(drink, QUERY_DRINK_ADD_FILLING);
-    }
+    public void addComponentToFillingOperation(Component component) throws DAOException {
+        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
+        if (drinkDAO.checkDrinkById(component.getIdComponent())) {
+            addComponentToFillingOperationTable(component, QUERY_DRINK_ADD_FILLING);
+        } else {
+            addComponentToFillingOperationTable(component, QUERY_ADDITIONAL_INGREDIENT_ADD_FILLING);
+        }
 
-    @Override
-    public void addComponentToFillingOperation(AdditionalIngredient additionalIngredient) throws DAOException {
-        addComponentToFillingOperationTable(additionalIngredient, QUERY_ADDITIONAL_INGREDIENT_ADD_FILLING);
     }
-
 
     private void addComponentToFillingOperationTable(Component component, String query) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, component.getIdComponent());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL Filling operation Exception can't add component to filling table " + e);
         }
     }
 
-    private boolean fillingDrinkComponent(int idComponent) throws DAOException {
+    private void fillingComponent(int idComponent, String queryGetMaxPortion, String queryFilling) throws DAOException {
         PreparedStatement ps2 = null;
         ResultSet rs = null;
         int maxPortion = 0;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-             PreparedStatement ps = con.prepareStatement(QUERY_FILLING_OPERATION_DRINK)) {
-            ps.setInt(1, idComponent);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                maxPortion = rs.getInt(PARAMETER_MAX_PORTION);
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper()) {
+
+            con.setAutoCommit(false);
+
+            try (PreparedStatement ps = con.prepareStatement(queryGetMaxPortion)) {
+                ps.setInt(1, idComponent);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    maxPortion = rs.getInt(PARAMETER_MAX_PORTION);
+                }
+                ps2 = con.prepareStatement(queryFilling);
+                ps2.setInt(1, maxPortion);
+                ps2.setInt(2, idComponent);
+                ps2.executeUpdate();
+                con.commit();
+            } catch (SQLException e) {
+                con.rollback();
+                throw new DAOException("SQL Filling operation Exception can't filling component " + e);
+            } finally {
+                con.setAutoCommit(true);
             }
-            ps2 = con.prepareStatement(QUERY_FILLING_DRINK);
-            ps2.setInt(1, maxPortion);
-            ps2.setInt(2, idComponent);
-            return ps2.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            JDBCShutter.shut(rs, ps2);
-        }
-    }
-
-    private boolean fillingAdditionalIngredient(int idComponent) throws DAOException {
-        PreparedStatement ps2 = null;
-        ResultSet rs = null;
-        int maxPortion = 0;
-
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-             PreparedStatement ps = con.prepareStatement(QUERY_FILLING_OPERATION_ADDITIONAL_INGREDIENT)) {
-            ps.setInt(1, idComponent);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                maxPortion = rs.getInt(PARAMETER_MAX_PORTION);
-            }
-
-            ps2 = con.prepareStatement(QUERY_FILLING_ADDITIONAL);
-            ps2.setInt(1, maxPortion);
-            ps2.setInt(2, idComponent);
-            return ps2.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("SQL Filling operation Exception can't filling component " + e);
         } finally {
             JDBCShutter.shut(rs, ps2);
         }

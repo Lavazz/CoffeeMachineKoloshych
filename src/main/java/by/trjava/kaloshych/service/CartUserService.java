@@ -9,6 +9,8 @@ import java.util.List;
 public interface CartUserService {
     void deleteCartUser(User user) throws ServiceException;
     CartUser addCartUser(int idUser) throws ServiceException;
+    CartUser addCartUserForAuthorization(User user) throws ServiceException;
     List<CartUser> getCartUser(User user) throws ServiceException ;
+    CartUser getLastCartUser(User user) throws ServiceException ;
     CartUser getCartUserById(int idCartUser) throws ServiceException;
 }

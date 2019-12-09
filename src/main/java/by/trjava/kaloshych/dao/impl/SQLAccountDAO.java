@@ -5,6 +5,7 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AccountUser;
@@ -46,9 +47,8 @@ public class SQLAccountDAO implements AccountDAO {
     @Override
     public double getBalance(User user) throws DAOException {
         double balance = 0;
-
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_BALANCE)) {
             ps.setInt(1, user.getId());
             try (ResultSet rs = ps.executeQuery()) {
@@ -65,7 +65,7 @@ public class SQLAccountDAO implements AccountDAO {
 
     private void addAccount(AccountUser accountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ACCOUNT_ADD)) {
             ps.setInt(1, accountUser.getIdAccountUser());
             ps.setInt(2, idPaymentMethod);

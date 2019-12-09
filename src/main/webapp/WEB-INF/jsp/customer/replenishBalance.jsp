@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -36,27 +36,8 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home" /></a></li>
-                <li class="nav-item"><a href="main?command=showDrinks" class="nav-link">
-                    <fmt:message key="main.message.drinks"/></a></li>
-                <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients" /></a></li>
 
-                <li class="nav-item active"><a href="main?command=showReplenishBalanceForm" class="nav-link">
-                    <fmt:message key="nav.replenishBalance"/></a></li>
-                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
-                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
-            </ul>
-            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-        </div>
-    </div>
-</nav>
+<c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="ftco-section ftco-cart">
     <div class="container">
@@ -74,40 +55,44 @@
             </div>
         </div>
         <div class="text-right">
-        <h2><fmt:message key="personalCabinet.balance" /> ${requestScope.balance}</h2>
-    </div>
+            <h2><fmt:message key="personalCabinet.balance"/> ${requestScope.balance}</h2>
+        </div>
 
-    <div class="col-md-4 d-flex">
+        <div class="col-md-4 d-flex">
             <div class="cart-detail ftco-bg-dark p-6 p-md-4">
                 <h5 class="billing-heading mb-4"><fmt:message key="account.payment.method"/></h5>
                 <div class="form-group">
                     <div class="col-md-12">
-                           <div class="radio">
+                        <div class="radio">
                             <form action="main" method="post">
-                            <c:forEach items="${requestScope.paymentMethods}" var="paymentMethod">
-                                <br>    <label>
-                                    <input type="radio" name="radioIdPaymentMethod"  value="${paymentMethod.idPaymentMethod}">
-                                        ${paymentMethod.namePaymentMethod}  </label>
-
+                                <c:forEach items="${requestScope.paymentMethods}" var="paymentMethod">
+                                <br><label>
+                                <input type="radio" name="radioIdPaymentMethod"
+                                       value="${paymentMethod.idPaymentMethod}">
+                                    ${paymentMethod.namePaymentMethod}
+                            </label>
                                 </c:forEach>
                         </div>
-                </div>
-                <label><fmt:message key="increaseBalance.label.sum"/> </label>
+                    </div>
+                    <label><fmt:message key="increaseBalance.label.sum"/> </label>
                     <label>
-                        <input name="amountOfMoney"  class="form-control" value="" type="text" placeholder="min 2 byn" required>
+                        <input name="amountOfMoney" class="form-control" value="" type="text" placeholder="min 2 byn"
+                               required>
                     </label>
-                    <p> <input type="hidden" name="command" value="replenishBalance">
-                    <input type="submit" name="submit" class="btn btn-primary py-3 px-4"
-                           value="<fmt:message key='increaseBalance.label.deposit'/>"> </p>
+                    <p><input type="hidden" name="command" value="replenishBalance">
+                        <input type="submit" name="submit" class="btn btn-primary py-3 px-4"
+                               value="<fmt:message key='increaseBalance.label.deposit'/>"></p>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

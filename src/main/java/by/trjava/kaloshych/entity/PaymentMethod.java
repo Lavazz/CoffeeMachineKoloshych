@@ -55,9 +55,9 @@ public class PaymentMethod implements Serializable {
         if (namePaymentMethod == null) {
             if (other.namePaymentMethod != null) {
                 return false;
+            }
             } else if (!namePaymentMethod.equals(other.namePaymentMethod)) {
                 return false;
-            }
         }
         return true;
     }

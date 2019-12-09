@@ -23,7 +23,7 @@ public class DrinkTranslator extends TagSupport {
         JspWriter out = pageContext.getOut();
         String language = String.valueOf(pageContext.getSession().getAttribute(PARAMETER_SESSION_LOCALE));
         try {
-            if (language.equals("en")) {
+            if (language.equals("en_EN")) {
                 switch (drink.getNameComponent()) {
                     case "Латте макиато":
                         out.write("Latte macchiato");

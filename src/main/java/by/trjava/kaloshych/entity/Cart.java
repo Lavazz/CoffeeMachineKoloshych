@@ -74,16 +74,16 @@ public class Cart implements Serializable {
         if (drink == null) {
             if (other.drink != null) {
                 return false;
+            }
             } else if (drink != other.drink) {
                 return false;
-            }
         }
         if (cartUser == null) {
             if (other.cartUser != null) {
                 return false;
+            }
             } else if (cartUser != other.cartUser) {
                 return false;
-            }
         }
 
         if (portion != other.portion) {

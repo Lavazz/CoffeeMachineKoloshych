@@ -22,7 +22,7 @@ public class DescriptionTranslator extends TagSupport {
         JspWriter out = pageContext.getOut();
         String language = String.valueOf(pageContext.getSession().getAttribute(PARAMETER_SESSION_LOCALE));
         try {
-            if (language.equals("en")) {
+            if (language.equals("en_EN")) {
                 switch (drink.getDescription()) {
                     case "Горячий кофейный напиток, приготавливаемый путём вливания в молоко кофе-эспрессо в пропорции 3:1. " +
                             "Колорийность 29ккал":

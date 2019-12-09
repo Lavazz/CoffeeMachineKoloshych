@@ -42,7 +42,7 @@ public class ComponentServiceImpl implements ComponentService {
                 }
             }
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in ComponentService can't delete component" + e);
         }
     }
 

@@ -4,6 +4,7 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
 import by.trjava.kaloshych.dao.impl.util.SQLUtil;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AccountUser;
@@ -22,21 +23,20 @@ public class SQLAccountUserDAO implements AccountUserDAO {
     private final DBConnectionPool pool = DBConnectionPool.getInstance();
 
     @Override
-    public AccountUser addAccountUser(User user) throws DAOException {
+    public int addAccountUser(User user) throws DAOException {
         ResultSet rs = null;
         int idAccountUser=0;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_ADD_ACCOUNT_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, user.getId());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            while (rs.next()) {
-                    idAccountUser = rs.getInt(PARAMETER_COLUMN_INDEX);
+           if (rs.next()) {
+               idAccountUser = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return new AccountUser(idAccountUser, user);
-
+            return idAccountUser;
         } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't create accountUser " + e);
         } finally {
@@ -50,7 +50,7 @@ public class SQLAccountUserDAO implements AccountUserDAO {
         AccountUser accountUser = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_ACCOUNT_USER_BY_USER)) {
             ps.setInt(1, user.getId());
             rs = ps.executeQuery();
@@ -70,7 +70,7 @@ public class SQLAccountUserDAO implements AccountUserDAO {
         ResultSet rs = null;
         AccountUser accountUser = null;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_ACCOUNT_USER)) {
             ps.setInt(1, idAccountUser);
             rs = ps.executeQuery();

@@ -54,16 +54,16 @@ public class CartUser implements Serializable {
         if (user== null) {
             if (other.user != null) {
                 return false;
+            }
             } else if (!user.equals(other.user)) {
                 return false;
             }
-        }
         return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * idCartUser + (user==null?0:user.hashCode()));
+        return 31 * idCartUser + (user==null?0:user.hashCode());
     }
 
     @Override

@@ -32,42 +32,14 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home"/></a></li>
-                <li class="nav-item "><a href="main?command=showDrinks" class="nav-link">
-                    <fmt:message key="main.message.drinks"/></a></li>
-                <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients"/></a></li>
-                <c:if test="${sessionScope.idUser== null }">
-                    <li class="nav-item"><a href="main?command=goToRegistrationPage" class="nav-link">
-                        <fmt:message key="main.message.registration"/></a>
-                    </li>
-                    <li class="nav-item"><a href="main?command=goToAuthorizationPage" class="nav-link">
-                        <fmt:message key="main.message.authorization"/></a></li>
-                </c:if>
-                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
-                <c:import url="/WEB-INF/jsp/nawCartAndLogout.jsp"/>
-            </ul>
-            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-        </div>
-    </div>
-    </div>
-</nav>
-
+                    <c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="home-slider owl-carousel">
     <div class="slider-item" style="background-image: url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
-                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                <div class="col">
                     <c:out value=" "/>
                     <br><br><br><br><br>
                 </div>
@@ -76,8 +48,8 @@
                 <div class="col-md-12 col-sm-10 text-center ftco-animate">
                     <c:if test="${sessionScope.mainMessage!=null}">
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong> <c:out value="${sessionScope.userName}, "/></strong><fmt:message
-                                key="${sessionScope.mainMessage}"/>
+                            <strong> <c:out value="${sessionScope.userName}, "/></strong>
+                            <fmt:message key="${sessionScope.mainMessage}"/>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -101,7 +73,7 @@
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
 <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px"></svg>

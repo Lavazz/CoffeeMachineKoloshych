@@ -47,14 +47,33 @@ public class FillingOperation {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FillingOperation that = (FillingOperation) o;
-        return idFillingOperation == that.idFillingOperation &&
-                maxPortion == that.maxPortion &&
-                component.equals(that.component);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        FillingOperation other = (FillingOperation) obj;
+        if (idFillingOperation!=other.idFillingOperation) {
+            return  false;
+        }
+        if (component == null) {
+            if (other.component != null) {
+                return false;
+            }
+        } else if (!component.equals(other.component)) {
+            return false;
+        }
+        if (maxPortion!=other.maxPortion) {
+            return  false;
+        }
+        return true;
     }
+
 
     @Override
     public int hashCode() {

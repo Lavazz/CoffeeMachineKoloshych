@@ -1,6 +1,7 @@
 package by.trjava.kaloshych.dao.impl.util;
 
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -8,10 +9,8 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 
 public class JDBCShutter {
-    protected  final ConnectionPool pool = DBConnectionPool.getInstance();
-
+    protected static final ConnectionPool pool = DBConnectionPool.getInstance();
     private static final Logger logger = LogManager.getLogger(JDBCShutter.class);
-
 
     public static void shut(ResultSet rs) {
         try {
@@ -40,5 +39,7 @@ public class JDBCShutter {
         } catch (SQLException e) {
             logger.warn("can't close st" + e);
         }
+
     }
+
 }

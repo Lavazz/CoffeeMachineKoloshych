@@ -19,15 +19,15 @@ import java.util.List;
 public class DrinkServiceImpl implements DrinkService {
 
     private final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-   private final FillingOperationDAO fillingOperationDAO=DAOFactory.getInstance().getFillingOperationDAO();
-    private  final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
+    private final FillingOperationDAO fillingOperationDAO = DAOFactory.getInstance().getFillingOperationDAO();
+    private final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
 
     @Override
     public List<Drink> getAllDrinks() throws ServiceException {
         try {
             return drinkDAO.getAllDrinks();
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't get all drinks" + e);
         }
     }
 
@@ -36,16 +36,17 @@ public class DrinkServiceImpl implements DrinkService {
         try {
             return drinkDAO.decreasePortion(drink, portion);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't decrease portion" + e);
         }
     }
 
     @Override
     public double getDrinkPrice(int idDrink) throws ServiceException {
         try {
-            return drinkDAO.getDrinkPrice(idDrink);
+            Drink drink = drinkDAO.getDrink(idDrink);
+            return drinkDAO.getDrinkPrice(drink);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't get drink price" + e);
         }
     }
 
@@ -56,19 +57,20 @@ public class DrinkServiceImpl implements DrinkService {
                 || inputDataValidator.isEmpty(description)) {
             throw new EmptyDataException("Empty data");
         }
-        if(!DrinkValidator.getInstance().validate(drinkName, Double.parseDouble(price), description)){
+        if (!DrinkValidator.getInstance().validate(drinkName, Double.parseDouble(price), description)) {
             throw new IncorrectComponentInformationException("incorrect information about component");
         }
 
-        if(!DrinkValidator.getInstance().validate(drinkName, Double.parseDouble(price), description)){
+        if (!DrinkValidator.getInstance().validate(drinkName, Double.parseDouble(price), description)) {
             throw new IncorrectComponentInformationException("incorrect information about component");
         }
 
         try {
-         Drink drink=drinkDAO.addNewDrink(drinkName, Double.parseDouble(price), description);
+            int idDrink = drinkDAO.addNewDrink(drinkName, Double.parseDouble(price), description);
+            Drink drink = drinkDAO.getDrink(idDrink);
             fillingOperationDAO.addComponentToFillingOperation(drink);
         } catch (DAOException e) {
-           throw  new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't add new drink" + e);
         }
     }
 
@@ -77,44 +79,28 @@ public class DrinkServiceImpl implements DrinkService {
         try {
             drinkDAO.deleteDrink(drink);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't delete drink" + e);
         }
     }
 
-    @Override
-    public boolean changePrice(String drink, int newPrice) throws ServiceException {
-        try {
-          return   drinkDAO.changePrice(drink, newPrice);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     @Override
     public Drink getDrink(int idDrink) throws ServiceException {
         try {
-          return   drinkDAO.getDrink(idDrink);
+            return drinkDAO.getDrink(idDrink);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't get drink" + e);
         }
     }
 
     @Override
     public boolean checkDrinkById(int idComponent) throws ServiceException {
         try {
-         return  drinkDAO.checkDrinkById(idComponent);
+            return drinkDAO.checkDrinkById(idComponent);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in DrinkService can't check drink by id" + e);
         }
-    }
 
-    @Override
-    public Drink getDrink(Cart cart) throws ServiceException {
-        try {
-          return   drinkDAO.getDrink(cart);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
     }
 
 }

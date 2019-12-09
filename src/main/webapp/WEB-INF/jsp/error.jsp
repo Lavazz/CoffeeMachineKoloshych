@@ -21,11 +21,14 @@
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/404.jpg);">
 <div class="container">
 <div style="color:#ffffff">
+    <div class="row align-items-center">
+    <div class="column">
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <p> <h2 >  <fmt:message key="error.message.not_found"/></h2>
     <p> <h2>  <a href="main?command=goToMainPage">
     <fmt:message key="error.message.go_back"/></a></h2>
-
+    </div>
+    </div>
 </div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>

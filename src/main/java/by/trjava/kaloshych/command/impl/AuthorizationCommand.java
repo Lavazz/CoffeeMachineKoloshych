@@ -32,8 +32,8 @@ public class AuthorizationCommand implements Command {
 
         String pagePath = PATH_AUTHORIZATION;
         try {
-            User user = userService.logIn(login, password);
-            CartUser cartUser = cartUserService.addCartUser(user.getId());
+            User user = userService.authorization(login, password);
+            CartUser cartUser = cartUserService.addCartUserForAuthorization(user);
 
             session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());
             session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUserService.getAccountUser(user).getIdAccountUser());

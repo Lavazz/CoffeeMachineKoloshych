@@ -17,13 +17,13 @@ public class AccountUserServiceImpl implements AccountUserService {
 
     @Override
     public AccountUser addAccountUser(User user) throws ServiceException {
-AccountUser accountUser;
         try {
-            accountUser=accountUserDAO.addAccountUser(user);
+           int idAccountUser=accountUserDAO.addAccountUser(user);
+           AccountUser accountUser=accountUserDAO.getAccountUser(idAccountUser);
             accountDAO.addNewAccount(accountUser);
             return accountUser;
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in accountUserService can't add accountUser" + e);
         }
     }
 
@@ -32,7 +32,7 @@ AccountUser accountUser;
         try {
             return accountUserDAO.getAccountUser(user);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException("DAO Exception in accountUserService can't get accountUser" + e);
         }
     }
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="http://trjava.by/kaloshych" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
@@ -36,129 +37,106 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <c:import url="/WEB-INF/jsp/navBrand.jsp"/>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item "><a href="main?command=goToMainPage" class="nav-link">
-                    <fmt:message key="main.message.home"/></a></li>
-                <li class="nav-item"><a href="main?command=showDrinks" class="nav-link">
-                    <fmt:message key="main.message.drinks"/></a></li>
-                <li class="nav-item"><a href="main?command=showAdditionalIngredients" class="nav-link">
-                    <fmt:message key="main.message.additionalIngredients"/></a></li>
-                <c:import url="/WEB-INF/jsp/nawCabinet.jsp"/>
-                <li class="nav-item"><a href="main?command=logOut" class="nav-link">
-                    <fmt:message key="locale.drinks.logout"/></a></li>
 
-                <li class="nav-item active"><a href="main?command=showCart" class="nav-link">
-                    <fmt:message key="nav.cart"/></a></li>
-            </ul>
-            <c:import url="/WEB-INF/jsp/formLanguage.jsp"/>
-        </div>
-    </div>
-</nav>
+<c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="ftco-section ftco-cart">
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-md-10 ftco-animate">
-            <c:if test="${sessionScope.messageCart!=null}">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong><fmt:message key="${sessionScope.messageCart}"/></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <c:remove var="messageCart"/>
-            </c:if>
-            <c:if test="${requestScope.carts==null}">
-                <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
-            </c:if>
-            <c:if test="${requestScope.carts!=null}">
-            <div class="cart-list">
-                <table class="table">
-                    <thead class="thead-primary">
-                    <tr class="text-center">
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                        <th><fmt:message key="edit.option.drink"/></th>
-                        <th><fmt:message key="edit.option.additional_ingredient"/></th>
-                        <th><fmt:message key="edit.label.component.price"/></th>
-                        <th><fmt:message key="admin.table.portion"/></th>
-                        <th><fmt:message key="cart.total"/></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${requestScope.carts}" var="cart">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <c:if test="${sessionScope.messageCart!=null}">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong><fmt:message key="${sessionScope.messageCart}"/></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:remove var="messageCart"/>
+                </c:if>
+                <c:if test="${requestScope.carts==null}">
+                    <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
+                </c:if>
+                <c:if test="${requestScope.carts!=null}">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
                         <tr class="text-center">
-                            <td class="product-remove">
-                                <a href="main?command=deleteCartFromOrder&idCart=${cart.idCart}">
-                                    <span class="icon-close"></span></a></td>
-
-                            <td class="image-prod">
-                                <div class="img" style="background-image:url(${cart.drink.picturePath});"></div>
-                            </td>
-
-                            <td class="product-name">
-                                <h3>${cart.drink.nameComponent}</h3>
-                                <p>${cart.drink.description}</p>
-                            </td>
-
-                            <td class="product-name">
-                                <c:forEach items="${requestScope.cartAdditionalIngredients}" var="cartAdditionalIngredient">
-                                    <c:if test="${cartAdditionalIngredient.cart.idCart==cart.idCart}">
-                                        <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>
-                                    </c:if>
-                                </c:forEach>
-                            </td>
-
-                            <td class="price">${cart.drink.price}</td>
-
-                            <td class="portion">
-                                <div class="input-group mb-3">
-                                    <a href="main?command=changePortion&sign=minus&idCart=${cart.idCart}">
-                                        <h2><fmt:message key='cart.minus'/></h2></a>
-
-                                    &ensp; <h4> ${cart.portion}</h4> &ensp;
-                                    <a href="main?command=changePortion&sign=plus&idCart=${cart.idCart}">
-                                        <h2><fmt:message key='cart.plus'/></h2></a>
-                                </div>
-                            </td>
-
-                            <td class="total">${cart.drink.price*cart.portion}</td>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th><fmt:message key="edit.option.drink"/></th>
+                            <th><fmt:message key="edit.option.additional_ingredient"/></th>
+                            <th><fmt:message key="edit.label.component.price"/></th>
+                            <th><fmt:message key="admin.table.portion"/></th>
+                            <th><fmt:message key="cart.total"/></th>
                         </tr>
-                        <!-- END TR-->
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${requestScope.carts}" var="cart">
+                            <tr class="text-center">
+                                <td class="product-remove">
+                                    <a href="main?command=deleteCartFromOrder&idCart=${cart.idCart}">
+                                        <span class="icon-close"></span></a></td>
 
-                    </c:forEach>
-                    </tbody>
-                </table>
+                                <td class="image-prod">
+                                    <div class="img" style="background-image:url(${cart.drink.picturePath});"></div>
+                                </td>
+
+                                <td class="product-name">
+                                    <h3><ctg:outDrink drink="${cart.drink}"/></h3>
+<%--                                    <h3>${cart.drink.nameComponent}</h3>--%>
+                                </td>
+
+                                <td class="product-name">
+                                    <c:forEach items="${requestScope.cartAdditionalIngredients}"
+                                               var="cartAdditionalIngredient">
+                                        <c:if test="${cartAdditionalIngredient.cart.idCart==cart.idCart}">
+                                            <h3><ctg:outAdditionalIngredient additionalIngredient="${cartAdditionalIngredient.additionalIngredient}"/></h3>
+<%--                                            <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>--%>
+                                        </c:if>
+                                    </c:forEach>
+                                </td>
+                                <td class="price"><h5>${cart.drink.price}</h5></td>
+                                <td class="portion">
+                                    <div class="input-group mb-3">
+                                        <a href="main?command=changePortion&sign=minus&idCart=${cart.idCart}">
+                                            <h2><fmt:message key='cart.minus'/></h2></a>
+                                        &ensp; <h4> ${cart.portion}</h4> &ensp;
+                                        <a href="main?command=changePortion&sign=plus&idCart=${cart.idCart}">
+                                            <h2><fmt:message key='cart.plus'/></h2></a>
+                                    </div>
+                                </td>
+                                <td class="total"><h5>${cart.drink.price*cart.portion}</h5></td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row justify-content-end">
-        <div class="col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate">
-            <div class="cart-total mb-3">
-                <h3><fmt:message key="cart.totals"/></h3>
-
-                <hr>
-                <p class="d-flex total-price">
-                    <span><fmt:message key="cart.total"/></span>
-                    <span>${requestScope.totalCost}</span>
-                </p>
+        <div class="row justify-content-end">
+            <div class="col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3><fmt:message key="cart.totals"/></h3>
+                    <hr>
+                    <p class="d-flex total-price">
+                        <span><fmt:message key="cart.total"/></span>
+                        <span>${requestScope.totalCost}</span>
+                    </p>
+                </div>
+                <p class="text-center"><a href="main?command=addOrder" class="btn btn-primary py-3 px-4"><fmt:message
+                        key="cart.make_order"/></a></p>
+                <c:if test="${requestScope.carts!=null}">
+                    <p class="text-center"><a href="main?command=cancelOrder"
+                                              class="btn btn-primary py-3 px-4"><fmt:message
+                            key="cart.cancel_order"/></a></p>
+                </c:if>
             </div>
-            <p class="text-center"><a href="main?command=addOrder" class="btn btn-primary py-3 px-4"><fmt:message
-                    key="cart.make_order"/></a></p>
-            <c:if test="${requestScope.carts!=null}">
-                <p class="text-center"><a href="main?command=cancelOrder" class="btn btn-primary py-3 px-4"><fmt:message
-                        key="cart.cancel_order"/></a></p>
             </c:if>
         </div>
-        </c:if>
     </div>
 </section>
 
-<c:import url="/WEB-INF/jsp/footer.jsp"/>
+<c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
 <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px"></svg>

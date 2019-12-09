@@ -27,7 +27,7 @@ private  final InputDataValidator dataValidator=InputDataValidator.getInstance()
         try {
             accountDAO.addNewAccount(accountUser);
         } catch (DAOException e) {
-            throw new ServiceException( e);
+            throw new ServiceException("DAO Exception in accountService can't add new account" + e);
         }
     }
 
@@ -44,7 +44,7 @@ private  final InputDataValidator dataValidator=InputDataValidator.getInstance()
             AccountUser accountUser=accountUserDAO.getAccountUser(idAccountUser);
             accountDAO.replenishBalance(accountUser, Integer.parseInt(idPaymentMethod), Double.parseDouble(amountOfMoney));
         } catch (DAOException e) {
-            throw new ServiceException( e);
+            throw new ServiceException("DAO Exception in accountService, can't replenish balance" + e);
         }
     }
 
@@ -53,7 +53,7 @@ private  final InputDataValidator dataValidator=InputDataValidator.getInstance()
         try {
             return  accountDAO.decreaseBalance(order)>0;
         } catch (DAOException e) {
-            throw new ServiceException( e);
+            throw new ServiceException("DAO Exception in accountService can't decrease balance" + e);
         }
     }
 
@@ -63,7 +63,7 @@ private  final InputDataValidator dataValidator=InputDataValidator.getInstance()
            AccountUser accountUser= accountUserDAO.getAccountUser(idAccountUser);
             return accountDAO.getBalance(accountUser.getUser());
         } catch (DAOException e) {
-            throw new ServiceException( e);
+            throw new ServiceException("DAO Exception in accountService can't get balance" + e);
         }
     }
 

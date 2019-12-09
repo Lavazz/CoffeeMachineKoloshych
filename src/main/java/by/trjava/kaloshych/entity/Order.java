@@ -78,16 +78,14 @@ public class Order implements Serializable {
         if (dateOrder == null) {
             if (other.dateOrder != null) {
                 return false;
+            }
             } else if (!dateOrder.equals(other.dateOrder)) {
                 return false;
             }
-        }
-        if (totalCost != other.totalCost) {
-            return false;
-        }
-
-        return true;
+        return  Double.compare(totalCost, other.totalCost) == 0;
     }
+
+
 
     @Override
     public int hashCode() {

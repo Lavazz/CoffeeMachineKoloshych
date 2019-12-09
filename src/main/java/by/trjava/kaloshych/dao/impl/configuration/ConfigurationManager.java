@@ -33,7 +33,7 @@ public class ConfigurationManager {
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_LOGIN = "login";
     public static final String PARAMETER_NAME = "name";
-    public static final String PARAMETER_DATE_ORDER = "date_Order";
+    public static final String PARAMETER_DATE_ORDER = "date_order";
     public static final String PARAMETER_TOTAL_COST = "total_cost";
     public static final String PARAMETER_CALORIES = "calories";
     public static final String PARAMETER_NAME_PAYMENT_METHOD = "name_payment_method";

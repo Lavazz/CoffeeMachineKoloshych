@@ -11,9 +11,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface OrderDAO {
-    Order addOrder(CartUser cartUser, double totalCost) throws DAOException;
-    Date getDateOrderByIdCartUser(CartUser cartUser) throws DAOException;
-    double getTotalCostByIdCartUser(CartUser cartUser) throws DAOException;
+    int addOrder(CartUser cartUser, double totalCost) throws DAOException;
     List<Order> getAllOrdersByUser(User user) throws DAOException;
     boolean checkIdOrder(int idOrder) throws DAOException;
+    Order getOrder(int idOrder) throws DAOException;
+   Order getLastOrderByUser(User user) throws  DAOException;
 }

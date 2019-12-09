@@ -6,6 +6,7 @@ import by.trjava.kaloshych.dao.exception.WrongAuthorizationDataException;
 import by.trjava.kaloshych.dao.exception.WrongLoginDAOException;
 import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
 import by.trjava.kaloshych.dao.impl.util.SQLUtil;
+import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
 import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
 import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.User;
@@ -30,7 +31,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet rs = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER)) {
             ps.setString(1, userLogin);
             ps.setString(2, userPassword);
@@ -48,12 +49,12 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public User registration(String login, String password, String email, String name) throws DAOException {
+    public int registration(String login, String password, String email, String name) throws DAOException {
         ResultSet rs;
         int idUser = 0;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_REGISTER_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, login);
             ps.setString(2, password);
@@ -64,7 +65,7 @@ public class SQLUserDAO implements UserDAO {
             while (rs.next()) {
                 idUser = rs.getInt(PARAMETER_COLUMN_INDEX);
             }
-            return new User(idUser, login, password, email, name, UserStatus.CUSTOMER);
+            return idUser;
         } catch (SQLException e) {
             throw new DAOException(e);
         }
@@ -74,7 +75,7 @@ public class SQLUserDAO implements UserDAO {
     public boolean updateUserPassword(User user, String newPassword) throws DAOException {
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_UPDATE_PASSWORD)) {
             ps.setString(1, newPassword);
             ps.setInt(2, user.getId());
@@ -84,33 +85,12 @@ public class SQLUserDAO implements UserDAO {
         }
     }
 
-
-    @Override
-    public List<User> getAllUsers() throws DAOException {
-        List<User> listUser = new ArrayList<>();
-        ResultSet rs = null;
-
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-             PreparedStatement ps = con.prepareStatement(QUERY_USER_ALL)) {
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                listUser.add(SQLUtil.getInstance().createUser(rs));
-            }
-            return listUser;
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            JDBCShutter.shut(rs);
-        }
-    }
-
     @Override
     public boolean checkId(int idUser) throws DAOException {
         ResultSet rs = null;
         boolean result=false;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)) {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
@@ -119,7 +99,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return result;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't check id user" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -131,7 +111,7 @@ public class SQLUserDAO implements UserDAO {
         User user = null;
 
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_BY_LOGIN)) {
             ps.setString(1, login);
             rs = ps.executeQuery();
@@ -140,7 +120,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return user;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't get user by login" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -151,7 +131,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet rs = null;
         String password = null;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_PASSWORD)) {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
@@ -160,7 +140,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return password;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't get password" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -172,7 +152,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet rs = null;
         boolean result = false;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_EXISTS_CHECK)) {
             ps.setString(1, login);
             rs = ps.executeQuery();
@@ -181,7 +161,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return result;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't check if users exists" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -193,7 +173,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet rs = null;
         User user = null;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)) {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
@@ -202,7 +182,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return user;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't get  user" + e);
         } finally {
             JDBCShutter.shut(rs);
         }
@@ -213,7 +193,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet rs = null;
         int idUser;
         try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
+             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_GET_ID)) {
             ps.setString(1, login);
             rs = ps.executeQuery();
@@ -224,30 +204,7 @@ public class SQLUserDAO implements UserDAO {
             }
             return idUser;
         } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-            JDBCShutter.shut(rs);
-        }
-    }
-
-    @Override
-    public int getIdUserByOrder(int idOrder) throws DAOException {
-        ResultSet rs = null;
-        int idUser;
-
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             Connection con = proxyConnection.getConnectionWrapper();
-             PreparedStatement ps = con.prepareStatement(QUERY_GET_USER_BY_ORDER)) {
-            ps.setInt(1, idOrder);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                idUser = rs.getInt(PARAMETER_ID_USER);
-            } else {
-                throw new DAOException("This user does not exist");
-            }
-            return idUser;
-        } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't get id user" + e);
         } finally {
             JDBCShutter.shut(rs);
         }

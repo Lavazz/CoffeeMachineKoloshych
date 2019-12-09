@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface CartAdditionalIngredientDAO {
-    boolean addAdditionalIngredientToCartAI(Cart cart, AdditionalIngredient additionalIngredient) throws DAOException;
+    void addAdditionalIngredientToCartAI(Cart cart, AdditionalIngredient additionalIngredient) throws DAOException;
     void deleteAdditionalIngredientFromCartAI(CartAdditionalIngredient CartAdditionalIngredient) throws DAOException;
     List<CartAdditionalIngredient> getAllCartAdditionalIngredientByCart(Cart cart) throws DAOException;
     List<CartAdditionalIngredient> getAllCartAdditionalIngredients() throws DAOException;

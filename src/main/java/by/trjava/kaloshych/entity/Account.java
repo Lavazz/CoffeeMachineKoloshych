@@ -82,26 +82,29 @@ public class Account implements Serializable {
         if (accountUser == null) {
             if (other.accountUser != null) {
                 return false;
+            }
             } else if (!accountUser.equals(other.accountUser)) {
                 return false;
             }
-        }
         if (idAccount != other.idAccount) {
             return false;
         }
         if (paymentMethod == null) {
             if (other.paymentMethod != null) {
                 return false;
+            }
             } else if (!paymentMethod.equals(other.paymentMethod)) {
                 return false;
             }
-        }
         if (paymentDate == null) {
             if (other.paymentDate != null) {
                 return false;
+            }
             } else if (!paymentDate.equals(other.paymentDate)) {
                 return false;
             }
+        if (Double.compare(amountOfMoney, other.amountOfMoney) != 0) {
+            return false;
         }
         return true;
     }

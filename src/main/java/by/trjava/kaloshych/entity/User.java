@@ -93,38 +93,38 @@ public class User implements Serializable {
         if (login == null) {
             if (other.login != null) {
                 return false;
+            }
             } else if (!login.equals(other.login)) {
                 return false;
-            }
         }
         if (password == null) {
             if (other.password != null) {
                 return false;
+            }
             } else if (!password.equals(other.password)) {
                 return false;
-            }
         }
         if (email == null) {
             if (other.email != null) {
                 return false;
+            }
             } else if (!email.equals(other.email)) {
                 return false;
             }
-        }
         if (name == null) {
             if (other.name != null) {
                 return false;
+            }
             } else if (!name.equals(other.name)) {
                 return false;
-            }
         }
         if (userStatus == null) {
             if (other.userStatus != null) {
                 return false;
+            }
             } else if (!userStatus.equals(other.userStatus)) {
                 return false;
             }
-        }
         return true;
     }
 
