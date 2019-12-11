@@ -3,20 +3,36 @@ package by.trjava.kaloshych.command.factory.impl;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 import by.trjava.kaloshych.command.factory.CommandFactory;
-import by.trjava.kaloshych.command.impl.*;
+import by.trjava.kaloshych.command.impl.account.ReplenishBalanceCommand;
+import by.trjava.kaloshych.command.impl.account.ShowReplenishBalanceFormCommand;
+import by.trjava.kaloshych.command.impl.cart.AddToCartCommand;
+import by.trjava.kaloshych.command.impl.cart.ChangePortionCommand;
+import by.trjava.kaloshych.command.impl.cart.CleanCartCommand;
+import by.trjava.kaloshych.command.impl.cart.ShowCartCommand;
+import by.trjava.kaloshych.command.impl.components.*;
+import by.trjava.kaloshych.command.impl.filling.FillToMaxCommand;
+import by.trjava.kaloshych.command.impl.order.*;
 import by.trjava.kaloshych.command.impl.transition.*;
+import by.trjava.kaloshych.command.impl.user.*;
 
 import static by.trjava.kaloshych.command.util.CommandName.*;
 
+/**
+ * This class use to create command instances
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @since JDK1.0
+ */
 public class CommandFactoryImpl implements CommandFactory {
     private static final CommandFactoryImpl instance = new CommandFactoryImpl();
 
-    public static CommandFactoryImpl getInstance() {
-        return instance;
-    }
-
     private CommandFactoryImpl() {
 
+    }
+
+    public static CommandFactoryImpl getInstance() {
+        return instance;
     }
 
     @Override

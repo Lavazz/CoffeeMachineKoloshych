@@ -11,6 +11,7 @@ public class User implements Serializable {
     private String email;
     private String name;
     private UserStatus userStatus;
+
     public User() {
     }
 
@@ -20,7 +21,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.name = name;
-        this.userStatus=userStatus;
+        this.userStatus = userStatus;
     }
 
     public static long getSerialVersionUID() {
@@ -94,45 +95,40 @@ public class User implements Serializable {
             if (other.login != null) {
                 return false;
             }
-            } else if (!login.equals(other.login)) {
-                return false;
+        } else if (!login.equals(other.login)) {
+            return false;
         }
         if (password == null) {
             if (other.password != null) {
                 return false;
             }
-            } else if (!password.equals(other.password)) {
-                return false;
+        } else if (!password.equals(other.password)) {
+            return false;
         }
         if (email == null) {
             if (other.email != null) {
                 return false;
             }
-            } else if (!email.equals(other.email)) {
-                return false;
-            }
+        } else if (!email.equals(other.email)) {
+            return false;
+        }
         if (name == null) {
             if (other.name != null) {
                 return false;
             }
-            } else if (!name.equals(other.name)) {
-                return false;
+        } else if (!name.equals(other.name)) {
+            return false;
         }
         if (userStatus == null) {
-            if (other.userStatus != null) {
-                return false;
-            }
-            } else if (!userStatus.equals(other.userStatus)) {
-                return false;
-            }
-        return true;
+            return other.userStatus == null;
+        } else return userStatus.equals(other.userStatus);
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * id + (login == null ? 0 : login.hashCode())
+        return 31 * id + (login == null ? 0 : login.hashCode())
                 + (password == null ? 0 : password.hashCode()) + (email == null ? 0 : email.hashCode())
-                + (name == null ? 0 : name.hashCode())+(userStatus == null ? 0 : userStatus.hashCode()));
+                + (name == null ? 0 : name.hashCode()) + (userStatus == null ? 0 : userStatus.hashCode());
     }
 
     @Override

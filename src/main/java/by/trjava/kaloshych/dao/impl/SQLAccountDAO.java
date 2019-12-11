@@ -5,52 +5,57 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
-import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
-import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
 import by.trjava.kaloshych.entity.AccountUser;
 import by.trjava.kaloshych.entity.Order;
-import by.trjava.kaloshych.entity.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
-import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_ACCOUNT_ADD;
+import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_GET_BALANCE;
 
-
+/**
+ * Represents methods for operation with Account Entity in DAO.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see by.trjava.kaloshych.entity.Account
+ * @since JDK1.0
+ */
 public class SQLAccountDAO implements AccountDAO {
 
-    private final ConnectionPool pool = DBConnectionPool.getInstance();
+    private static ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
-    public void addNewAccount(AccountUser accountUser) throws DAOException {
-        addAccount(accountUser, PAYMENT_METHOD_REGISTER, REGISTRATION_BONUS);
+    public void addNewAccount(int idAccountUser) throws DAOException {
+        addAccount(idAccountUser, PAYMENT_METHOD_REGISTER, REGISTRATION_BONUS);
     }
 
     @Override
-    public void replenishBalance(AccountUser accountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
-        double amountCurrent = getBalance(accountUser.getUser());
-        addAccount(accountUser, idPaymentMethod, (amountOfMoney + amountCurrent));
+    public void replenishBalance(int idAccountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
+        final AccountUserDAO accountUserDAO = DAOFactory.getInstance().getAccountUserDAO();
+        AccountUser accountUser = accountUserDAO.getAccountUser(idAccountUser);
+        double amountCurrent = getBalance(accountUser.getIdAccountUser());
+        addAccount(idAccountUser, idPaymentMethod, (amountOfMoney + amountCurrent));
     }
 
     @Override
-    public double decreaseBalance(Order order) throws DAOException {
-        AccountUserDAO accountUserDAO = DAOFactory.getInstance().getAccountUserDAO();
-        AccountUser accountUser = accountUserDAO.getAccountUser(order.getCartUser().getUser());
-
-        double amountCurrent = getBalance(accountUser.getUser());
+    public double decreaseBalance(Order order, int idAccountUser) throws DAOException {
+        double amountCurrent = getBalance(idAccountUser);
         double amountNew = amountCurrent - order.getTotalCost();
-        addAccount(accountUser, PAYMENT_METHOD_REMOVAL, amountNew);
+        addAccount(idAccountUser, PAYMENT_METHOD_REMOVAL, amountNew);
         return amountNew;
     }
 
     @Override
-    public double getBalance(User user) throws DAOException {
+    public double getBalance(int idAccountUser) throws DAOException {
         double balance = 0;
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_BALANCE)) {
-            ps.setInt(1, user.getId());
+            ps.setInt(1, idAccountUser);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.last()) {
                     balance = rs.getDouble(PARAMETER_MONEY);
@@ -63,11 +68,10 @@ public class SQLAccountDAO implements AccountDAO {
     }
 
 
-    private void addAccount(AccountUser accountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+    private void addAccount(int idAccountUser, int idPaymentMethod, double amountOfMoney) throws DAOException {
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_ACCOUNT_ADD)) {
-            ps.setInt(1, accountUser.getIdAccountUser());
+            ps.setInt(1, idAccountUser);
             ps.setInt(2, idPaymentMethod);
             java.sql.Date date = new java.sql.Date(new java.util.Date().getTime());
             ps.setDate(3, date);

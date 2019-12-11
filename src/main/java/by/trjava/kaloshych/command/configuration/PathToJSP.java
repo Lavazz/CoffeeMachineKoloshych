@@ -1,5 +1,13 @@
 package by.trjava.kaloshych.command.configuration;
 
+/**
+ * This class contains path to jsp used in Commands
+ * some forms are abbreviated as these paths are spelled out in web.xml
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @since JDK1.0
+ */
 public class PathToJSP {
     public static final String PATH_TAKE_ORDER = "takeOrder";
     public static final String PATH_INDEX = "index";

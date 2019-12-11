@@ -75,26 +75,23 @@ public class Cart implements Serializable {
             if (other.drink != null) {
                 return false;
             }
-            } else if (drink != other.drink) {
-                return false;
+        } else if (drink != other.drink) {
+            return false;
         }
         if (cartUser == null) {
             if (other.cartUser != null) {
                 return false;
             }
-            } else if (cartUser != other.cartUser) {
-                return false;
-        }
-
-        if (portion != other.portion) {
+        } else if (cartUser != other.cartUser) {
             return false;
         }
-        return true;
+
+        return portion == other.portion;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * idCart+(cartUser==null?0:cartUser.hashCode()) + (drink==null?0:drink.hashCode()) +  portion);
+        return 31 * idCart + (cartUser == null ? 0 : cartUser.hashCode()) + (drink == null ? 0 : drink.hashCode()) + portion;
     }
 
     @Override

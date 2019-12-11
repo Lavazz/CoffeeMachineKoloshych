@@ -1,8 +1,7 @@
 package by.trjava.kaloshych.command.util;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 public final class CreatorFullURL {
 
@@ -17,7 +16,7 @@ public final class CreatorFullURL {
         String paramName;
         String paramValue;
 
-        while(paramNames.hasMoreElements()) {
+        while (paramNames.hasMoreElements()) {
             paramName = paramNames.nextElement();
 
             paramValue = request.getParameter(paramName);

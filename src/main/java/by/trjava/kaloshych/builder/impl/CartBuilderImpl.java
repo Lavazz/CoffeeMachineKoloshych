@@ -1,7 +1,6 @@
 package by.trjava.kaloshych.builder.impl;
 
 import by.trjava.kaloshych.builder.CartBuilder;
-import by.trjava.kaloshych.builder.CartUserBuilder;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.Drink;
@@ -13,15 +12,16 @@ public class CartBuilderImpl implements CartBuilder {
     private int portion;
 
 
-    public CartBuilderImpl(){}
+    public CartBuilderImpl() {
+    }
 
-    public CartBuilderImpl(int idCart){
-        this.idCart=idCart;
+    public CartBuilderImpl(int idCart) {
+        this.idCart = idCart;
     }
 
     @Override
-    public Cart build(){
-        Cart cart=new Cart();
+    public Cart build() {
+        Cart cart = new Cart();
         cart.setIdCart(idCart);
         cart.setCartUser(cartUser);
         cart.setDrink(drink);
@@ -30,20 +30,20 @@ public class CartBuilderImpl implements CartBuilder {
     }
 
     @Override
-    public CartBuilder withCartUser(CartUser cartUser){
-        this.cartUser=cartUser;
+    public CartBuilder withCartUser(CartUser cartUser) {
+        this.cartUser = cartUser;
         return this;
     }
 
     @Override
-    public CartBuilder withDrink(Drink drink){
-        this.drink=drink;
+    public CartBuilder withDrink(Drink drink) {
+        this.drink = drink;
         return this;
     }
 
     @Override
-    public CartBuilder withPortion(int portion){
-        this.portion=portion;
+    public CartBuilder withPortion(int portion) {
+        this.portion = portion;
         return this;
     }
 

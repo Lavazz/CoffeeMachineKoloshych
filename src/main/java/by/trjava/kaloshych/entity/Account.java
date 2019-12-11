@@ -83,9 +83,9 @@ public class Account implements Serializable {
             if (other.accountUser != null) {
                 return false;
             }
-            } else if (!accountUser.equals(other.accountUser)) {
-                return false;
-            }
+        } else if (!accountUser.equals(other.accountUser)) {
+            return false;
+        }
         if (idAccount != other.idAccount) {
             return false;
         }
@@ -93,25 +93,22 @@ public class Account implements Serializable {
             if (other.paymentMethod != null) {
                 return false;
             }
-            } else if (!paymentMethod.equals(other.paymentMethod)) {
-                return false;
-            }
+        } else if (!paymentMethod.equals(other.paymentMethod)) {
+            return false;
+        }
         if (paymentDate == null) {
             if (other.paymentDate != null) {
                 return false;
             }
-            } else if (!paymentDate.equals(other.paymentDate)) {
-                return false;
-            }
-        if (Double.compare(amountOfMoney, other.amountOfMoney) != 0) {
+        } else if (!paymentDate.equals(other.paymentDate)) {
             return false;
         }
-        return true;
+        return Double.compare(amountOfMoney, other.amountOfMoney) == 0;
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * idAccount + (accountUser == null ? 0 : accountUser.hashCode())  + (paymentMethod == null ? 0 : paymentMethod.hashCode())
+        return (int) (31 * idAccount + (accountUser == null ? 0 : accountUser.hashCode()) + (paymentMethod == null ? 0 : paymentMethod.hashCode())
                 + (paymentDate == null ? 0 : paymentDate.hashCode()) + amountOfMoney);
     }
 

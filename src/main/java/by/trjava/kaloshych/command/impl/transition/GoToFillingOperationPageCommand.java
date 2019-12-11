@@ -10,8 +10,8 @@ import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_FILLING_O
 
 public class GoToFillingOperationPageCommand implements Command {
     @Override
-    public String  execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
         return PATH_FILLING_OPERATION;
-        }
     }
+}

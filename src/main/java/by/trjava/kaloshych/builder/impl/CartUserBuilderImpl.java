@@ -6,25 +6,26 @@ import by.trjava.kaloshych.entity.User;
 
 public class CartUserBuilderImpl implements CartUserBuilder {
     private int idCartUser;
-    private User user ;
+    private User user;
 
-    public  CartUserBuilderImpl(){}
+    public CartUserBuilderImpl() {
+    }
 
-    public  CartUserBuilderImpl(int idCartUser){
-        this.idCartUser=idCartUser;
+    public CartUserBuilderImpl(int idCartUser) {
+        this.idCartUser = idCartUser;
     }
 
     @Override
-    public CartUser build(){
-        CartUser cartUser=new CartUser();
+    public CartUser build() {
+        CartUser cartUser = new CartUser();
         cartUser.setIdCartUser(idCartUser);
         cartUser.setUser(user);
         return cartUser;
     }
 
     @Override
-    public CartUserBuilder withUser(User user){
-        this.user=user;
+    public CartUserBuilder withUser(User user) {
+        this.user = user;
         return this;
     }
 

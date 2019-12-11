@@ -10,7 +10,7 @@ import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE
 
 public class GoToMainPageCommand implements Command {
     @Override
-    public String  execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
         return PATH_MAIN_PAGE;
     }

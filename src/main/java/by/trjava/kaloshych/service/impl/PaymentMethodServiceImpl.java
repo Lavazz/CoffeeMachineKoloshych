@@ -9,18 +9,17 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 
 import java.util.List;
 
+/**
+ * Represents methods for operation with PaymentMethod Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see PaymentMethod
+ * @since JDK1.0
+ */
 public class PaymentMethodServiceImpl implements PaymentMethodService {
-    private static final  PaymentMethodDAO paymentMethodDAO= DAOFactory.getInstance().getPaymentMethodDAO();
 
-    @Override
-    public PaymentMethod getPaymentMethod(int idPaymentMethod) throws ServiceException {
-
-        try {
-            return paymentMethodDAO.getPaymentMethod(idPaymentMethod);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in PaymentMethodService can't get payment method" + e);
-        }
-    }
+    private final PaymentMethodDAO paymentMethodDAO = DAOFactory.getInstance().getPaymentMethodDAO();
 
     @Override
     public List<PaymentMethod> getAllPaymentMethods() throws ServiceException {
@@ -30,6 +29,5 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             throw new ServiceException("DAO Exception in PaymentMethodService can't get all payment methods" + e);
         }
     }
-
 
 }

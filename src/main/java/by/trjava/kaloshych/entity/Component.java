@@ -2,14 +2,15 @@ package by.trjava.kaloshych.entity;
 
 import java.io.Serializable;
 
-public abstract  class Component implements Serializable {
+public abstract class Component implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int idComponent;
     private String nameComponent;
-    private  int portion;
+    private int portion;
 
     private String picturePath;
+
     public Component() {
     }
 
@@ -77,35 +78,30 @@ public abstract  class Component implements Serializable {
             if (other.nameComponent != null) {
                 return false;
             }
-            } else if (!nameComponent.equals(other.nameComponent)) {
-                return false;
-            }
+        } else if (!nameComponent.equals(other.nameComponent)) {
+            return false;
+        }
         if (portion != other.portion) {
             return false;
         }
-            if (picturePath == null) {
-                if (other.picturePath != null) {
-                    return false;
-                }
-                } else if (!picturePath.equals(other.picturePath)) {
-                    return false;
-                }
-         return true;
+        if (picturePath == null) {
+            return other.picturePath == null;
+        } else return picturePath.equals(other.picturePath);
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 *idComponent+ (nameComponent == null ? 0 : nameComponent.hashCode())
-                +portion+(picturePath == null ? 0 : picturePath.hashCode()));
+        return 31 * idComponent + (nameComponent == null ? 0 : nameComponent.hashCode())
+                + portion + (picturePath == null ? 0 : picturePath.hashCode());
 
     }
 
     @Override
     public String toString() {
         return getClass().getName() + "@" +
-                "nameComponent='" + nameComponent  +
-                " idComponent=" + idComponent+
-                ", portion=" +portion+
-                ", picturePath"+picturePath;
+                "nameComponent='" + nameComponent +
+                " idComponent=" + idComponent +
+                ", portion=" + portion +
+                ", picturePath" + picturePath;
     }
 }

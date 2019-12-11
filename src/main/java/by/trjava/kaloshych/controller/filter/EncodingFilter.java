@@ -5,6 +5,14 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
+/**
+ * Filter is used to sets encoding for pages in UTF-8.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see Filter
+ * @since JDK1.0
+ */
 @WebFilter(urlPatterns = {"/*"},
         initParams = {
                 @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param")})

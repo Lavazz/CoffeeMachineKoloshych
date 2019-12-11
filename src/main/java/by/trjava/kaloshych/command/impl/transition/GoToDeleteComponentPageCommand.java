@@ -10,7 +10,7 @@ import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_DELETE_CO
 
 public class GoToDeleteComponentPageCommand implements Command {
     @Override
-    public String  execute(HttpServletRequest request, HttpServletResponse response) throws CommandException{
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
         return PATH_DELETE_COMPONENT;
     }

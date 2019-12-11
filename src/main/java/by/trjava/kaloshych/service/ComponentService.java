@@ -4,5 +4,6 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 
 public interface ComponentService {
 
-    void deleteComponent(String ... idComponents) throws ServiceException;
+    void deleteComponent(String... idComponents) throws ServiceException;
+
 }

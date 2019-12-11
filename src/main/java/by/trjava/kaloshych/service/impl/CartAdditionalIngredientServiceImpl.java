@@ -3,14 +3,9 @@ package by.trjava.kaloshych.service.impl;
 import by.trjava.kaloshych.dao.AdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.CartAdditionalIngredientDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
-import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.impl.SQLAdditionalIngredientDAO;
-import by.trjava.kaloshych.dao.impl.SQLCartAdditionalIngredientDAO;
-import by.trjava.kaloshych.entity.AdditionalIngredient;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.CartAdditionalIngredient;
-import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.CartAdditionalIngredientService;
 import by.trjava.kaloshych.service.exception.InsufficientPortionException;
 import by.trjava.kaloshych.service.exception.ServiceException;
@@ -18,9 +13,17 @@ import by.trjava.kaloshych.service.validation.CartAdditionalIngredientValidator;
 
 import java.util.List;
 
+/**
+ * Represents methods for operation with CartAdditionalIngredient Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see CartAdditionalIngredient
+ * @since JDK1.0
+ */
 public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngredientService {
 
-    private static final CartAdditionalIngredientDAO cartAdditionalIngredientDAO = DAOFactory.getInstance().getCartAdditionalIngredientDAO();
+    private final CartAdditionalIngredientDAO cartAdditionalIngredientDAO = DAOFactory.getInstance().getCartAdditionalIngredientDAO();
 
     @Override
     public void addAdditionalIngredientToCartAI(Cart cart, int idAdditionalIngredient) throws ServiceException {
@@ -28,9 +31,8 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
         int newPortion;
 
         try {
-            AdditionalIngredient additionalIngredient = additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient);
-            cartAdditionalIngredientDAO.addAdditionalIngredientToCartAI(cart, additionalIngredient);
-            newPortion = additionalIngredientDAO.decreasePortion(additionalIngredient, cart.getPortion());
+            cartAdditionalIngredientDAO.addAdditionalIngredientToCartAI(cart, idAdditionalIngredient);
+            newPortion = additionalIngredientDAO.decreasePortion(idAdditionalIngredient, cart.getPortion());
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't add to cart" + e);
         }
@@ -39,43 +41,14 @@ public class CartAdditionalIngredientServiceImpl implements CartAdditionalIngred
         }
     }
 
-    @Override
-    public void deleteAdditionalIngredientFromCartAI(int idCartAdditionalIngredient) throws ServiceException {
-        try {
-            CartAdditionalIngredient cartAdditionalIngredient=cartAdditionalIngredientDAO.getCartAdditionalIngredientsById(idCartAdditionalIngredient);
-            cartAdditionalIngredientDAO.deleteAdditionalIngredientFromCartAI(cartAdditionalIngredient);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't delete from cart" + e);
-        }
-
-    }
-
-    @Override
-    public List<CartAdditionalIngredient> getAllCartAdditionalIngredientByIdCart(Cart cart) throws ServiceException {
-        try {
-            return cartAdditionalIngredientDAO.getAllCartAdditionalIngredientByCart(cart);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get all by id" + e);
-        }
-    }
-
-    @Override
-    public List<CartAdditionalIngredient> getAllCartAdditionalIngredients() throws ServiceException {
-        try {
-            return cartAdditionalIngredientDAO.getAllCartAdditionalIngredients();
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get all " + e);
-        }
-    }
 
     @Override
     public List<CartAdditionalIngredient> getCartAdditionalIngredientsByUser(int idUser) throws ServiceException {
-       final UserDAO userDAO=DAOFactory.getInstance().getUserDAO();
         try {
-            User user=userDAO.getUserById(idUser);
-            return cartAdditionalIngredientDAO.getCartAdditionalIngredientsByUser(user);
+            return cartAdditionalIngredientDAO.getCartAdditionalIngredientsByUser(idUser);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in cartAdditionalIngredientService can't get  CartAI" + e);
         }
     }
+
 }

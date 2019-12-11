@@ -4,24 +4,30 @@ import by.trjava.kaloshych.dao.AccountDAO;
 import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.entity.Account;
 import by.trjava.kaloshych.entity.AccountUser;
 import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.AccountUserService;
 import by.trjava.kaloshych.service.exception.ServiceException;
 
+/**
+ * Represents methods for operation with AccountUser Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see AccountUser
+ * @since JDK1.0
+ */
 public class AccountUserServiceImpl implements AccountUserService {
 
-    private  final  AccountUserDAO accountUserDAO= DAOFactory.getInstance().getAccountUserDAO();
-    private  final AccountDAO accountDAO=DAOFactory.getInstance().getAccountDAO();
+    private final AccountUserDAO accountUserDAO = DAOFactory.getInstance().getAccountUserDAO();
+    private final AccountDAO accountDAO = DAOFactory.getInstance().getAccountDAO();
 
     @Override
     public AccountUser addAccountUser(User user) throws ServiceException {
         try {
-           int idAccountUser=accountUserDAO.addAccountUser(user);
-           AccountUser accountUser=accountUserDAO.getAccountUser(idAccountUser);
-            accountDAO.addNewAccount(accountUser);
-            return accountUser;
+            int idAccountUser = accountUserDAO.addAccountUser(user);
+            accountDAO.addNewAccount(idAccountUser);
+            return accountUserDAO.getAccountUser(idAccountUser);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in accountUserService can't add accountUser" + e);
         }

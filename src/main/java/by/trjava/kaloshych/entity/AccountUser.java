@@ -1,7 +1,6 @@
 package by.trjava.kaloshych.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class AccountUser implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -9,7 +8,8 @@ public class AccountUser implements Serializable {
     private int idAccountUser;
     private User user;
 
-    public AccountUser(){}
+    public AccountUser() {
+    }
 
     public AccountUser(int idAccountUser, User user) {
         this.idAccountUser = idAccountUser;
@@ -48,8 +48,8 @@ public class AccountUser implements Serializable {
             return false;
         }
         AccountUser other = (AccountUser) obj;
-        return idAccountUser!=other.idAccountUser
-                &&(user == null ? user == other.user : user.equals(other.user));
+        return idAccountUser != other.idAccountUser
+                && (user == null ? user == other.user : user.equals(other.user));
     }
 
 
@@ -62,6 +62,6 @@ public class AccountUser implements Serializable {
     public String toString() {
         return getClass().getName() + "@" +
                 "idAccountUser=" + idAccountUser +
-                ", user=" + user ;
+                ", user=" + user;
     }
 }

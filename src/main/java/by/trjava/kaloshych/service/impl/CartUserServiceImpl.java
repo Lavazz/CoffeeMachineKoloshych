@@ -11,34 +11,32 @@ import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.CartUserService;
 import by.trjava.kaloshych.service.exception.ServiceException;
 
-import java.util.List;
-
+/**
+ * Represents methods for operation with CartUser Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see CartUser
+ * @since JDK1.0
+ */
 public class CartUserServiceImpl implements CartUserService {
 
-    private  final CartUserDAO cartUserDAO= DAOFactory.getInstance().getCartUserDAO();
-    private  final UserDAO userDAO= DAOFactory.getInstance().getUserDAO();
-
-    @Override
-    public void deleteCartUser(User user) throws ServiceException {
-        try {
-            cartUserDAO.deleteCartUser(user);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in CartUserService can't delete cartUser" + e);
-        }
-    }
+    private final DAOFactory daoFactory = DAOFactory.getInstance();
+    private final CartUserDAO cartUserDAO = daoFactory.getCartUserDAO();
+    private final UserDAO userDAO = daoFactory.getUserDAO();
 
     @Override
     public CartUser addCartUserForAuthorization(User user) throws ServiceException {
         CartUser cartUser;
-        final OrderDAO orderDAO=DAOFactory.getInstance().getOrderDAO();
+        final OrderDAO orderDAO = DAOFactory.getInstance().getOrderDAO();
         try {
-            CartUser cartUserLast=cartUserDAO.getLastCartUser(user);
-            Order orderLast=orderDAO.getLastOrderByUser(user);
-            if(!cartUserLast.equals(orderLast.getCartUser())){
-                cartUser=cartUserLast;
-            }else {
+            CartUser cartUserLast = cartUserDAO.getLastCartUser(user);
+            Order orderLast = orderDAO.getLastOrderByUser(user.getId());
+            if (!cartUserLast.equals(orderLast.getCartUser())) {
+                cartUser = cartUserLast;
+            } else {
                 int idCartUser = cartUserDAO.addCartUser(user);
-                cartUser=cartUserDAO.getCartUserById(idCartUser);
+                cartUser = cartUserDAO.getCartUser(idCartUser);
             }
             return cartUser;
         } catch (DAOException e) {
@@ -49,38 +47,12 @@ public class CartUserServiceImpl implements CartUserService {
     @Override
     public CartUser addCartUser(int idUser) throws ServiceException {
         try {
-            User user=userDAO.getUserById(idUser);
-            int idCartUser=cartUserDAO.addCartUser(user);
-            return cartUserDAO.getCartUserById(idCartUser);
+            User user = userDAO.getUserById(idUser);
+            int idCartUser = cartUserDAO.addCartUser(user);
+            return cartUserDAO.getCartUser(idCartUser);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
     }
 
-    @Override
-    public List<CartUser> getCartUser(User user) throws ServiceException {
-        try {
-            return cartUserDAO.getCartUser(user);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in CartUserService can't get cartUser" + e);
-        }
-    }
-
-    @Override
-    public CartUser getLastCartUser(User user) throws ServiceException {
-        try {
-            return cartUserDAO.getLastCartUser(user);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in CartUserService can't get last cartUser" + e);
-        }
-    }
-
-    @Override
-    public CartUser getCartUserById(int idCartUser) throws ServiceException {
-        try {
-            return cartUserDAO.getCartUserById(idCartUser);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in CartUserService can't get cartUser by id" + e);
-        }
-    }
 }

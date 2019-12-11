@@ -9,15 +9,16 @@ public class FillingOperationBuilderImpl implements FillingOperationBuilder {
     private Component component;
     private int maxPortion;
 
-    public FillingOperationBuilderImpl(){}
+    public FillingOperationBuilderImpl() {
+    }
 
-    public FillingOperationBuilderImpl(int idFillingOperation){
-        this.idFillingOperation=idFillingOperation;
+    public FillingOperationBuilderImpl(int idFillingOperation) {
+        this.idFillingOperation = idFillingOperation;
     }
 
     @Override
-    public FillingOperation build(){
-        FillingOperation fillingOperation=new FillingOperation();
+    public FillingOperation build() {
+        FillingOperation fillingOperation = new FillingOperation();
         fillingOperation.setIdFillingOperation(idFillingOperation);
         fillingOperation.setComponent(component);
         fillingOperation.setMaxPortion(maxPortion);
@@ -25,14 +26,14 @@ public class FillingOperationBuilderImpl implements FillingOperationBuilder {
     }
 
     @Override
-    public FillingOperationBuilder withComponent(Component component){
-        this.component=component;
+    public FillingOperationBuilder withComponent(Component component) {
+        this.component = component;
         return this;
     }
 
     @Override
-    public FillingOperationBuilder withMaxPortion(int maxPortion){
-        this.maxPortion=maxPortion;
+    public FillingOperationBuilder withMaxPortion(int maxPortion) {
+        this.maxPortion = maxPortion;
         return this;
     }
 

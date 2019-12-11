@@ -6,20 +6,21 @@ import by.trjava.kaloshych.entity.Drink;
 public class DrinkBuilderImpl implements DrinkBuilder {
     private int idComponent;
     private String nameComponent;
-    private  int portion;
+    private int portion;
     private String picturePath;
     private double price;
     private String description;
 
-    public DrinkBuilderImpl (){}
+    public DrinkBuilderImpl() {
+    }
 
-    public DrinkBuilderImpl (int idComponent){
-        this.idComponent=idComponent;
+    public DrinkBuilderImpl(int idComponent) {
+        this.idComponent = idComponent;
     }
 
     @Override
-    public Drink build(){
-        Drink drink=new Drink();
+    public Drink build() {
+        Drink drink = new Drink();
         drink.setIdComponent(idComponent);
         drink.setNameComponent(nameComponent);
         drink.setPortion(portion);
@@ -30,32 +31,32 @@ public class DrinkBuilderImpl implements DrinkBuilder {
     }
 
     @Override
-    public DrinkBuilder withNameComponent(String nameComponent){
-        this.nameComponent=nameComponent;
+    public DrinkBuilder withNameComponent(String nameComponent) {
+        this.nameComponent = nameComponent;
         return this;
     }
 
     @Override
-    public DrinkBuilder withPortion(int portion){
-        this.portion=portion;
+    public DrinkBuilder withPortion(int portion) {
+        this.portion = portion;
         return this;
     }
 
     @Override
-    public DrinkBuilder withPicturePath(String picturePath){
-        this.picturePath=picturePath;
+    public DrinkBuilder withPicturePath(String picturePath) {
+        this.picturePath = picturePath;
         return this;
     }
 
     @Override
-    public DrinkBuilder withPrice(double price){
-        this.price=price;
+    public DrinkBuilder withPrice(double price) {
+        this.price = price;
         return this;
     }
 
     @Override
-    public DrinkBuilder withDescription(String description){
-        this.description=description;
+    public DrinkBuilder withDescription(String description) {
+        this.description = description;
         return this;
     }
 

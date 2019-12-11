@@ -7,7 +7,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int idOrder;
-  private CartUser cartUser;
+    private CartUser cartUser;
     private Date dateOrder;
     private double totalCost;
 
@@ -79,25 +79,24 @@ public class Order implements Serializable {
             if (other.dateOrder != null) {
                 return false;
             }
-            } else if (!dateOrder.equals(other.dateOrder)) {
-                return false;
-            }
-        return  Double.compare(totalCost, other.totalCost) == 0;
+        } else if (!dateOrder.equals(other.dateOrder)) {
+            return false;
+        }
+        return Double.compare(totalCost, other.totalCost) == 0;
     }
-
 
 
     @Override
     public int hashCode() {
-        return (int) (31 *idOrder+(cartUser==null?0:cartUser.hashCode())+(dateOrder==null?0: dateOrder.hashCode())+totalCost);
+        return (int) (31 * idOrder + (cartUser == null ? 0 : cartUser.hashCode()) + (dateOrder == null ? 0 : dateOrder.hashCode()) + totalCost);
     }
 
     @Override
     public String toString() {
         return getClass().getName() + "@" +
                 "idOrder=" + idOrder +
-                ", cartUser=" + cartUser+
-                ", dateOrder="+ dateOrder+
-                ", totalCost="+totalCost;
+                ", cartUser=" + cartUser +
+                ", dateOrder=" + dateOrder +
+                ", totalCost=" + totalCost;
     }
 }

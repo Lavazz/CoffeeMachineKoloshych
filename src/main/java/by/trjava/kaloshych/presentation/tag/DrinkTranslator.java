@@ -5,7 +5,6 @@ import by.trjava.kaloshych.entity.Drink;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
-
 import java.io.IOException;
 
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_SESSION_LOCALE;

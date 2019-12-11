@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Filter is used to prevent pages from being cached.
  *
- * @author Katsiaryna Kaloshich
+ * @author Katsiaryna Kaloshych
  * @version 1.0
  * @see Filter
  * @since JDK1.0

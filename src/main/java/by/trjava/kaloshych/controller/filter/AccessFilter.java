@@ -16,14 +16,16 @@ import static by.trjava.kaloshych.command.configuration.Parameter.*;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
 import static by.trjava.kaloshych.entity.UserStatus.*;
 
-
+/**
+ * Filter is used to  control permissions for different users.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see Filter
+ * @since JDK1.0
+ */
 @WebFilter(urlPatterns = {"*"}, servletNames = {"main"})
 public class AccessFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-
-    }
 
     private static final List<String> ADMINISTRATION_COMMANDS = Arrays.asList(
             CommandName.SHOW_ADMIN_CABINET,
@@ -44,7 +46,6 @@ public class AccessFilter implements Filter {
             CommandName.SHOW_ADDITIONAL_INGREDIENTS,
             CommandName.SHOW_DRINKS
     );
-
     private final static List<String> CUSTOMER_COMMANDS = Arrays.asList(
             CommandName.ADD_ORDER,
             CommandName.ADD_TO_CART,
@@ -74,7 +75,6 @@ public class AccessFilter implements Filter {
             CommandName.GO_TO_REPLENISH_BALANCE,
             CommandName.GO_TO_ORDER_HISTORY_PAGE
     );
-
     private final static List<String> GUEST_COMMANDS = Arrays.asList(
             CommandName.AUTHORIZATION,
             CommandName.REGISTRATION,
@@ -87,6 +87,10 @@ public class AccessFilter implements Filter {
             CommandName.GO_TO_REGISTRATION_PAGE
     );
 
+    @Override
+    public void init(FilterConfig filterConfig) {
+
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

@@ -5,7 +5,10 @@ import by.trjava.kaloshych.entity.AccountUser;
 import by.trjava.kaloshych.entity.User;
 
 public interface AccountUserDAO {
-  int addAccountUser(User user) throws DAOException;
-   AccountUser getAccountUser(User user) throws DAOException;
-   AccountUser getAccountUser(int idAccountUser) throws DAOException;
+
+    int addAccountUser(User user) throws DAOException;
+
+    AccountUser getAccountUser(User user) throws DAOException;
+
+    AccountUser getAccountUser(int idAccountUser) throws DAOException;
 }

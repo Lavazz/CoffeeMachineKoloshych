@@ -54,24 +54,19 @@ public class Drink extends Component implements Serializable {
             return false;
         }
         if (description == null) {
-            if (other.description != null) {
-                return false;
-            }
-            } else if (!description.equals(other.description)) {
-                return false;
-        }
-        return true;
+            return other.description == null;
+        } else return description.equals(other.description);
     }
 
     @Override
     public int hashCode() {
-        return (int)(31*super.hashCode()+(description == null ? 0 :description.hashCode())+price);
+        return (int) (31 * super.hashCode() + (description == null ? 0 : description.hashCode()) + price);
     }
 
     @Override
     public String toString() {
         return getClass().getName() + "@" +
-                ", description" + description+
-                ", price="+price;
+                ", description" + description +
+                ", price=" + price;
     }
 }

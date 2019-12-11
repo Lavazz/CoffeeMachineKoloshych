@@ -4,10 +4,9 @@ import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.FillingOperationDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.entity.Cart;
-import by.trjava.kaloshych.entity.Component;
 import by.trjava.kaloshych.entity.Drink;
 import by.trjava.kaloshych.service.DrinkService;
+import by.trjava.kaloshych.service.exception.DuplicateComponentException;
 import by.trjava.kaloshych.service.exception.EmptyDataException;
 import by.trjava.kaloshych.service.exception.IncorrectComponentInformationException;
 import by.trjava.kaloshych.service.exception.ServiceException;
@@ -16,10 +15,19 @@ import by.trjava.kaloshych.service.validation.InputDataValidator;
 
 import java.util.List;
 
+/**
+ * Represents methods for operation with Drink Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see Drink
+ * @since JDK1.0
+ */
 public class DrinkServiceImpl implements DrinkService {
 
-    private final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-    private final FillingOperationDAO fillingOperationDAO = DAOFactory.getInstance().getFillingOperationDAO();
+    private final DAOFactory daoFactory = DAOFactory.getInstance();
+    private final DrinkDAO drinkDAO = daoFactory.getDrinkDAO();
+    private final FillingOperationDAO fillingOperationDAO = daoFactory.getFillingOperationDAO();
     private final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
 
     @Override
@@ -31,27 +39,10 @@ public class DrinkServiceImpl implements DrinkService {
         }
     }
 
-    @Override
-    public int decreasePortion(Drink drink, int portion) throws ServiceException {
-        try {
-            return drinkDAO.decreasePortion(drink, portion);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in DrinkService can't decrease portion" + e);
-        }
-    }
-
-    @Override
-    public double getDrinkPrice(int idDrink) throws ServiceException {
-        try {
-            Drink drink = drinkDAO.getDrink(idDrink);
-            return drinkDAO.getDrinkPrice(drink);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in DrinkService can't get drink price" + e);
-        }
-    }
 
     @Override
     public void addNewDrink(String drinkName, String price, String description) throws ServiceException {
+        boolean duplicate;
         if (inputDataValidator.isEmpty(drinkName)
                 || inputDataValidator.isEmpty(price)
                 || inputDataValidator.isEmpty(description)) {
@@ -61,46 +52,21 @@ public class DrinkServiceImpl implements DrinkService {
             throw new IncorrectComponentInformationException("incorrect information about component");
         }
 
-        if (!DrinkValidator.getInstance().validate(drinkName, Double.parseDouble(price), description)) {
-            throw new IncorrectComponentInformationException("incorrect information about component");
+        try {
+            duplicate = drinkDAO.isExistsDrink(drinkName);
+        } catch (DAOException e) {
+            throw new ServiceException("DAO Exception in DrinkService can't check duplicate drink" + e);
         }
 
+        if (duplicate) {
+            throw new DuplicateComponentException("incorrect information about component");
+        }
         try {
             int idDrink = drinkDAO.addNewDrink(drinkName, Double.parseDouble(price), description);
-            Drink drink = drinkDAO.getDrink(idDrink);
-            fillingOperationDAO.addComponentToFillingOperation(drink);
+            fillingOperationDAO.addComponentToFillingOperation(idDrink);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in DrinkService can't add new drink" + e);
         }
-    }
-
-    @Override
-    public void deleteDrink(String drink) throws ServiceException {
-        try {
-            drinkDAO.deleteDrink(drink);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in DrinkService can't delete drink" + e);
-        }
-    }
-
-
-    @Override
-    public Drink getDrink(int idDrink) throws ServiceException {
-        try {
-            return drinkDAO.getDrink(idDrink);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in DrinkService can't get drink" + e);
-        }
-    }
-
-    @Override
-    public boolean checkDrinkById(int idComponent) throws ServiceException {
-        try {
-            return drinkDAO.checkDrinkById(idComponent);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in DrinkService can't check drink by id" + e);
-        }
-
     }
 
 }

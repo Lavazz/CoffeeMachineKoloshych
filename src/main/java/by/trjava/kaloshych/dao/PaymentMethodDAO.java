@@ -9,6 +9,7 @@ public interface PaymentMethodDAO {
 
 
     PaymentMethod getPaymentMethod(int idPaymentMethod) throws DAOException;
+
     List<PaymentMethod> getAllPaymentMethods() throws DAOException;
-    }
+}
 

@@ -10,8 +10,8 @@ import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_ADD_NEW_A
 
 public class GoToAddNewAdditionalIngredientPage implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException{
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-       return PATH_ADD_NEW_ADDITIONAL_INGREDIENT;
+        return PATH_ADD_NEW_ADDITIONAL_INGREDIENT;
     }
 }

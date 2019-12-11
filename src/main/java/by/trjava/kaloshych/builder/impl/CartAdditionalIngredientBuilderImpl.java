@@ -11,15 +11,16 @@ public class CartAdditionalIngredientBuilderImpl implements CartAdditionalIngred
     private Cart cart;
     private AdditionalIngredient additionalIngredient;
 
-    public CartAdditionalIngredientBuilderImpl(){}
+    public CartAdditionalIngredientBuilderImpl() {
+    }
 
-    public CartAdditionalIngredientBuilderImpl(int idCartAdditionalIngredient){
-        this.idCartAdditionalIngredient=idCartAdditionalIngredient;
+    public CartAdditionalIngredientBuilderImpl(int idCartAdditionalIngredient) {
+        this.idCartAdditionalIngredient = idCartAdditionalIngredient;
     }
 
     @Override
-    public CartAdditionalIngredient build(){
-        CartAdditionalIngredient cartAdditionalIngredient=new CartAdditionalIngredient();
+    public CartAdditionalIngredient build() {
+        CartAdditionalIngredient cartAdditionalIngredient = new CartAdditionalIngredient();
         cartAdditionalIngredient.setIdCartAdditionalIngredient(idCartAdditionalIngredient);
         cartAdditionalIngredient.setCart(cart);
         cartAdditionalIngredient.setAdditionalIngredient(additionalIngredient);
@@ -27,14 +28,14 @@ public class CartAdditionalIngredientBuilderImpl implements CartAdditionalIngred
     }
 
     @Override
-    public CartAdditionalIngredientBuilder withCart(Cart cart){
-        this.cart=cart;
+    public CartAdditionalIngredientBuilder withCart(Cart cart) {
+        this.cart = cart;
         return this;
     }
 
     @Override
-    public CartAdditionalIngredientBuilder withAdditionalIngredient(AdditionalIngredient additionalIngredient){
-        this.additionalIngredient=additionalIngredient;
+    public CartAdditionalIngredientBuilder withAdditionalIngredient(AdditionalIngredient additionalIngredient) {
+        this.additionalIngredient = additionalIngredient;
         return this;
     }
 

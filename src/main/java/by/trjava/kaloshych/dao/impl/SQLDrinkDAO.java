@@ -2,12 +2,9 @@ package by.trjava.kaloshych.dao.impl;
 
 import by.trjava.kaloshych.dao.DrinkDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
-import by.trjava.kaloshych.dao.impl.util.JDBCShutter;
-import by.trjava.kaloshych.dao.impl.util.SQLUtil;
-import by.trjava.kaloshych.dao.pool.connection.ConnectionWrapper;
-import by.trjava.kaloshych.dao.pool.connection.ProxyConnection;
-import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
-import by.trjava.kaloshych.entity.Cart;
+import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.dao.util.Creator;
+import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.Drink;
 
 import java.sql.Connection;
@@ -17,45 +14,51 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.impl.configuration.SQLQuery.*;
-import static by.trjava.kaloshych.dao.impl.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
 
+/**
+ * Represents methods for operation with Drink Entity in DAO.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see Drink
+ * @since JDK1.0
+ */
 public class SQLDrinkDAO implements DrinkDAO {
 
-    private final DBConnectionPool pool = DBConnectionPool.getInstance();
+    private static ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
     public List<Drink> getAllDrinks() throws DAOException {
         ResultSet rs = null;
         List<Drink> drinkList = new ArrayList<>();
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_ALL_DRINKS)) {
             rs = ps.executeQuery();
             while (rs.next()) {
-                drinkList.add(SQLUtil.getInstance().createDrink(rs));
+                drinkList.add(Creator.getInstance().createDrink(rs));
             }
             return drinkList;
         } catch (SQLException e) {
-            throw new DAOException("SQL Drink Exception can't add drink " + e);
+            throw new DAOException("SQL Drink Exception can't get all drinks " + e);
         } finally {
             JDBCShutter.shut(rs);
         }
     }
 
     @Override
-    public int decreasePortion(Drink drink, int portion) throws DAOException {
+    public int decreasePortion(int idDrink, int portion) throws DAOException {
         int newPortion = 0;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper()) {
+        try (Connection con = connectionPool.getConnection()) {
 
             con.setAutoCommit(false);
 
             try (PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)) {
-                ps.setInt(1, drink.getIdComponent());
+                ps.setInt(1, idDrink);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     int oldPortion = rs.getInt(PARAMETER_PORTION);
@@ -63,7 +66,7 @@ public class SQLDrinkDAO implements DrinkDAO {
                 }
                 ps2 = con.prepareStatement(QUERY_DRINK_DECREASE_PORTION);
                 ps2.setInt(1, newPortion);
-                ps2.setInt(2, drink.getIdComponent());
+                ps2.setInt(2, idDrink);
                 ps2.executeUpdate();
                 con.commit();
                 return newPortion;
@@ -81,14 +84,13 @@ public class SQLDrinkDAO implements DrinkDAO {
     }
 
     @Override
-    public double getDrinkPrice(Drink drink) throws DAOException {
+    public double getDrinkPrice(int idDrink) throws DAOException {
         double price = 0;
         ResultSet rs = null;
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PRICE)) {
-            ps.setInt(1, drink.getIdComponent());
+            ps.setInt(1, idDrink);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -104,14 +106,13 @@ public class SQLDrinkDAO implements DrinkDAO {
     }
 
     @Override
-    public int getPortion(Drink drink) throws DAOException {
+    public int getPortion(int idDrink) throws DAOException {
         int portion = 0;
         ResultSet rs = null;
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_PORTION)) {
-            ps.setInt(1, drink.getIdComponent());
+            ps.setInt(1, idDrink);
             rs = ps.executeQuery();
             while (rs.next()) {
                 portion = rs.getInt(PARAMETER_PORTION);
@@ -131,8 +132,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         int idDrink = 0;
         ResultSet rs = null;
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_ADD_NEW, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, drink);
             ps.setDouble(2, price);
@@ -152,8 +152,7 @@ public class SQLDrinkDAO implements DrinkDAO {
 
     @Override
     public void deleteDrink(String drinkName) throws DAOException {
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_DELETE)) {
             ps.setString(1, drinkName);
             ps.executeUpdate();
@@ -168,8 +167,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         ResultSet rs = null;
         boolean result = false;
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)) {
             ps.setInt(1, idComponent);
             rs = ps.executeQuery();
@@ -185,18 +183,31 @@ public class SQLDrinkDAO implements DrinkDAO {
     }
 
     @Override
+    public boolean isExistsDrink(String drinkName) throws DAOException {
+        ResultSet rs = null;
+        try (Connection con = connectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(QUERY_CHECK_DRINK)) {
+            ps.setString(1, drinkName);
+            rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new DAOException("SQL Drink Exception can't check drink exists" + e);
+        } finally {
+            JDBCShutter.shut(rs);
+        }
+    }
+
+    @Override
     public Drink getDrink(int idDrink) throws DAOException {
         ResultSet rs = null;
         Drink drink = null;
 
-        try (ProxyConnection proxyConnection = pool.getConnection();
-             ConnectionWrapper con = proxyConnection.getConnectionWrapper();
+        try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)) {
             ps.setInt(1, idDrink);
             rs = ps.executeQuery();
             while (rs.next()) {
-
-                drink = SQLUtil.getInstance().createDrink(rs);
+                drink = Creator.getInstance().createDrink(rs);
             }
             return drink;
         } catch (SQLException e) {
@@ -204,7 +215,7 @@ public class SQLDrinkDAO implements DrinkDAO {
         } finally {
             JDBCShutter.shut(rs);
         }
-
     }
+
 }
 

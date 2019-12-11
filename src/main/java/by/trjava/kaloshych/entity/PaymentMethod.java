@@ -1,7 +1,6 @@
 package by.trjava.kaloshych.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class PaymentMethod implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,22 +48,17 @@ public class PaymentMethod implements Serializable {
             return false;
         }
         PaymentMethod other = (PaymentMethod) obj;
-        if (idPaymentMethod!=other.idPaymentMethod) {
-            return  false;
+        if (idPaymentMethod != other.idPaymentMethod) {
+            return false;
         }
         if (namePaymentMethod == null) {
-            if (other.namePaymentMethod != null) {
-                return false;
-            }
-            } else if (!namePaymentMethod.equals(other.namePaymentMethod)) {
-                return false;
-        }
-        return true;
+            return other.namePaymentMethod == null;
+        } else return namePaymentMethod.equals(other.namePaymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * idPaymentMethod + (namePaymentMethod == null ? 0 : namePaymentMethod.hashCode()));
+        return 31 * idPaymentMethod + (namePaymentMethod == null ? 0 : namePaymentMethod.hashCode());
     }
 
     @Override

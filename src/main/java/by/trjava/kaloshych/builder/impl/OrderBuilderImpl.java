@@ -12,37 +12,38 @@ public class OrderBuilderImpl implements OrderBuilder {
     private Date dateOrder;
     private double totalCost;
 
-    public OrderBuilderImpl(){}
+    public OrderBuilderImpl() {
+    }
 
-    public OrderBuilderImpl(int idOrder){
-        this.idOrder=idOrder;
+    public OrderBuilderImpl(int idOrder) {
+        this.idOrder = idOrder;
     }
 
     @Override
-   public Order build(){
-        Order order=new Order();
+    public Order build() {
+        Order order = new Order();
         order.setIdOrder(idOrder);
         order.setCartUser(cartUser);
         order.setDateOrder(dateOrder);
         order.setTotalCost(totalCost);
         return order;
-   }
+    }
 
     @Override
-    public OrderBuilder withCartUser(CartUser cartUser){
-        this.cartUser=cartUser;
+    public OrderBuilder withCartUser(CartUser cartUser) {
+        this.cartUser = cartUser;
         return this;
     }
 
     @Override
-    public OrderBuilder withDateOrder(Date dateOrder){
-        this.dateOrder=dateOrder;
+    public OrderBuilder withDateOrder(Date dateOrder) {
+        this.dateOrder = dateOrder;
         return this;
     }
 
     @Override
-    public OrderBuilder withTotalCost(double totalCost){
-        this.totalCost=totalCost;
+    public OrderBuilder withTotalCost(double totalCost) {
+        this.totalCost = totalCost;
         return this;
     }
 

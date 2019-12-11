@@ -1,37 +1,35 @@
 package by.trjava.kaloshych.controller.listener;
 
-import javax.servlet.ServletContext;
+import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
 import javax.servlet.annotation.WebListener;
 
-import by.trjava.kaloshych.dao.pool.impl.DBConnectionPool;
-
+/**
+ * Listener initializes connection pool during loading application in container
+ * and destroys them
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @since JDK1.0
+ */
 @WebListener
-public class ConnectionPoolListener implements ServletContextListener{
+public class ConnectionPoolListener implements ServletContextListener {
 
-	private static final String DRIVER = "db.driver";
-	private static final String URL = "db.url";
-	private static final String USER = "db.user";
-	private static final String PASSWORD = "db.password";
-	private static final String POOL_SIZE = "pool.size";
+    private static final Logger logger = Logger.getLogger(ConnectionPoolListener.class);
 
-	@Override
-	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		final ServletContext servletContext = servletContextEvent.getServletContext();
-		final String driver = servletContext.getInitParameter(DRIVER);
-		final String url = servletContext.getInitParameter(URL);
-		final String user = servletContext.getInitParameter(USER);
-		final String password = servletContext.getInitParameter(PASSWORD);
-		final String poolSize = servletContext.getInitParameter(POOL_SIZE);
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        ConnectionPool.getInstance().destroyConnections();
+        logger.info("Connection pool destroyed successfully");
+    }
 
-		final DBConnectionPool pool = DBConnectionPool.getInstance();
-		pool.init(driver, url, user, password, poolSize);
-	}
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        ConnectionPool.getInstance().getConnection();
+        logger.info("Connection pool initialized successfully");
 
-	@Override
-	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		DBConnectionPool.getInstance().destroyPool();
-	}
+    }
 }

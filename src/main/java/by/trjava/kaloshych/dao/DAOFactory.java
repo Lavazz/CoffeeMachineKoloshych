@@ -1,12 +1,8 @@
 package by.trjava.kaloshych.dao;
 
 import by.trjava.kaloshych.dao.impl.*;
-import by.trjava.kaloshych.entity.CartAdditionalIngredient;
 
 public class DAOFactory {
-
-    private DAOFactory() {
-    }
 
     private static final DAOFactory instance = new DAOFactory();
     private final AccountDAO accountDAO = new SQLAccountDAO();
@@ -20,7 +16,10 @@ public class DAOFactory {
     private final CartDAO cartDAO = new SQLCartDAO();
     private final CartAdditionalIngredientDAO cartAdditionalIngredientDAO = new SQLCartAdditionalIngredientDAO();
     private final ComponentDAO componentDAO = new SQLComponentDAO();
-private final  PaymentMethodDAO paymentMethodDAO=new SQLPaymentMethodDAO();
+    private final PaymentMethodDAO paymentMethodDAO = new SQLPaymentMethodDAO();
+
+    private DAOFactory() {
+    }
 
     public static DAOFactory getInstance() {
         return instance;
@@ -71,6 +70,8 @@ private final  PaymentMethodDAO paymentMethodDAO=new SQLPaymentMethodDAO();
         return componentDAO;
     }
 
-    public PaymentMethodDAO getPaymentMethodDAO(){return  paymentMethodDAO;}
+    public PaymentMethodDAO getPaymentMethodDAO() {
+        return paymentMethodDAO;
+    }
 
 }

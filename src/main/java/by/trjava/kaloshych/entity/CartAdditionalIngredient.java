@@ -62,26 +62,21 @@ public class CartAdditionalIngredient implements Serializable {
         if (idCartAdditionalIngredient != other.idCartAdditionalIngredient) {
             return false;
         }
-        if (cart == null){
-            if(other.cart!=null) {
+        if (cart == null) {
+            if (other.cart != null) {
                 return false;
             }
-            }else if(!cart.equals(other.cart)){
-                return false;
+        } else if (!cart.equals(other.cart)) {
+            return false;
         }
-        if (additionalIngredient == null){
-            if(other.additionalIngredient!=null) {
-                return false;
-            }
-            }else if(!additionalIngredient.equals(other.additionalIngredient)){
-                return false;
-            }
-               return true;
+        if (additionalIngredient == null) {
+            return other.additionalIngredient == null;
+        } else return additionalIngredient.equals(other.additionalIngredient);
     }
 
     @Override
     public int hashCode() {
-        return (int) (31 * idCartAdditionalIngredient + (cart==null?0:cart.hashCode()) + (additionalIngredient==null?0:additionalIngredient.hashCode()) );
+        return 31 * idCartAdditionalIngredient + (cart == null ? 0 : cart.hashCode()) + (additionalIngredient == null ? 0 : additionalIngredient.hashCode());
     }
 
     @Override

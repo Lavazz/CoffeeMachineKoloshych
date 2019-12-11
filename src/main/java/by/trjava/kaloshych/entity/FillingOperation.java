@@ -1,7 +1,5 @@
 package by.trjava.kaloshych.entity;
 
-import java.util.Objects;
-
 public class FillingOperation {
     private static final long serialVersionUID = 1L;
 
@@ -58,8 +56,8 @@ public class FillingOperation {
             return false;
         }
         FillingOperation other = (FillingOperation) obj;
-        if (idFillingOperation!=other.idFillingOperation) {
-            return  false;
+        if (idFillingOperation != other.idFillingOperation) {
+            return false;
         }
         if (component == null) {
             if (other.component != null) {
@@ -68,16 +66,13 @@ public class FillingOperation {
         } else if (!component.equals(other.component)) {
             return false;
         }
-        if (maxPortion!=other.maxPortion) {
-            return  false;
-        }
-        return true;
+        return maxPortion == other.maxPortion;
     }
 
 
     @Override
     public int hashCode() {
-        return (int) (31 *idFillingOperation+(component==null?0:component.hashCode())+maxPortion);
+        return 31 * idFillingOperation + (component == null ? 0 : component.hashCode()) + maxPortion;
     }
 
     @Override

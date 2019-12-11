@@ -10,10 +10,10 @@ import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_REGISTRAT
 
 public class GoToRegistrationPageCommand implements Command {
 
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-		return PATH_REGISTRATION;
-		
-	}
+        return PATH_REGISTRATION;
+
+    }
 }

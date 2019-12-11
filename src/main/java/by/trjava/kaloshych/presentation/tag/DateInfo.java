@@ -23,19 +23,19 @@ public class DateInfo extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-    final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    final Date date = new Date();
-    final String dateNow = dateFormat.format(date);
-    final String time = "<b>" + dateNow + " </b>";
+        final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        final Date date = new Date();
+        final String dateNow = dateFormat.format(date);
+        final String time = "<b>" + dateNow + " </b>";
 
         try {
-        JspWriter out = pageContext.getOut();
-        out.write(time);
-    } catch (IOException e) {
-        throw new JspException(e.getMessage());
-    }
+            JspWriter out = pageContext.getOut();
+            out.write(time);
+        } catch (IOException e) {
+            throw new JspException(e.getMessage());
+        }
         return SKIP_BODY;
-}
+    }
 
     @Override
     public int doEndTag() throws JspException {

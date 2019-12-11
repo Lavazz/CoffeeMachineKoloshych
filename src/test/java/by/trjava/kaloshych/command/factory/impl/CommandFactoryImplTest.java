@@ -3,10 +3,13 @@ package by.trjava.kaloshych.command.factory.impl;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 import by.trjava.kaloshych.command.factory.CommandFactory;
-import by.trjava.kaloshych.command.impl.AddNewDrinkCommand;
-import by.trjava.kaloshych.command.impl.AddOrderCommand;
-import by.trjava.kaloshych.command.impl.AuthorizationCommand;
-import by.trjava.kaloshych.command.impl.ShowDrinksCommand;
+import by.trjava.kaloshych.command.impl.*;
+import by.trjava.kaloshych.command.impl.components.AddNewDrinkCommand;
+import by.trjava.kaloshych.command.impl.components.ShowDrinksCommand;
+import by.trjava.kaloshych.command.impl.order.AddOrderCommand;
+import by.trjava.kaloshych.command.impl.user.AuthorizationCommand;
+import by.trjava.kaloshych.command.impl.user.ChangePasswordCommand;
+import by.trjava.kaloshych.command.impl.user.RegistrationCommand;
 import org.junit.Test;
 
 import static by.trjava.kaloshych.command.util.CommandName.*;
@@ -30,6 +33,20 @@ public class CommandFactoryImplTest {
         assertTrue(command instanceof AuthorizationCommand);
     }
 
+    @Test
+    public void testCreateCommandRegistrationCommand() throws CommandException {
+        Command command = factory.createCommand(REGISTRATION);
+
+        assertTrue(command instanceof RegistrationCommand);
+    }
+
+
+    @Test
+    public void testCreateCommandChangePasswordCommand() throws CommandException {
+        Command command = factory.createCommand(CHANGE_PASSWORD);
+
+        assertTrue(command instanceof ChangePasswordCommand);
+    }
 
     @Test
     public void testCreateCommandAddNewDrink() throws CommandException {

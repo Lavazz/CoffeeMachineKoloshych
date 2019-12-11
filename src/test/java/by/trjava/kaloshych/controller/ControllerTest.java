@@ -1,8 +1,8 @@
 package by.trjava.kaloshych.controller;
 
 import by.trjava.kaloshych.command.Command;
-import by.trjava.kaloshych.command.exception.CommandException;
-import by.trjava.kaloshych.command.impl.transition.GoToMainPageCommand;
+import by.trjava.kaloshych.command.impl.user.AuthorizationCommand;
+import by.trjava.kaloshych.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,43 +12,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_COMMAND;
+import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_PERMISSION;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
 import static org.mockito.Mockito.*;
 
 public class ControllerTest {
 
-    public static final String path="/WEB-INF/jsp/mainPage.jsp";
+    public static final String path="mainPage";
 
-    private Controller command;
+    private Command command;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private RequestDispatcher dispatcher;
-
+UserService userService;
 
     @Before
     public void setUp() throws Exception {
-        command = new Controller();
+        command = new AuthorizationCommand();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        dispatcher = mock(RequestDispatcher.class);
+
+        userService = mock(UserService.class);
     }
     @Test
-    public void doGetTrue() throws CommandException, ServletException, IOException {
-        when(request.getRequestDispatcher(path)).thenReturn(dispatcher);
-        command.doGet(request, response);
-
-        verify(request, times(1)).getRequestDispatcher(path);
+    public void doGet() throws ServletException, IOException {
+       when(request.getAttribute(PARAMETER_PERMISSION)).thenReturn(true);
+        when(request.getParameter(PARAMETER_COMMAND)).thenReturn(PATH_AUTHORIZATION);
+        when(request.getParameter("login")).thenReturn("login");
+        when(request.getParameter("password")).thenReturn("password");
+        when(request.getRequestDispatcher(PATH_AUTHORIZATION)).thenReturn(dispatcher);
         verify(request, never()).getSession();
-        verify(dispatcher).forward(request, response);
+
     }
 
-
-
-
-
-
-
     @Test
-    public void doPost() {
+    public void doPost() throws ServletException, IOException {
+        when(request.getAttribute(PARAMETER_PERMISSION)).thenReturn(true);
+        when(request.getParameter(PARAMETER_COMMAND)).thenReturn(PATH_SHOW_DRINKS);
+        when(request.getRequestDispatcher(PATH_SHOW_DRINKS)).thenReturn(dispatcher);
+        verify(request, never()).getSession();
+
     }
 }

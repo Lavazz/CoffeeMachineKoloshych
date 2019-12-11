@@ -6,7 +6,7 @@ public class CartUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int idCartUser;
-    private User user ;
+    private User user;
 
     public CartUser() {
     }
@@ -20,12 +20,12 @@ public class CartUser implements Serializable {
         return serialVersionUID;
     }
 
-    public void setIdCartUser(int idCartUser) {
-        this.idCartUser = idCartUser;
-    }
-
     public int getIdCartUser() {
         return idCartUser;
+    }
+
+    public void setIdCartUser(int idCartUser) {
+        this.idCartUser = idCartUser;
     }
 
     public User getUser() {
@@ -51,19 +51,14 @@ public class CartUser implements Serializable {
         if (idCartUser != other.idCartUser) {
             return false;
         }
-        if (user== null) {
-            if (other.user != null) {
-                return false;
-            }
-            } else if (!user.equals(other.user)) {
-                return false;
-            }
-        return true;
+        if (user == null) {
+            return other.user == null;
+        } else return user.equals(other.user);
     }
 
     @Override
     public int hashCode() {
-        return 31 * idCartUser + (user==null?0:user.hashCode());
+        return 31 * idCartUser + (user == null ? 0 : user.hashCode());
     }
 
     @Override

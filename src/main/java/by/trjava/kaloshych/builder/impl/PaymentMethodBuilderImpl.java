@@ -8,7 +8,8 @@ public class PaymentMethodBuilderImpl implements PaymentMethodBuilder {
     private int idPaymentMethod;
     private String namePaymentMethod;
 
-    public PaymentMethodBuilderImpl(){}
+    public PaymentMethodBuilderImpl() {
+    }
 
     public PaymentMethodBuilderImpl(int idPaymentMethod) {
         this.idPaymentMethod = idPaymentMethod;

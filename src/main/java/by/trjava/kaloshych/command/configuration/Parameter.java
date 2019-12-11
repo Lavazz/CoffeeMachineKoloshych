@@ -1,5 +1,13 @@
 package by.trjava.kaloshych.command.configuration;
 
+
+/**
+ * This class contains parameters used in Commands
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @since JDK1.0
+ */
 public class Parameter {
 
     public static final String PARAMETER_NAME_COMPONENT = "nameComponent";

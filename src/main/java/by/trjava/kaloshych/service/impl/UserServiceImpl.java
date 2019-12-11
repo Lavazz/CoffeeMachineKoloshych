@@ -10,10 +10,18 @@ import by.trjava.kaloshych.service.util.encrypting.PasswordEncrypting;
 import by.trjava.kaloshych.service.validation.InputDataValidator;
 import by.trjava.kaloshych.service.validation.UserValidator;
 
+/**
+ * Represents methods for operation with User Entity in Service.
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @see User
+ * @since JDK1.0
+ */
 public class UserServiceImpl implements UserService {
-    private  final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
-    private  final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
-    private  final PasswordEncrypting encrypting= PasswordEncrypting.getInstance();
+    private final UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
+    private final InputDataValidator inputDataValidator = InputDataValidator.getInstance();
+    private final PasswordEncrypting encrypting = PasswordEncrypting.getInstance();
 
     @Override
     public boolean updateUserPassword(int idUser, String currentPassword, String newPassword, String confirmedPassword)
@@ -25,12 +33,13 @@ public class UserServiceImpl implements UserService {
                 || inputDataValidator.isEmpty(confirmedPassword)) {
             throw new EmptyDataException("Empty data");
         }
+
         if (!UserValidator.getInstance().validatePasswords(newPassword, confirmedPassword)) {
             throw new WrongConfirmPasswordException("Passwords do not match");
         }
 
         try {
-             user=userDAO.getUserById(idUser);
+            user = userDAO.getUserById(idUser);
             originalPassword = user.getPassword();
         } catch (DAOException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -42,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         String encodedPassword = encrypting.generateHash(user.getLogin(), newPassword);
         try {
-            return userDAO.updateUserPassword(user, encodedPassword);
+            return userDAO.updateUserPassword(idUser, encodedPassword);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in UserService can't update password" + e);
         }
@@ -61,11 +70,11 @@ public class UserServiceImpl implements UserService {
             throw new WrongAuthorizationException("Incorrect authorization data");
         }
         try {
-           if(userDAO.checkUserExists(login)) {
-               user = userDAO.getUserByLogin(login);
-           }else {
-               throw new InvalidLoginException("The user with such login is not found");
-           }
+            if (userDAO.checkUserExists(login)) {
+                user = userDAO.getUserByLogin(login);
+            } else {
+                throw new InvalidLoginException("The user with such login is not found");
+            }
             originalPassword = user.getPassword();
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in UserService can't log in" + e);
@@ -73,8 +82,7 @@ public class UserServiceImpl implements UserService {
         if (!originalPassword.equals(encrypting.generateHash(login, password))) {
             throw new InvalidCurrentPasswordException("Incorrect  password");
         }
-
-            return user;
+        return user;
     }
 
     @Override
@@ -91,14 +99,21 @@ public class UserServiceImpl implements UserService {
         if (!UserValidator.getInstance().validatePasswords(password, confirmedPassword)) {
             throw new WrongConfirmPasswordException("Passwords do not match");
         }
-        if (checkUserExists(login)) {
-            System.out.println("This login is used");
+
+        boolean userExists;
+        try {
+            userExists = userDAO.checkUserExists(login);
+        } catch (DAOException e) {
+            throw new ServiceException("DAO Exception in UserService in exists" + e);
+        }
+
+        if (userExists) {
             throw new LoginUsedException("This login is used");
         }
 
         String encodedPassword = encrypting.generateHash(login, password);
         try {
-           int idUser=userDAO.registration(login, encodedPassword, email, name);
+            int idUser = userDAO.registration(login, encodedPassword, email, name);
             return userDAO.getUserById(idUser);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in UserService in registration" + e);
@@ -106,39 +121,4 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public boolean checkId(int id) throws ServiceException {
-        try {
-            return userDAO.checkId(id);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in UserService can't check id user" + e);
-        }
-    }
-
-    @Override
-    public User getUserById(int idUser) throws ServiceException {
-        try {
-            return userDAO.getUserById(idUser);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in UserService can't check user by id" + e);
-        }
-    }
-
-    @Override
-    public boolean checkUserExists(String login) throws ServiceException {
-        try {
-            return userDAO.checkUserExists(login);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in UserService can't check if user exists" + e);
-        }
-    }
-
-    @Override
-    public User getUserByLogin(String login) throws ServiceException {
-        try {
-            return userDAO.getUserByLogin(login);
-        } catch (DAOException e) {
-            throw new ServiceException("DAO Exception in UserService can't get user by login" + e);
-        }
-    }
 }

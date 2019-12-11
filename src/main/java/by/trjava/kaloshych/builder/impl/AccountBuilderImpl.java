@@ -15,44 +15,45 @@ public class AccountBuilderImpl implements AccountBuilder {
     private Date paymentDate;
     private double amountOfMoney;
 
-   public AccountBuilderImpl(){}
+    public AccountBuilderImpl() {
+    }
 
-    public AccountBuilderImpl(int idAccount){
-       this.idAccount=idAccount;
+    public AccountBuilderImpl(int idAccount) {
+        this.idAccount = idAccount;
     }
 
     @Override
-    public Account build(){
-       final Account account=new Account();
-       account.setIdAccount(idAccount);
-       account.setAccountUser(accountUser);
-       account.setPaymentMethod(paymentMethod);
-       account.setPaymentDate(paymentDate);
-       account.setAmountOfMoney(amountOfMoney);
-       return account;
+    public Account build() {
+        final Account account = new Account();
+        account.setIdAccount(idAccount);
+        account.setAccountUser(accountUser);
+        account.setPaymentMethod(paymentMethod);
+        account.setPaymentDate(paymentDate);
+        account.setAmountOfMoney(amountOfMoney);
+        return account;
     }
 
     @Override
-    public  AccountBuilder withAccountUser(AccountUser accountUser){
-       this.accountUser=accountUser;
-       return this;
-    }
-
-    @Override
-    public  AccountBuilder withPaymentMethod(PaymentMethod paymentMethod){
-        this.paymentMethod=paymentMethod;
+    public AccountBuilder withAccountUser(AccountUser accountUser) {
+        this.accountUser = accountUser;
         return this;
     }
 
     @Override
-    public  AccountBuilder withPaymentDate(Date paymentDate){
-        this.paymentDate=paymentDate;
+    public AccountBuilder withPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
         return this;
     }
 
     @Override
-    public  AccountBuilder withAmountOfMoney(double amountOfMoney){
-        this.amountOfMoney=amountOfMoney;
+    public AccountBuilder withPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
+        return this;
+    }
+
+    @Override
+    public AccountBuilder withAmountOfMoney(double amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
         return this;
     }
 

@@ -1,5 +1,12 @@
 package by.trjava.kaloshych.command.configuration;
 
+/**
+ * This class contains messages from the command
+ *
+ * @author Katsiaryna Kaloshych
+ * @version 1.0
+ * @since JDK1.0
+ */
 public class Message {
     public static final String MESSAGE_SUCCESSFUL_ADD_COMPONENT = "component successfully added";
     public static final String MESSAGE_UNSUCCESSFUL_ADD_COMPONENT = "component is not added";
@@ -18,6 +25,7 @@ public class Message {
     public static final String MESSAGE_INVALID_LOGIN = "message.authorization.invalid_login";
     public static final String MESSAGE_INVALID_PASSWORD = "message.authorization.invalid_password";
     public static final String MESSAGE_EMPTY_DATA = "message.empty_data";
+    public static final String MESSAGE_EMPTY_DRINK = "message.empty_drink";
     public static final String MESSAGE_SMALL_AMOUNT = "message.balance.small_amount";
     public static final String MESSAGE_WRONG_PORTION = "message.cart.wrong_portion";
     public static final String MESSAGE_EMPTY_CHECKBOX = "message.cart.wrong_checkbox";
@@ -25,6 +33,7 @@ public class Message {
     public static final String MESSAGE_CHANGE_PASSWORD_SUCCESSFUL = "message.password_changed";
     public static final String MESSAGE_CHANGE_PASSWORD_INVALID = "message.invalid_password";
     public static final String MESSAGE_ACCESS_PROHIBITED = "message.access_prohibited";
+    public static final String MESSAGE_DUPLICATE = "message.duplicate";
 
 
 }

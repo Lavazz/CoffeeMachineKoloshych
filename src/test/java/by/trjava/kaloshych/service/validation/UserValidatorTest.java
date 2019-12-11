@@ -31,4 +31,17 @@ public class UserValidatorTest {
         String email = "email";
         assertFalse(UserValidator.getInstance().validateEmail(email));
     }
+
+    @Test
+    public void testValidateNameCorrect() {
+        String name = "Name";
+        assertTrue(UserValidator.getInstance().validateName(name));
+    }
+
+    @Test
+    public void testValidateNameInvalid() {
+        String name = "1n";
+        assertFalse(UserValidator.getInstance().validateName(name));
+    }
+
 }
