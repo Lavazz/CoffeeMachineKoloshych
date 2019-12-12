@@ -30,8 +30,8 @@ public class ComponentServiceImpl implements ComponentService {
         try {
             for (String idComponentString : idComponents) {
                 int idComponent = Integer.parseInt(idComponentString);
-                componentDAO.deleteComponent(idComponent);
                 componentDAO.deleteComponentFromFillingOperation(idComponent);
+                componentDAO.deleteComponent(idComponent);
             }
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in ComponentService can't delete component" + e);

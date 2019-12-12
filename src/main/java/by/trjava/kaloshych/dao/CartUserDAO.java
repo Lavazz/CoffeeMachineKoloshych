@@ -6,9 +6,9 @@ import by.trjava.kaloshych.entity.User;
 
 public interface CartUserDAO {
 
-    int addCartUser(User user) throws DAOException;
+    int addCartUser(int idUser) throws DAOException;
 
-    CartUser getLastCartUser(User user) throws DAOException;
+    CartUser getLastCartUser(int idUser) throws DAOException;
 
     CartUser getCartUser(int idCartUser) throws DAOException;
 }

@@ -37,12 +37,12 @@ public class RegistrationCommand implements Command {
 
         try {
             final User user = userService.registration(login, password, confirmPassword, email, name);
-            final AccountUser accountUser = accountUserService.addAccountUser(user);
-            final CartUser cartUser = cartUserService.addCartUser(user.getId());
-            session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUser.getIdAccountUser());
-            session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());
+            final int idAccountUser = accountUserService.addAccountUser(user.getId());
+            final int idCartUser = cartUserService.addCartUser(user.getId());
+            session.setAttribute(PARAMETER_ID_ACCOUNT_USER, idAccountUser);
+            session.setAttribute(PARAMETER_ID_CART_USER, idCartUser);
             session.setAttribute(PARAMETER_ID_USER, user.getId());
-            session.setAttribute(PARAMETER_USER_NAME, user.getName());
+            session.setAttribute(PARAMETER_USER_NAME, name);
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
             path = PATH_INDEX;
             session.setAttribute(REDIRECT_COMMAND, PATH_INDEX);

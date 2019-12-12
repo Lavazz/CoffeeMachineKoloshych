@@ -19,8 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**
  * Represents methods for operation with CartAdditionalIngredient Entity in DAO.
@@ -78,20 +78,18 @@ public class SQLCartAdditionalIngredientDAO implements CartAdditionalIngredientD
     @Override
     public CartAdditionalIngredient getCartAdditionalIngredientsById(int idCartAdditionalIngredient) throws DAOException {
         CartAdditionalIngredient cartAdditionalIngredient = null;
-        ResultSet rs = null;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_INGREDIENTS_BY_ID)) {
             ps.setInt(1, idCartAdditionalIngredient);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                cartAdditionalIngredient = Creator.getInstance().createCartAdditionalIngredient(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cartAdditionalIngredient = Creator.getInstance().createCartAdditionalIngredient(rs);
+                }
+                return cartAdditionalIngredient;
             }
-            return cartAdditionalIngredient;
         } catch (SQLException e) {
             throw new DAOException("SQL cartAdditionalIngredient Exception can't get cartAdditionalIngredient " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
@@ -102,27 +100,19 @@ public class SQLCartAdditionalIngredientDAO implements CartAdditionalIngredientD
         final AdditionalIngredientDAO additionalIngredientDAO = daoFactory.getAdditionalIngredientDAO();
 
         List<CartAdditionalIngredient> cartAdditionalIngredientsList = new ArrayList<>();
-        ResultSet rs = null;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             if (id != NOT_PARAMETERS) {
                 ps.setInt(1, id);
             }
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int idCartAdditionalIngredient = rs.getInt(PARAMETER_ID_CART_ADDITIONAL_INGREDIENT);
-                int idCart = rs.getInt(PARAMETER_ID_CART);
-                Cart cart = cartDAO.getCartById(idCart);
-                int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
-                AdditionalIngredient additionalIngredient = additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient);
-
-                cartAdditionalIngredientsList.add(Creator.getInstance().createCartAdditionalIngredient(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cartAdditionalIngredientsList.add(Creator.getInstance().createCartAdditionalIngredient(rs));
+                }
+                return cartAdditionalIngredientsList;
             }
-            return cartAdditionalIngredientsList;
         } catch (SQLException e) {
             throw new DAOException("SQL cartAdditionalIngredient Exception can't get All cartAdditionalIngredients " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 

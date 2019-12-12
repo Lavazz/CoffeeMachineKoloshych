@@ -16,8 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**
  * Represents methods for operation with FillingOperation Entity in DAO.
@@ -60,26 +60,24 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
         final AdditionalIngredientDAO additionalIngredientDAO = daoFactory.getAdditionalIngredientDAO();
         final DrinkDAO drinkDAO = daoFactory.getDrinkDAO();
 
-        ResultSet rs = null;
         List<Component> componentList = new ArrayList<>();
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_FILLING_OPERATION)) {
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int idDrink = rs.getInt(PARAMETER_ID_DRINK);
-                int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
-                if (idDrink != 0) {
-                    componentList.add(drinkDAO.getDrink(idDrink));
-                } else if (idAdditionalIngredient != 0) {
-                    componentList.add(additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int idDrink = rs.getInt(PARAMETER_ID_DRINK);
+                    int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
+                    if (idDrink != 0) {
+                        componentList.add(drinkDAO.getDrink(idDrink));
+                    } else if (idAdditionalIngredient != 0) {
+                        componentList.add(additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient));
+                    }
                 }
+                return componentList;
             }
-            return componentList;
         } catch (SQLException e) {
             throw new DAOException("SQL Filling operation Exception can't get all components " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 

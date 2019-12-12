@@ -1,10 +1,9 @@
- <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="custom" uri="http://trjava.by/kaloshych" %>
 <%@ taglib prefix="ctg" uri="http://trjava.by/kaloshych" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -53,10 +52,10 @@
             <c:remove var="messageDrinks"/>
         </c:if>
         <c:if test="${sessionScope.idUser == null}">
-            <h2><fmt:message key="drinks.guest.recommendation" /></h2>
+            <h2><fmt:message key="drinks.guest.recommendation"/></h2>
         </c:if>
         <c:if test="${sessionScope.idUserStatus==1}">
-            <h2><fmt:message key="drinks.admin.recommendation" /></h2>
+            <h2><fmt:message key="drinks.admin.recommendation"/></h2>
         </c:if>
         <form action="main" method="post">
             <c:forEach items="${requestScope.drinks}" var="drink">
@@ -68,47 +67,49 @@
                         </label>
                     </div>
                     <a href="${drink.picturePath}" class="image-popup">
-                        <img src="${drink.picturePath}" class="img-fluid" alt="Colorlib Template"></a>
+                        <img src="${drink.picturePath}" class="img-fluid" alt="Drink"></a>
                 </div>
                 <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                    <h3> <ctg:outDrink drink="${drink}"/></h3>
-<%--                    ${drink.nameComponent}--%>
+                    <br>
+                    <h3><ctg:outDrink drink="${drink}"/></h3>
+                        <%--                    ${drink.nameComponent}--%>
                     <p class="price"><span>${drink.price}</span></p>
                     <p><h5><ctg:outDescription drink="${drink}"/></h5>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                        </div>
-                    </div>
                 </div>
-                <br><br>
+                <br>
                 </c:forEach>
+                <br>
+                <div class="col-md-4"></div>
+                <div class="col-md-6">
+                    <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
+                        <h5><p><label>
+                            <input type="checkbox" name="idAdditionalIngredient"
+                                   value="${additionalIngredient.idComponent}"/>
+                        </label><ctg:outAdditionalIngredient
+                            additionalIngredient="${additionalIngredient}"/></h5>
 
-                <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
-                 <p><label>
-                     <input type="checkbox" name="idAdditionalIngredient"
-                               value="${additionalIngredient.idComponent}" />
-                 </label> <ctg:outAdditionalIngredient additionalIngredient="${additionalIngredient}"/></p>
+                    </c:forEach>
+                    <div class="w-100"></div>
 
-                </c:forEach>
-                <div class="w-100"></div>
+                    <label for="portion">
+                        <input type="text" id="portion" name="portion" value="" placeholder="portion: 1-99" required>
+                    </label>
 
-                <label for="portion">
-                    <input type="text" id="portion" name="portion" value="" placeholder="portion: 1-99" required >
-                </label>
-            </div>
-            <c:if test="${sessionScope.idUserStatus==2}">
-                <input type="hidden" name="command" value="addToCart">
-                <input type="submit" name="submit" value="<fmt:message key='drinks.button.addToCart'/>  ">
-            </c:if>
+                    <c:if test="${sessionScope.idUserStatus==2}">
+                        <input type="hidden" name="command" value="addToCart">
+                        <input type="submit" name="submit" value="<fmt:message key='drinks.button.addToCart'/>  ">
+                    </c:if>
+                </div>
         </form>
-
     </div>
 </section>
 
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

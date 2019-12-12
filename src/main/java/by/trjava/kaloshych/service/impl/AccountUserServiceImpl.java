@@ -23,20 +23,20 @@ public class AccountUserServiceImpl implements AccountUserService {
     private final AccountDAO accountDAO = DAOFactory.getInstance().getAccountDAO();
 
     @Override
-    public AccountUser addAccountUser(User user) throws ServiceException {
+    public int addAccountUser(int idUser) throws ServiceException {
         try {
-            int idAccountUser = accountUserDAO.addAccountUser(user);
+            int idAccountUser = accountUserDAO.addAccountUser(idUser);
             accountDAO.addNewAccount(idAccountUser);
-            return accountUserDAO.getAccountUser(idAccountUser);
+            return idAccountUser;
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in accountUserService can't add accountUser" + e);
         }
     }
 
     @Override
-    public AccountUser getAccountUser(User user) throws ServiceException {
+    public int getIdAccountUser(int idUser) throws ServiceException {
         try {
-            return accountUserDAO.getAccountUser(user);
+            return accountUserDAO.getIdAccountUser(idUser);
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in accountUserService can't get accountUser" + e);
         }

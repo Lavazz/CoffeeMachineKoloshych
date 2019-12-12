@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
 
 /**
  * This class creates entity objects from {@seeResultSet}

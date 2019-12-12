@@ -11,9 +11,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_ALL_PAYMENT_METHOD;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_GET_PAYMENT_METHOD;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.QUERY_ALL_PAYMENT_METHOD;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.QUERY_GET_PAYMENT_METHOD;
 
 /**
  * Represents methods for operation with PaymentMethods Entity in DAO.
@@ -62,7 +62,8 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 paymentMethod = Creator.getInstance().createPaymentMethod(rs);
-            }
+            }else
+                throw new DAOException("SQLAccountUser Exception can't get accountUser " );
             return paymentMethod;
         } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't get accountUser " + e);

@@ -55,7 +55,7 @@
 
   <servlet>
     <servlet-name>showDrinks</servlet-name>
-    <jsp-file>/WEB-INF/jsp/components/showDrinks.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/components/showDrinks.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>showDrinks</servlet-name>
@@ -65,7 +65,7 @@
 
   <servlet>
     <servlet-name>registration</servlet-name>
-    <jsp-file>/WEB-INF/jsp/user/registration.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/user/registration.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>registration</servlet-name>
@@ -75,7 +75,7 @@
 
   <servlet>
     <servlet-name>authorization</servlet-name>
-    <jsp-file>/WEB-INF/jsp/user/authorization.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/user/authorization.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>authorization</servlet-name>
@@ -84,7 +84,7 @@
 
   <servlet>
     <servlet-name>showAdditionalIngredients</servlet-name>
-    <jsp-file>/WEB-INF/jsp/components/showAdditionalIngredients.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/components/showAdditionalIngredients.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>showAdditionalIngredients</servlet-name>
@@ -93,7 +93,7 @@
 
   <servlet>
     <servlet-name>personalCabinet</servlet-name>
-    <jsp-file>/WEB-INF/jsp/user/personalCabinet.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/user/personalCabinet.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>personalCabinet</servlet-name>
@@ -102,7 +102,7 @@
 
   <servlet>
     <servlet-name>adminCabinet</servlet-name>
-    <jsp-file>/WEB-INF/jsp/user/adminCabinet.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/user/adminCabinet.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminCabinet</servlet-name>
@@ -111,7 +111,7 @@
 
   <servlet>
     <servlet-name>showCart</servlet-name>
-    <jsp-file>/WEB-INF/jsp/cart/showCart.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/cart/showCart.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>showCart</servlet-name>
@@ -120,7 +120,7 @@
 
   <servlet>
     <servlet-name>fillingOperation</servlet-name>
-    <jsp-file>/WEB-INF/jsp/filling/fillingOperation.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/filling/fillingOperation.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>fillingOperation</servlet-name>
@@ -129,7 +129,7 @@
 
     <servlet>
     <servlet-name>deleteComponent</servlet-name>
-    <jsp-file>/WEB-INF/jsp/components/deleteComponent.jsp</jsp-file>
+        <jsp-file>/WEB-INF/jsp/components/deleteComponent.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>deleteComponent</servlet-name>
@@ -138,7 +138,7 @@
 
   <servlet>
   <servlet-name>addNewDrink</servlet-name>
-  <jsp-file>/WEB-INF/jsp/components/addNewDrink.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/components/addNewDrink.jsp</jsp-file>
 </servlet>
 <servlet-mapping>
 <servlet-name>addNewDrink</servlet-name>
@@ -147,7 +147,7 @@
 
   <servlet>
     <servlet-name>orderHistory</servlet-name>
-    <jsp-file>/WEB-INF/jsp/order/orderHistory.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/order/orderHistory.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>orderHistory</servlet-name>
@@ -165,7 +165,7 @@
 
   <servlet>
     <servlet-name>replenishBalance</servlet-name>
-    <jsp-file>/WEB-INF/jsp/account/replenishBalance.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/account/replenishBalance.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>replenishBalance</servlet-name>
@@ -174,7 +174,7 @@
 
   <servlet>
     <servlet-name>takeOrder</servlet-name>
-    <jsp-file>/WEB-INF/jsp/order/takeOrder.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/order/takeOrder.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>takeOrder</servlet-name>
@@ -183,7 +183,7 @@
 
   <servlet>
     <servlet-name>changePassword</servlet-name>
-    <jsp-file>/WEB-INF/jsp/user/changePassword.jsp</jsp-file>
+      <jsp-file>/WEB-INF/jsp/user/changePassword.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>changePassword</servlet-name>

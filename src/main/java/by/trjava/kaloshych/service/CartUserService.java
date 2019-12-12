@@ -7,8 +7,6 @@ import by.trjava.kaloshych.service.exception.ServiceException;
 
 public interface CartUserService {
 
-    CartUser addCartUser(int idUser) throws ServiceException;
-
-    CartUser addCartUserForAuthorization(User user) throws ServiceException;
+   int addCartUser(int idUser) throws ServiceException;
 
 }

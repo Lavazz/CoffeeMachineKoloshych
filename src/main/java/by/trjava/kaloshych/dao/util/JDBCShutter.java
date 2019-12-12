@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * This class represents methods for close {@seeResultSet}  and {@seePreparedStatement}
+ * This class represents methods for close ResultSet  and PreparedStatement
  *
  * @author Katsiaryna Kaloshych
  * @version 1.0

@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 
 /**
@@ -29,12 +29,26 @@ public class SQLComponentDAO implements ComponentDAO {
     @Override
     public void deleteComponent(int idComponent) throws DAOException {
         final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-        String query;
         if (drinkDAO.checkDrinkById(idComponent)) {
-            query = QUERY_DRINK_DELETE;
+            deleteComponentFromTables(idComponent, QUERY_DRINK_DELETE);
         } else {
-            query = QUERY_ADDITIONAL_INGREDIENT_DELETE;
+            deleteComponentFromTables(idComponent, QUERY_ADDITIONAL_INGREDIENT_DELETE);
         }
+    }
+
+    @Override
+    public void deleteComponentFromFillingOperation(int idComponent) throws DAOException {
+        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
+        if (drinkDAO.checkDrinkById(idComponent)) {
+            System.out.println("dao fill in drink");
+            deleteComponentFromTables(idComponent, QUERY_DELETE_DRINK_FROM_FILLING_OPERATION);
+        } else {
+            System.out.println("in else");
+            deleteComponentFromTables(idComponent, QUERY_DELETE_ADDITIONAL_INGREDIENT_FROM_FILLING_OPERATION);
+        }
+    }
+
+    private void deleteComponentFromTables(int idComponent, String query) throws DAOException {
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, idComponent);
@@ -43,23 +57,4 @@ public class SQLComponentDAO implements ComponentDAO {
             throw new DAOException("SQL Component Exception can't delete component " + e);
         }
     }
-
-    @Override
-    public void deleteComponentFromFillingOperation(int idComponent) throws DAOException {
-        final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
-        String query;
-        if (drinkDAO.checkDrinkById(idComponent)) {
-            query = QUERY_DELETE_DRINK_FROM_FILLING_OPERATION;
-        } else {
-            query = QUERY_DELETE_ADDITIONAL_INGREDIENT_FROM_FILLING_OPERATION;
-        }
-        try (Connection con = connectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, idComponent);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new DAOException("SQL Component Exception can't delete component from filling operation " + e);
-        }
-    }
-
 }

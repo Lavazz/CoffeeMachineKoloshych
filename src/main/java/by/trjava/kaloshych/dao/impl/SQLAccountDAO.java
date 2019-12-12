@@ -5,6 +5,7 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
+import by.trjava.kaloshych.entity.Account;
 import by.trjava.kaloshych.entity.AccountUser;
 import by.trjava.kaloshych.entity.Order;
 
@@ -13,16 +14,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.*;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_ACCOUNT_ADD;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.QUERY_GET_BALANCE;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.QUERY_ACCOUNT_ADD;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.QUERY_GET_BALANCE;
 
 /**
  * Represents methods for operation with Account Entity in DAO.
  *
  * @author Katsiaryna Kaloshych
  * @version 1.0
- * @see by.trjava.kaloshych.entity.Account
+ * @see Account
  * @since JDK1.0
  */
 public class SQLAccountDAO implements AccountDAO {
@@ -59,8 +60,10 @@ public class SQLAccountDAO implements AccountDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.last()) {
                     balance = rs.getDouble(PARAMETER_MONEY);
+                    return balance;
+                }else{
+                    throw new DAOException("Balance is not founded");
                 }
-                return balance;
             }
         } catch (SQLException e) {
             throw new DAOException("SQLAccount Exception can't get balance ", e);
@@ -81,5 +84,6 @@ public class SQLAccountDAO implements AccountDAO {
             throw new DAOException("SQLAccount Exception can't add account ", e);
         }
     }
+
 }
 

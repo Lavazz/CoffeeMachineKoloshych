@@ -37,10 +37,11 @@ public class AuthorizationCommand implements Command {
         try {
             User user = userService.authorization(login, password);
             if (user.getUserStatus().equals(UserStatus.CUSTOMER)) {
-                CartUser cartUser = cartUserService.addCartUserForAuthorization(user);
+               int idCartUser = cartUserService.addCartUser(user.getId());
+               int idAccountUser=accountUserService.getIdAccountUser(user.getId());
 
-                session.setAttribute(PARAMETER_ID_CART_USER, cartUser.getIdCartUser());
-                session.setAttribute(PARAMETER_ID_ACCOUNT_USER, accountUserService.getAccountUser(user).getIdAccountUser());
+                session.setAttribute(PARAMETER_ID_CART_USER, idCartUser);
+                session.setAttribute(PARAMETER_ID_ACCOUNT_USER, idAccountUser );
             }
             session.setAttribute(PARAMETER_USER_NAME, user.getName());
             session.setAttribute(PARAMETER_ID_USER, user.getId());

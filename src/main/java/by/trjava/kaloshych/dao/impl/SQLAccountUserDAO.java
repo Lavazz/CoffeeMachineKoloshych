@@ -13,8 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**
  * Represents methods for operation with AccountUser Entity in DAO.
@@ -29,29 +29,28 @@ public class SQLAccountUserDAO implements AccountUserDAO {
     private static ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     @Override
-    public int addAccountUser(User user) throws DAOException {
-        ResultSet rs = null;
+    public int addAccountUser(int idUser) throws DAOException {
         int idAccountUser = 0;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_ADD_ACCOUNT_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, user.getId());
+            ps.setInt(1, idUser);
             ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                idAccountUser = rs.getInt(PARAMETER_COLUMN_INDEX);
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                while (rs.next()) {
+                    idAccountUser = rs.getInt(PARAMETER_COLUMN_INDEX);
+                }
+                return idAccountUser;
             }
-            return idAccountUser;
         } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't create accountUser " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
+
     @Override
-    public AccountUser getAccountUser(User user) throws DAOException {
-        return getAccountUserById(user.getId(), QUERY_GET_ACCOUNT_USER_BY_USER);
+    public int getIdAccountUser(int idUser) throws DAOException {
+        return getAccountUserById(idUser, QUERY_GET_ACCOUNT_USER_BY_USER).getIdAccountUser();
 
     }
 
@@ -62,20 +61,20 @@ public class SQLAccountUserDAO implements AccountUserDAO {
 
 
     private AccountUser getAccountUserById(int id, String query) throws DAOException {
-        ResultSet rs = null;
         AccountUser accountUser = null;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                accountUser = Creator.getInstance().createAccountUser(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    accountUser = Creator.getInstance().createAccountUser(rs);
+                }else{
+                    throw new DAOException("SQLAccountUser Exception can't get accountUser " );
+                }
+                return accountUser;
             }
-            return accountUser;
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't get accountUser " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 }

@@ -79,7 +79,7 @@
                                 <label for="description">
                                     <fmt:message key="add_drink.label.description"/>
                                 </label>
-                                <input id="description" class="form-control" pattern=".{0,255}";
+                                <input id="description" class="form-control" pattern=".{0,255}"
                                        type="text" placeholder="description" name="description" required>
                             </div>
                         </div>

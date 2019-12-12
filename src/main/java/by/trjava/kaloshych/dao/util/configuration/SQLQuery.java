@@ -1,4 +1,4 @@
-package by.trjava.kaloshych.dao.configuration;
+package by.trjava.kaloshych.dao.util.configuration;
 
 public class SQLQuery {
 

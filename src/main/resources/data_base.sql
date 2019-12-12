@@ -294,13 +294,13 @@ CREATE TABLE `users` (
   UNIQUE KEY `login_UNIQUE` (`login`),
   KEY `idStatus_idx` (`id_status`),
   CONSTRAINT `idStatus` FOREIGN KEY (`id_status`) REFERENCES `user_statuses` (`id_user_status`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 LOCK TABLES `users` WRITE;
-INSERT INTO `users` VALUES (1,'chipollina@gmail.com','Чиполлино','333','Егор',2),(2,'karabasss@gmail.ru','Буратино','333','Виктор',2),(3,'kot@mail.ru','Матроскин','333','Максим',2),(4,'fedor@gmail.com','ДядяФедор','333','Федор',2),(6,'malvina@yandex.ru','Мальвина','546','Екатерина',2),(7,'mult@mail.ru','Пьеро','333','1328rt',2),(8,'tema@gmail.com','Артемон','888','Артем',2);
+INSERT INTO `users` VALUES (1, 'koloshych@gmail.com', 'Kate', '����BW�;8����)1�', 'Kate', 1),(2,'nebo10@mail.ru','Matroskin','v2�Ő�J��0M��p��','Artem',2),(3,'chipollino@gmail.com','chipalino','HEq����*�@�w�x�','Egor',2),(4,'malvina@yandex.ru','Malvina','����b����/��~�','Marina',2);
 UNLOCK TABLES;
 

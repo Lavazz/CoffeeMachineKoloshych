@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import static by.trjava.kaloshych.command.configuration.Message.*;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_PORTION;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_PORTION;
 
 
 public class AddToCartCommand implements Command {

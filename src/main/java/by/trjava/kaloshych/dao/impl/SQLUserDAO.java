@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**
  * Represents methods for operation with User Entity in DAO.
@@ -60,6 +60,8 @@ public class SQLUserDAO implements UserDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = Creator.getInstance().createUser(rs);
+            }else{
+                throw new DAOException("Exception in User SQL can't get user by login");
             }
             return user;
         } catch (SQLException e) {
@@ -79,6 +81,8 @@ public class SQLUserDAO implements UserDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = Creator.getInstance().createUser(rs);
+            }else{
+                throw new DAOException("Exception in User SQL can't get user by login" );
             }
             return user;
         } catch (SQLException e) {

@@ -27,7 +27,7 @@ public class CleanCartCommand implements Command {
         session.removeAttribute(PARAMETER_ID_CART_USER);
 
         try {
-            session.setAttribute(PARAMETER_ID_CART_USER, cartUserService.addCartUser(idUser).getIdCartUser());
+            session.setAttribute(PARAMETER_ID_CART_USER, cartUserService.addCartUser(idUser));
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

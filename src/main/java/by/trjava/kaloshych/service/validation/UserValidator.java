@@ -19,7 +19,7 @@ public class UserValidator {
     }
 
     public boolean validate(String login, String password) {
-        return login.matches(LOGIN_FORMAT_REGEX) && validatePassword(password);
+        return validateLogin(login) && validatePassword(password);
     }
 
     public boolean validate(String login, String password, String email, String name) {

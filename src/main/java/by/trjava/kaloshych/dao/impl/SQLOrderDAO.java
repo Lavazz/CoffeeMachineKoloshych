@@ -10,15 +10,12 @@ import by.trjava.kaloshych.entity.Order;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 
 /**
@@ -35,9 +32,8 @@ public class SQLOrderDAO implements OrderDAO {
 
     @Override
     public int addOrder(int idCartUser, double totalCost) throws DAOException {
-        ResultSet rs = null;
         int idOrder = 0;
-        java.sql.Date dateOrder;
+        Date dateOrder;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_ORDER_CREATE, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -46,15 +42,14 @@ public class SQLOrderDAO implements OrderDAO {
             dateOrder = new java.sql.Date(new java.util.Date().getTime());
             ps.setDate(3, dateOrder);
             ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            while (rs.next()) {
-                idOrder = rs.getInt(PARAMETER_COLUMN_INDEX);
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idOrder = rs.getInt(PARAMETER_COLUMN_INDEX);
+                }
+                return idOrder;
             }
-            return idOrder;
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't add order " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
@@ -75,12 +70,13 @@ public class SQLOrderDAO implements OrderDAO {
 
     @Override
     public Order getLastOrderByUser(int idUser) throws DAOException {
-        Order order = null;
+        Order order=null ;
         CachedRowSet crs = getResultSetOrder(idUser, QUERY_GET_ORDERS_BY_USER);
         try {
             if (crs.last()) {
                 order = Creator.getInstance().createOrder(crs);
             }
+
             return order;
         } catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't get last order by user " + e);
@@ -106,12 +102,13 @@ public class SQLOrderDAO implements OrderDAO {
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            RowSetFactory factory = RowSetProvider.newFactory();
-            CachedRowSet cachedRowSet = factory.createCachedRowSet();
-            cachedRowSet.populate(rs);
-            return cachedRowSet;
-        } catch (SQLException e) {
+            try (ResultSet rs = ps.executeQuery()) {
+                RowSetFactory factory = RowSetProvider.newFactory();
+                CachedRowSet cachedRowSet = factory.createCachedRowSet();
+                cachedRowSet.populate(rs);
+                return cachedRowSet;
+            }
+        }catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't get all orders by user " + e);
         }
     }

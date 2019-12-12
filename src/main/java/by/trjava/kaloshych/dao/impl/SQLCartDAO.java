@@ -4,7 +4,6 @@ import by.trjava.kaloshych.dao.CartDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.Cart;
 
 import java.sql.Connection;
@@ -14,9 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
-import static by.trjava.kaloshych.dao.configuration.ConfigurationManager.PARAMETER_PORTION;
-import static by.trjava.kaloshych.dao.configuration.SQLQuery.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_COLUMN_INDEX;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.PARAMETER_PORTION;
+import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**
  * Represents methods for operation with Cart Entity in DAO.
@@ -32,7 +31,6 @@ public class SQLCartDAO implements CartDAO {
 
     @Override
     public int addDrinkToCart(int idCartUser, int idDrink, int portion) throws DAOException {
-        ResultSet rs = null;
         int idCart = 0;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_CART_ADD, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -40,15 +38,14 @@ public class SQLCartDAO implements CartDAO {
             ps.setInt(2, idDrink);
             ps.setInt(3, portion);
             ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            while (rs.next()) {
-                idCart = rs.getInt(PARAMETER_COLUMN_INDEX);
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                while (rs.next()) {
+                    idCart = rs.getInt(PARAMETER_COLUMN_INDEX);
+                }
+                return idCart;
             }
-            return idCart;
         } catch (SQLException e) {
             throw new DAOException("SQL cart Exception can't add drink to cart " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
@@ -90,60 +87,54 @@ public class SQLCartDAO implements CartDAO {
     @Override
     public int getPortionByCart(Cart cart) throws DAOException {
         int portion = 0;
-        ResultSet rs = null;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_PORTION_BY_CART)) {
             ps.setInt(1, cart.getIdCart());
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                portion = rs.getInt(PARAMETER_PORTION);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    portion = rs.getInt(PARAMETER_PORTION);
+                }
+                return portion;
             }
-            return portion;
         } catch (SQLException e) {
             throw new DAOException("SQL cart Exception can't get portion by cart " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
     @Override
     public Cart getCartById(int idCart) throws DAOException {
-        ResultSet rs = null;
         Cart cart = null;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_CART_BY_ID)) {
             ps.setInt(1, idCart);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                cart = Creator.getInstance().createCart(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cart = Creator.getInstance().createCart(rs);
+                }
+                return cart;
             }
-            return cart;
         } catch (SQLException e) {
             throw new DAOException("SQL cart Exception can't get cart by id " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
 
     private List<Cart> getCartList(int id, String query) throws DAOException {
         List<Cart> carts = new ArrayList<>();
-        ResultSet rs = null;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                carts.add(Creator.getInstance().createCart(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    carts.add(Creator.getInstance().createCart(rs));
+                }
+                return carts;
             }
-            return carts;
         } catch (SQLException e) {
             throw new DAOException("SQL cart Exception can't get all carts by cartUser" + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
