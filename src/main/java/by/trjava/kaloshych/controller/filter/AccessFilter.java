@@ -13,7 +13,7 @@ import java.util.List;
 
 import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_ACCESS;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 import static by.trjava.kaloshych.entity.UserStatus.*;
 
 /**
@@ -113,12 +113,10 @@ public class AccessFilter implements Filter {
                     || (idUserStatus == ADMIN.getIdUserStatus() && isAdministrationCommand(command))
                     || (idUserStatus == CUSTOMER.getIdUserStatus() && isCustomerCommand(command))) {
                 request.setAttribute(PARAMETER_PERMISSION, true);
-                System.out.println(" PERMISSION true");
             } else {
                 request.setAttribute(PARAMETER_PERMISSION, false);
-                request.setAttribute(PARAMETER_PAGE, PATH_INDEX);
+                request.setAttribute(PARAMETER_PAGE, PATH_MAIN_PAGE);
                 session.setAttribute(PARAMETER_MESSAGE_ACCESS, MESSAGE_ACCESS);
-                System.out.println(" PERMISSION false");
             }
 
         }

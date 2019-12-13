@@ -5,7 +5,6 @@ import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
 import by.trjava.kaloshych.entity.CartUser;
-import by.trjava.kaloshych.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

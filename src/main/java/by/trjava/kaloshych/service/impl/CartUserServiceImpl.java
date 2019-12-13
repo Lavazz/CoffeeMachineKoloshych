@@ -3,11 +3,9 @@ package by.trjava.kaloshych.service.impl;
 import by.trjava.kaloshych.dao.CartUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.OrderDAO;
-import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.Order;
-import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.CartUserService;
 import by.trjava.kaloshych.service.exception.ServiceException;
 
@@ -23,26 +21,24 @@ import java.util.Optional;
  */
 public class CartUserServiceImpl implements CartUserService {
 
-    private final DAOFactory daoFactory = DAOFactory.getInstance();
-    private final CartUserDAO cartUserDAO = daoFactory.getCartUserDAO();
-    private final UserDAO userDAO = daoFactory.getUserDAO();
+    private final CartUserDAO cartUserDAO = DAOFactory.getInstance().getCartUserDAO();
 
     @Override
     public int addCartUser(int idUser) throws ServiceException {
-        int idCartUser=0;
+        int idCartUser;
         final OrderDAO orderDAO = DAOFactory.getInstance().getOrderDAO();
         try {
             Optional<CartUser> cartUserOptional = Optional.ofNullable(cartUserDAO.getLastCartUser(idUser));
             Optional<Order> orderOptional = Optional.ofNullable(orderDAO.getLastOrderByUser(idUser));
-            if(cartUserOptional.isPresent()&&orderOptional.isPresent()) {
+            if (cartUserOptional.isPresent() && orderOptional.isPresent()) {
                 if (!cartUserOptional.get().equals(orderOptional.get().getCartUser())) {
                     idCartUser = cartUserOptional.get().getIdCartUser();
-                }else{
-                     idCartUser = cartUserDAO.addCartUser(idUser);
-                }
                 } else {
                     idCartUser = cartUserDAO.addCartUser(idUser);
                 }
+            } else {
+                idCartUser = cartUserDAO.addCartUser(idUser);
+            }
             return idCartUser;
         } catch (DAOException e) {
             throw new ServiceException("DAO Exception in CartUserService can't add cartUser" + e);

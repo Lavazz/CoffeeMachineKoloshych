@@ -25,7 +25,6 @@ public class DAOFactory {
         return instance;
     }
 
-
     public AccountDAO getAccountDAO() {
         return accountDAO;
     }

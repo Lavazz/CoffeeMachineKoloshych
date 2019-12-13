@@ -4,9 +4,7 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.AccountUser;
-import by.trjava.kaloshych.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,19 +59,19 @@ public class SQLAccountUserDAO implements AccountUserDAO {
 
 
     private AccountUser getAccountUserById(int id, String query) throws DAOException {
-        AccountUser accountUser = null;
+        AccountUser accountUser;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     accountUser = Creator.getInstance().createAccountUser(rs);
-                }else{
-                    throw new DAOException("SQLAccountUser Exception can't get accountUser " );
+                } else {
+                    throw new DAOException("SQLAccountUser Exception can't get accountUser ");
                 }
                 return accountUser;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't get accountUser " + e);
         }
     }

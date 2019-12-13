@@ -86,7 +86,7 @@
                             <input type="checkbox" name="idAdditionalIngredient"
                                    value="${additionalIngredient.idComponent}"/>
                         </label><ctg:outAdditionalIngredient
-                            additionalIngredient="${additionalIngredient}"/></h5>
+                                additionalIngredient="${additionalIngredient}"/></h5>
 
                     </c:forEach>
                     <div class="w-100"></div>

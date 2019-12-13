@@ -2,7 +2,6 @@ package by.trjava.kaloshych.dao;
 
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.entity.CartUser;
-import by.trjava.kaloshych.entity.User;
 
 public interface CartUserDAO {
 

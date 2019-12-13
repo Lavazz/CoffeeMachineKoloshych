@@ -87,11 +87,7 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_ADDITIONAL_INGREDIENT)) {
             ps.setString(1, nameAdditionalIngredient);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return rs.next();
             }
         } catch (SQLException e) {
             throw new DAOException("SQL Additional ingredient Exception can't check  exists" + e);
@@ -100,7 +96,7 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
 
     @Override
     public int decreasePortion(int idAdditionalIngredient, int portion) throws DAOException {
-        int newPortion = 0;
+        int newPortion;
         PreparedStatement ps2 = null;
         ResultSet rs = null;
         try (Connection con = connectionPool.getConnection()) {
@@ -110,7 +106,7 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     newPortion = rs.getInt(PARAMETER_PORTION) - portion;
-                }else{
+                } else {
                     throw new DAOException("SQLAdditionalIngredient Exception can't decrease portion ingredient ");
                 }
                 ps2 = con.prepareStatement(QUERY_ADDITIONAL_INGREDIENT_DECREASE_PORTION);
@@ -134,17 +130,17 @@ public class SQLAdditionalIngredientDAO implements AdditionalIngredientDAO {
 
 
     private AdditionalIngredient getAdditionalIngredientById(int id, String query) throws DAOException {
-        AdditionalIngredient additionalIngredient = null;
+        AdditionalIngredient additionalIngredient;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-              if (rs.next()) {
+                if (rs.next()) {
                     additionalIngredient = Creator.getInstance().createAdditionalIngredient(rs);
-                }else{
-                  throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient " );
-              }
+                } else {
+                    throw new DAOException("SQLAdditionalIngredient Exception can't create ingredient ");
+                }
                 return additionalIngredient;
             }
         } catch (SQLException e) {

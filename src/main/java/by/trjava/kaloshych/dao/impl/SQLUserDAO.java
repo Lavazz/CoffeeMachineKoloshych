@@ -52,7 +52,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public User getUserByLogin(String login) throws DAOException {
         ResultSet rs = null;
-        User user = null;
+        User user;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_BY_LOGIN)) {
@@ -60,7 +60,7 @@ public class SQLUserDAO implements UserDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = Creator.getInstance().createUser(rs);
-            }else{
+            } else {
                 throw new DAOException("Exception in User SQL can't get user by login");
             }
             return user;
@@ -74,15 +74,15 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public User getUserById(int idUser) throws DAOException {
         ResultSet rs = null;
-        User user = null;
+        User user;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)) {
             ps.setInt(1, idUser);
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = Creator.getInstance().createUser(rs);
-            }else{
-                throw new DAOException("Exception in User SQL can't get user by login" );
+            } else {
+                throw new DAOException("Exception in User SQL can't get user by login");
             }
             return user;
         } catch (SQLException e) {

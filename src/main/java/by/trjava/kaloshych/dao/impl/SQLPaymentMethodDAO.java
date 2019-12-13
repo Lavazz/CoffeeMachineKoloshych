@@ -62,8 +62,8 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 paymentMethod = Creator.getInstance().createPaymentMethod(rs);
-            }else
-                throw new DAOException("SQLAccountUser Exception can't get accountUser " );
+            } else
+                throw new DAOException("SQLAccountUser Exception can't get accountUser ");
             return paymentMethod;
         } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't get accountUser " + e);

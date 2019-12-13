@@ -40,10 +40,8 @@ public class SQLComponentDAO implements ComponentDAO {
     public void deleteComponentFromFillingOperation(int idComponent) throws DAOException {
         final DrinkDAO drinkDAO = DAOFactory.getInstance().getDrinkDAO();
         if (drinkDAO.checkDrinkById(idComponent)) {
-            System.out.println("dao fill in drink");
             deleteComponentFromTables(idComponent, QUERY_DELETE_DRINK_FROM_FILLING_OPERATION);
         } else {
-            System.out.println("in else");
             deleteComponentFromTables(idComponent, QUERY_DELETE_ADDITIONAL_INGREDIENT_FROM_FILLING_OPERATION);
         }
     }

@@ -7,8 +7,6 @@ import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
-import by.trjava.kaloshych.entity.AdditionalIngredient;
 import by.trjava.kaloshych.entity.Cart;
 import by.trjava.kaloshych.entity.CartAdditionalIngredient;
 
@@ -19,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.*;
+import static by.trjava.kaloshych.dao.util.configuration.ConfigurationManager.NOT_PARAMETERS;
 import static by.trjava.kaloshych.dao.util.configuration.SQLQuery.*;
 
 /**

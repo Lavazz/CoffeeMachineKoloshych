@@ -56,6 +56,15 @@
                         </div>
                         <c:remove var="mainMessage"/>
                     </c:if>
+                    <c:if test="${sessionScope.messageAccess!=null}">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <fmt:message key="${sessionScope.messageAccess}"/>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <c:remove var="messageAccess"/>
+                    </c:if>
                 </div>
             </div>
             <div class="row slider-text justify-content-center " data-scrollax-parent="true">

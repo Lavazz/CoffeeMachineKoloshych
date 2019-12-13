@@ -15,7 +15,7 @@ import java.util.List;
 
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ADDITIONAL_INGREDIENTS;
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_DRINKS;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_DRINKS;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_SHOW_DRINKS;
 
 public class ShowDrinksCommand implements Command {
 
@@ -37,7 +37,7 @@ public class ShowDrinksCommand implements Command {
             throw new CommandException(e);
         }
 
-        return PATH_DRINKS;
+        return PATH_SHOW_DRINKS;
     }
 
 }

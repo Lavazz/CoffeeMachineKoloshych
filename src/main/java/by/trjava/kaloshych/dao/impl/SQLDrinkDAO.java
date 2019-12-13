@@ -155,13 +155,7 @@ public class SQLDrinkDAO implements DrinkDAO {
              PreparedStatement ps = con.prepareStatement(QUERY_DRINK_GET_BY_ID)) {
             ps.setInt(1, idComponent);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.last()) {
-                    System.out.println("true");
-                    return true;
-                } else {
-                    System.out.println("false");
-                    return false;
-                }
+                return rs.last();
             }
         } catch (SQLException e) {
             throw new DAOException("SQL Drink Exception can't check drink by id" + e);
@@ -174,11 +168,7 @@ public class SQLDrinkDAO implements DrinkDAO {
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_DRINK)) {
             ps.setString(1, drinkName);
             try (ResultSet rs = ps.executeQuery()) {
-               if(rs.next()){
-                   return true;
-               }else{
-                   return false;
-               }
+                return rs.next();
             }
         } catch (SQLException e) {
             throw new DAOException("SQL Drink Exception can't check drink exists" + e);

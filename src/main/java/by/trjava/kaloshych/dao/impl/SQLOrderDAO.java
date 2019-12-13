@@ -4,7 +4,6 @@ import by.trjava.kaloshych.dao.OrderDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.Order;
 
 import javax.sql.rowset.CachedRowSet;
@@ -48,7 +47,7 @@ public class SQLOrderDAO implements OrderDAO {
                 }
                 return idOrder;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't add order " + e);
         }
     }
@@ -70,7 +69,7 @@ public class SQLOrderDAO implements OrderDAO {
 
     @Override
     public Order getLastOrderByUser(int idUser) throws DAOException {
-        Order order=null ;
+        Order order = null;
         CachedRowSet crs = getResultSetOrder(idUser, QUERY_GET_ORDERS_BY_USER);
         try {
             if (crs.last()) {
@@ -108,7 +107,7 @@ public class SQLOrderDAO implements OrderDAO {
                 cachedRowSet.populate(rs);
                 return cachedRowSet;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't get all orders by user " + e);
         }
     }

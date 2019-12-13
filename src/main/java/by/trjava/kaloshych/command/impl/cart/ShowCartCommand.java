@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_CART;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_SHOW_CART;
 
 public class ShowCartCommand implements Command {
 
@@ -50,6 +50,6 @@ public class ShowCartCommand implements Command {
             throw new CommandException(e);
         }
 
-        return PATH_CART;
+        return PATH_SHOW_CART;
     }
 }

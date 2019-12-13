@@ -2,7 +2,6 @@ package by.trjava.kaloshych.command.impl.user;
 
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
-import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.entity.UserStatus;
 import by.trjava.kaloshych.service.AccountUserService;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import static by.trjava.kaloshych.command.configuration.Message.*;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_AUTHORIZATION;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 
 public class AuthorizationCommand implements Command {
 
@@ -37,18 +36,18 @@ public class AuthorizationCommand implements Command {
         try {
             User user = userService.authorization(login, password);
             if (user.getUserStatus().equals(UserStatus.CUSTOMER)) {
-               int idCartUser = cartUserService.addCartUser(user.getId());
-               int idAccountUser=accountUserService.getIdAccountUser(user.getId());
+                int idCartUser = cartUserService.addCartUser(user.getId());
+                int idAccountUser = accountUserService.getIdAccountUser(user.getId());
 
                 session.setAttribute(PARAMETER_ID_CART_USER, idCartUser);
-                session.setAttribute(PARAMETER_ID_ACCOUNT_USER, idAccountUser );
+                session.setAttribute(PARAMETER_ID_ACCOUNT_USER, idAccountUser);
             }
             session.setAttribute(PARAMETER_USER_NAME, user.getName());
             session.setAttribute(PARAMETER_ID_USER, user.getId());
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
             session.setMaxInactiveInterval(60 * 5);
             session.setAttribute(PARAMETER_MAIN_MESSAGE, MESSAGE_SUCCESSFUL_AUTHORIZATION);
-            pagePath = PATH_INDEX;
+            pagePath = PATH_MAIN_PAGE;
 
         } catch (EmptyDataException e) {
             session.setAttribute(PARAMETER_WRONG_MESSAGE, MESSAGE_EMPTY_DATA);

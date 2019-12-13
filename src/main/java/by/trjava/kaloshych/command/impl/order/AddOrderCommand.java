@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_INSUFFICIENT_MONEY;
 import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_SUCCESSFUL_ADD_ORDER;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_COMMAND_REPLENISH_BALANCE_FORM;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_COMMAND_REPLENISH_BALANCE;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_TAKE_ORDER;
 
 public class AddOrderCommand implements Command {
@@ -36,7 +36,7 @@ public class AddOrderCommand implements Command {
             path = PATH_TAKE_ORDER;
         } catch (InsufficientMoneyException e) {
             session.setAttribute(PARAMETER_MESSAGE_REPLENISH, MESSAGE_INSUFFICIENT_MONEY);
-            path = PATH_COMMAND_REPLENISH_BALANCE_FORM;
+            path = PATH_COMMAND_REPLENISH_BALANCE;
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

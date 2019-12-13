@@ -5,7 +5,6 @@ import by.trjava.kaloshych.dao.AccountUserDAO;
 import by.trjava.kaloshych.dao.DAOFactory;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.entity.AccountUser;
-import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.AccountUserService;
 import by.trjava.kaloshych.service.exception.ServiceException;
 

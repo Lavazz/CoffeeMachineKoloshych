@@ -2,8 +2,6 @@ package by.trjava.kaloshych.command.impl.user;
 
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
-import by.trjava.kaloshych.entity.AccountUser;
-import by.trjava.kaloshych.entity.CartUser;
 import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.service.AccountUserService;
 import by.trjava.kaloshych.service.CartUserService;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import static by.trjava.kaloshych.command.configuration.Message.*;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_REGISTRATION;
 
 public class RegistrationCommand implements Command {
@@ -44,8 +42,8 @@ public class RegistrationCommand implements Command {
             session.setAttribute(PARAMETER_ID_USER, user.getId());
             session.setAttribute(PARAMETER_USER_NAME, name);
             session.setAttribute(PARAMETER_ID_USER_STATUS, user.getUserStatus().getIdUserStatus());
-            path = PATH_INDEX;
-            session.setAttribute(REDIRECT_COMMAND, PATH_INDEX);
+            path = PATH_MAIN_PAGE;
+            session.setAttribute(REDIRECT_COMMAND, PATH_MAIN_PAGE);
             session.setAttribute(PARAMETER_MAIN_MESSAGE, MESSAGE_SUCCESSFUL_REGISTRATION);
         } catch (EmptyDataException e) {
             session.setAttribute(PARAMETER_MESSAGE_REGISTRATION, MESSAGE_EMPTY_DATA);

@@ -53,7 +53,7 @@ public class SQLAccountDAO implements AccountDAO {
 
     @Override
     public double getBalance(int idAccountUser) throws DAOException {
-        double balance = 0;
+        double balance;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_GET_BALANCE)) {
             ps.setInt(1, idAccountUser);
@@ -61,7 +61,7 @@ public class SQLAccountDAO implements AccountDAO {
                 if (rs.last()) {
                     balance = rs.getDouble(PARAMETER_MONEY);
                     return balance;
-                }else{
+                } else {
                     throw new DAOException("Balance is not founded");
                 }
             }

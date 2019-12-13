@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ID_CART_USER;
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_ID_USER;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_INDEX;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 
 
 public class CleanCartCommand implements Command {
@@ -32,6 +32,6 @@ public class CleanCartCommand implements Command {
             throw new CommandException(e);
         }
 
-        return PATH_INDEX;
+        return PATH_MAIN_PAGE;
     }
 }
