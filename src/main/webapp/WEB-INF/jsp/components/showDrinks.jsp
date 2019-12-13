@@ -52,10 +52,20 @@
             <c:remove var="messageDrinks"/>
         </c:if>
         <c:if test="${sessionScope.idUser == null}">
-            <h2><fmt:message key="drinks.guest.recommendation"/></h2>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong><fmt:message key="drinks.guest.recommendation"/></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </c:if>
-        <c:if test="${sessionScope.idUserStatus==1}">
-            <h2><fmt:message key="drinks.admin.recommendation"/></h2>
+        <c:if test="${sessionScope.idUser ==1}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong><fmt:message key="drinks.admin.recommendation"/></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </c:if>
         <form action="main" method="post">
             <c:forEach items="${requestScope.drinks}" var="drink">

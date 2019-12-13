@@ -16,7 +16,6 @@ public class Message {
     public static final String MESSAGE_NOT_MATH = "message.passwords_not-match";
     public static final String MESSAGE_UNSUCCESSFUL_REGISTRATION = "message.unsuccessful_registration";
     public static final String MESSAGE_SUCCESSFUL_REGISTRATION = "message.successful_registration";
-    public static final String MESSAGE_ACCESS = "message.not_permission";
     public static final String MESSAGE_INVALID_LOGIN = "message.authorization.invalid_login";
     public static final String MESSAGE_INVALID_PASSWORD = "message.authorization.invalid_password";
     public static final String MESSAGE_CHANGE_PASSWORD_SUCCESSFUL = "message.password_changed";

@@ -1,6 +1,7 @@
 package by.trjava.kaloshych.dao.pool;
 
 import by.trjava.kaloshych.dao.pool.exception.ConnectionPoolException;
+import by.trjava.kaloshych.dao.pool.exception.NotConnectionException;
 import org.apache.log4j.Logger;
 
 import java.sql.Driver;
@@ -37,12 +38,6 @@ public class ConnectionPool {
     /*Constructor of connection pool. Private to make it singleton*/
     private ConnectionPool() {
         connectionQueue = new ArrayBlockingQueue<>(POOL_SIZE);
-        try {
-            initConnectionPool();
-        } catch (SQLException e) {
-            LOGGER.fatal("Connection pool was not created. Reason : " + e.getMessage());
-            throw new RuntimeException(String.format("Connection pool was not created. Reason : ", e.getMessage()), e);
-        }
     }
 
     /*Gets instance of connection pool*/
@@ -63,8 +58,12 @@ public class ConnectionPool {
 
     /* Initializes connection pool. If connection pool size less then half of required number of connections
      * RuntimeException is thrown*/
-    private void initConnectionPool() throws SQLException {
-        DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+    public void initConnectionPool() {
+        try {
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+        } catch (SQLException e) {
+            throw new NotConnectionException("No connection");
+        }
         for (int i = 0; i < POOL_SIZE; i++) {
             createConnectionAndAddToPool();
         }

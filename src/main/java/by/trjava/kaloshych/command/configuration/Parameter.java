@@ -89,6 +89,9 @@ public class Parameter {
     public static final String PARAMETER_NEXT_REQUEST = "nextRequest";
     public static final String REDIRECT_COMMAND = "redirectToCommand";
 
+    public static final boolean PARAMETER_TRUE = true;
+    public static final boolean PARAMETER_FALSE = false;
+
     public static final int ROWS_BY_PAGE = 5;
     public static final int FIRST_PAGE_NUMBER = 1;
     public static final int DEFAULT_NUMBER_OF_PAGE = 1;

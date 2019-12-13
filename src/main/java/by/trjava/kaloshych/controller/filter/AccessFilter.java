@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_ACCESS;
+import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_ACCESS_PROHIBITED;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 import static by.trjava.kaloshych.entity.UserStatus.*;
@@ -109,14 +109,14 @@ public class AccessFilter implements Filter {
                 idUserStatus = (int) session.getAttribute(PARAMETER_ID_USER_STATUS);
             }
 
-            if ((idUserStatus == GUEST.getIdUserStatus() && isGuestCommand(command))
-                    || (idUserStatus == ADMIN.getIdUserStatus() && isAdministrationCommand(command))
-                    || (idUserStatus == CUSTOMER.getIdUserStatus() && isCustomerCommand(command))) {
-                request.setAttribute(PARAMETER_PERMISSION, true);
+            if ((idUserStatus == GUEST.getIdUserStatus() && GUEST_COMMANDS.contains(command))
+                    || (idUserStatus == ADMIN.getIdUserStatus() && ADMINISTRATION_COMMANDS.contains(command)
+                    || (idUserStatus == CUSTOMER.getIdUserStatus() && CUSTOMER_COMMANDS.contains(command)))) {
+                request.setAttribute(PARAMETER_PERMISSION, PARAMETER_TRUE);
             } else {
-                request.setAttribute(PARAMETER_PERMISSION, false);
+                request.setAttribute(PARAMETER_PERMISSION, PARAMETER_FALSE);
                 request.setAttribute(PARAMETER_PAGE, PATH_MAIN_PAGE);
-                session.setAttribute(PARAMETER_MESSAGE_ACCESS, MESSAGE_ACCESS);
+                session.setAttribute(PARAMETER_MESSAGE_ACCESS, MESSAGE_ACCESS_PROHIBITED);
             }
 
         }
@@ -129,28 +129,5 @@ public class AccessFilter implements Filter {
 
     }
 
-    /**
-     * @param command to be checked if the administration authorised to access it or not
-     * @return true if the admin authorised or false if it is not authorised
-     */
-    private boolean isAdministrationCommand(String command) {
-        return ADMINISTRATION_COMMANDS.contains(command);
-    }
-
-    /**
-     * @param command to be checked if the user authorised to access on of this command or not
-     * @return true if the user authorised or false if it is not authorised
-     */
-    private boolean isCustomerCommand(String command) {
-        return CUSTOMER_COMMANDS.contains(command);
-    }
-
-    /**
-     * @param command that are common for all the users registered or not
-     * @return true if it is for all the users or false.
-     */
-    private boolean isGuestCommand(String command) {
-        return GUEST_COMMANDS.contains(command);
-    }
 }
 

@@ -21,15 +21,21 @@ public class ConnectionPoolListener implements ServletContextListener {
     private static final Logger logger = Logger.getLogger(ConnectionPoolListener.class);
 
     @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        try {
+            ConnectionPool.getInstance().initConnectionPool();
+            logger.info("Connection pool initialized successfully");
+        } catch (RuntimeException e) {
+            logger.error("ConnectionPoolException during initializing", e);
+            throw new ExceptionInInitializerError("Could not initialize pool!");
+        }
+    }
+
+
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ConnectionPool.getInstance().destroyConnections();
         logger.info("Connection pool destroyed successfully");
     }
-
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        ConnectionPool.getInstance().getConnection();
-        logger.info("Connection pool initialized successfully");
-
-    }
 }
+
