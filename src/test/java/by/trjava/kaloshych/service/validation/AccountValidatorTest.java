@@ -2,12 +2,13 @@ package by.trjava.kaloshych.service.validation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AccountValidatorTest {
 
-   private static final double MONEY_VALID=4;
-    private static final double MONEY_INVALID=1;
+    private static final String MONEY_VALID = "4";
+    private static final String MONEY_INVALID = "0";
 
     @Test
     public void validateValid() {

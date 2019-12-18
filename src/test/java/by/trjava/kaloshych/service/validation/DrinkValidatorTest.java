@@ -2,16 +2,16 @@ package by.trjava.kaloshych.service.validation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DrinkValidatorTest {
 
-    private static final String COMPONENT_VALID="coffee";
-    private static final String COMPONENT_INVALID="co";
-    private static final double PRICE_VALID=2;
-    private static final double PRICE_INVALID=12;
-    private static final String DESCRIPTION="Tasty coffee";
-
+    private static final String COMPONENT_VALID = "coffee";
+    private static final String COMPONENT_INVALID = "co";
+    private static final double PRICE_VALID = 2;
+    private static final double PRICE_INVALID = 12;
+    private static final String DESCRIPTION = "Tasty coffee";
 
 
     @Test

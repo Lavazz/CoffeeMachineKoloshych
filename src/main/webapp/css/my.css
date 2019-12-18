@@ -1,6 +1,12 @@
-#activate-div{display:none}
+#activate-div {
+    display: none
+}
 
-.my-div{background-color:#FFF}
+.my-div {
+    background-color: #FFF
+}
 
 #activate-div:checked ~ label
-.my-div{background-color:#000}
+.my-div {
+    background-color: #000
+}

@@ -1,158 +1,143 @@
-
 <web-app>
-  <display-name>Coffee machine</display-name>
 
-  <session-config>
-    <session-timeout>5</session-timeout>
-  </session-config>
+    <display-name>CoffeeMachine</display-name>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
-  <filter>
-    <filter-name>encodingFilter</filter-name>
-    <filter-class>by.trjava.kaloshych.controller.filter.EncodingFilter</filter-class>
-    <init-param>
-      <param-name>encoding</param-name>
-      <param-value>UTF-8</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>encodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
 
-  <context-param>
-    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-    <param-value>messages</param-value>
-  </context-param>
-
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  <servlet>
-    <servlet-name>index</servlet-name>
-    <jsp-file>/index.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>index</servlet-name>
-    <url-pattern>/index</url-pattern>
-  </servlet-mapping>
+    <!--  <filter>-->
+    <!--    <filter-name>encodingFilter</filter-name>-->
+    <!--    <filter-class>by.trjava.kaloshych.controller.filter.EncodingFilter</filter-class>-->
+    <!--    <init-param>-->
+    <!--      <param-name>encoding</param-name>-->
+    <!--      <param-value>UTF-8</param-value>-->
+    <!--    </init-param>-->
+    <!--  </filter>-->
+    <!--  <filter-mapping>-->
+    <!--    <filter-name>encodingFilter</filter-name>-->
+    <!--    <url-pattern>/*</url-pattern>-->
+    <!--  </filter-mapping>-->
 
 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/jsp/error.jsp</location>
-  </error-page>
-
-
-  <servlet>
-    <servlet-name>mainPage</servlet-name>
-    <jsp-file>/WEB-INF/jsp/mainPage.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>mainPage</servlet-name>
-    <url-pattern>/mainPage</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>showDrinks</servlet-name>
-      <jsp-file>/WEB-INF/jsp/components/showDrinks.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>showDrinks</servlet-name>
-    <url-pattern>/showDrinks</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>registration</servlet-name>
-      <jsp-file>/WEB-INF/jsp/user/registration.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>registration</servlet-name>
-    <url-pattern>/registration</url-pattern>
-  </servlet-mapping>
-
-
-  <servlet>
-    <servlet-name>authorization</servlet-name>
-      <jsp-file>/WEB-INF/jsp/user/authorization.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>authorization</servlet-name>
-    <url-pattern>/authorization</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>showAdditionalIngredients</servlet-name>
-      <jsp-file>/WEB-INF/jsp/components/showAdditionalIngredients.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>showAdditionalIngredients</servlet-name>
-    <url-pattern>/showAdditionalIngredients</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>personalCabinet</servlet-name>
-      <jsp-file>/WEB-INF/jsp/user/personalCabinet.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>personalCabinet</servlet-name>
-    <url-pattern>/personalCabinet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>adminCabinet</servlet-name>
-      <jsp-file>/WEB-INF/jsp/user/adminCabinet.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>adminCabinet</servlet-name>
-    <url-pattern>/adminCabinet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>showCart</servlet-name>
-      <jsp-file>/WEB-INF/jsp/cart/showCart.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>showCart</servlet-name>
-    <url-pattern>/showCart</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>fillingOperation</servlet-name>
-      <jsp-file>/WEB-INF/jsp/filling/fillingOperation.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>fillingOperation</servlet-name>
-    <url-pattern>/fillingOperation</url-pattern>
-  </servlet-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
 
     <servlet>
-    <servlet-name>deleteComponent</servlet-name>
+        <servlet-name>mainPage</servlet-name>
+        <jsp-file>/WEB-INF/jsp/mainPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mainPage</servlet-name>
+        <url-pattern>/mainPage</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>showDrinks</servlet-name>
+        <jsp-file>/WEB-INF/jsp/components/showDrinks.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showDrinks</servlet-name>
+        <url-pattern>/showDrinks</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>registration</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/registration.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>authorization</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/authorization.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authorization</servlet-name>
+        <url-pattern>/authorization</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>showAdditionalIngredients</servlet-name>
+        <jsp-file>/WEB-INF/jsp/components/showAdditionalIngredients.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showAdditionalIngredients</servlet-name>
+        <url-pattern>/showAdditionalIngredients</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>personalCabinet</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/personalCabinet.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>personalCabinet</servlet-name>
+        <url-pattern>/personalCabinet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>adminCabinet</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/adminCabinet.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminCabinet</servlet-name>
+        <url-pattern>/adminCabinet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>showCart</servlet-name>
+        <jsp-file>/WEB-INF/jsp/cart/showCart.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>showCart</servlet-name>
+        <url-pattern>/showCart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>fillingOperation</servlet-name>
+        <jsp-file>/WEB-INF/jsp/filling/fillingOperation.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fillingOperation</servlet-name>
+        <url-pattern>/fillingOperation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteComponent</servlet-name>
         <jsp-file>/WEB-INF/jsp/components/deleteComponent.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>deleteComponent</servlet-name>
-    <url-pattern>/deleteComponent</url-pattern>
-  </servlet-mapping>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteComponent</servlet-name>
+        <url-pattern>/deleteComponent</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-  <servlet-name>addNewDrink</servlet-name>
-      <jsp-file>/WEB-INF/jsp/components/addNewDrink.jsp</jsp-file>
-</servlet>
-<servlet-mapping>
-<servlet-name>addNewDrink</servlet-name>
-<url-pattern>/addNewDrink</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>addNewDrink</servlet-name>
+        <jsp-file>/WEB-INF/jsp/components/addNewDrink.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addNewDrink</servlet-name>
+        <url-pattern>/addNewDrink</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>orderHistory</servlet-name>
-      <jsp-file>/WEB-INF/jsp/order/orderHistory.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>orderHistory</servlet-name>
-    <url-pattern>/orderHistory</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>orderHistory</servlet-name>
+        <jsp-file>/WEB-INF/jsp/order/orderHistory.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>orderHistory</servlet-name>
+        <url-pattern>/orderHistory</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>addNewAdditionalIngredient</servlet-name>
@@ -163,32 +148,31 @@
         <url-pattern>/addNewAdditionalIngredient</url-pattern>
     </servlet-mapping>
 
-  <servlet>
-    <servlet-name>replenishBalance</servlet-name>
-      <jsp-file>/WEB-INF/jsp/account/replenishBalance.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>replenishBalance</servlet-name>
-    <url-pattern>/replenishBalance</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>replenishBalance</servlet-name>
+        <jsp-file>/WEB-INF/jsp/account/replenishBalance.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>replenishBalance</servlet-name>
+        <url-pattern>/replenishBalance</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>takeOrder</servlet-name>
-      <jsp-file>/WEB-INF/jsp/order/takeOrder.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>takeOrder</servlet-name>
-    <url-pattern>/takeOrder</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>takeOrder</servlet-name>
+        <jsp-file>/WEB-INF/jsp/order/takeOrder.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>takeOrder</servlet-name>
+        <url-pattern>/takeOrder</url-pattern>
+    </servlet-mapping>
 
-  <servlet>
-    <servlet-name>changePassword</servlet-name>
-      <jsp-file>/WEB-INF/jsp/user/changePassword.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>changePassword</servlet-name>
-    <url-pattern>/changePassword</url-pattern>
-  </servlet-mapping>
-
+    <servlet>
+        <servlet-name>changePassword</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/changePassword.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changePassword</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
 
 </web-app>

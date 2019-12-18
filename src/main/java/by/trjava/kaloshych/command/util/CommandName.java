@@ -28,12 +28,10 @@ public class CommandName {
     public static final String LOG_OUT = "logOut";
     public static final String AUTHORIZATION = "authorization";
     public static final String PERSONAL_CABINET = "personalCabinet";
-    public static final String GO_TO_EDIT_COMPONENT_PAGE = "goToEditComponentPage";
     public static final String GO_TO_FILLING_OPERATION_PAGE = "goToFillingOperationPage";
     public static final String GO_TO_FILLING_OPERATION = "fillingOperation";
     public static final String GO_TO_REGISTRATION_PAGE = "goToRegistrationPage";
     public static final String GO_TO_AUTHORIZATION_PAGE = "goToAuthorizationPage";
-    public static final String GO_TO_INDEX_PAGE = "goToIndexPage";
     public static final String GO_TO_MAIN_PAGE = "goToMainPage";
     public static final String GO_TO_REPLENISH_BALANCE = "goToReplenishBalancePage";
     public static final String GO_TO_DELETE_COMPONENT_PAGE = "goToDeleteComponentPage";

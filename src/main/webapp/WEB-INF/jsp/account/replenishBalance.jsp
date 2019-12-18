@@ -54,10 +54,7 @@
                 </c:if>
             </div>
         </div>
-        <div class="text-right">
-            <h2><fmt:message key="personalCabinet.balance"/> ${requestScope.balance}</h2>
-        </div>
-
+        <jsp:include page="/WEB-INF/jsp/form/balance.jsp"/>
         <div class="col-md-4 d-flex">
             <div class="cart-detail ftco-bg-dark p-6 p-md-4">
                 <h5 class="billing-heading mb-4"><fmt:message key="account.payment.method"/></h5>
@@ -76,7 +73,7 @@
                     </div>
                     <label><fmt:message key="increaseBalance.label.sum"/> </label>
                     <label>
-                        <input name="amountOfMoney" class="form-control" value="" type="text" placeholder="min 2 byn"
+                        <input name="amountOfMoney" class="form-control" value="" type="text" placeholder="1-100 byn"
                                required>
                     </label>
                     <p><input type="hidden" name="command" value="replenishBalance">

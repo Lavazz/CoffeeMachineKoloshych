@@ -39,17 +39,17 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row">
-                <div class="col-md-12 col-sm-8 text-center ftco-animate">
-                    <c:if test="${sessionScope.wrongMessage!=null}">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <fmt:message key="${sessionScope.wrongMessage}"/>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <c:remove var="wrongMessage"/>
-                    </c:if>
-                </div>
+            <div class="col-md-12 col-sm-8 text-center ftco-animate">
+                <c:if test="${sessionScope.wrongMessage!=null}">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <fmt:message key="${sessionScope.wrongMessage}"/>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:remove var="wrongMessage"/>
+                </c:if>
+            </div>
             <div class="col-xl-8 ftco-animate">
                 <form action="main" method="post" class="billing-form ftco-bg-dark p-3 p-md-5">
                     <h3 class="mb-4 billing-heading"><fmt:message key="header.input.authorization"/></h3>
@@ -59,7 +59,7 @@
                                 <label><fmt:message key="header.label.login"/></label>
                                 <label>
                                     <input name="login" value="" type="text" class="form-control"
-                                           pattern="[a-z][[a-z][0-9][-][_]]{3,15}[@][a-z]{2,10}[.][a-z]{2,4}"
+                                           pattern="^[a-zA-Z][a-zA-Z0-9-_.]{3,12}$"
                                            placeholder="login" required>
                                 </label>
                             </div>

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_AUTHORIZATION;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 public class GoToMainPageCommandTest {

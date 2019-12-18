@@ -2,7 +2,8 @@ package by.trjava.kaloshych.service;
 
 import by.trjava.kaloshych.service.impl.*;
 
-public class ServiceFactory {
+public final class ServiceFactory {
+
     private static final ServiceFactory instance = new ServiceFactory();
 
     private final DrinkService drinkService = new DrinkServiceImpl();

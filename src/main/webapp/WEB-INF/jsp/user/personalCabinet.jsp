@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -34,24 +34,27 @@
 
 <c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
-        <section class="ftco-section ftco-cart">
-            <div class="container">
-                 <br><div class="text-right">
-                <h2><fmt:message key="personalCabinet.balance" /> ${requestScope.balance}</h2>
-            </div>
-
-                <p><a href="main?command=showOrderHistory"   class="btn btn-primary py-3 px-4">
-                <fmt:message key="personalCabinet.text.historyOfOrders" /> </a></p>
-                <p><a href= "main?command=showReplenishBalanceForm" class="btn btn-primary py-3 px-4">
-                    <fmt:message key="nav.replenishBalance" /></a></p>
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <jsp:include page="/WEB-INF/jsp/form/balance.jsp"/>
+                <p><a href="main?command=showOrderHistory" class="btn btn-primary py-3 px-4">
+                    <fmt:message key="personalCabinet.text.historyOfOrders"/> </a></p>
+                <p><a href="main?command=showReplenishBalanceForm" class="btn btn-primary py-3 px-4">
+                    <fmt:message key="nav.replenishBalance"/></a></p>
                 <p><a href="main?command=goToChangePasswordPage" class="btn btn-primary py-3 px-4">
                     <fmt:message key="nav.changePassword"/> </a></p>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

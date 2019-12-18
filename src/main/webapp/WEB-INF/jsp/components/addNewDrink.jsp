@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -49,12 +49,12 @@
                     <c:remove var="messageAddDrink"/>
                 </c:if>
                 <form action="main" method="post" class="billing-form ftco-bg-dark p-3 p-md-5">
-                    <h3 class="mb-4 billing-heading"><fmt:message key="edit.form.add_new_drink" /></h3>
+                    <h3 class="mb-4 billing-heading"><fmt:message key="edit.form.add_new_drink"/></h3>
                     <div class="row align-items-end">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nameComponent">
-                                    <fmt:message key="edit.label.component.name" />
+                                    <fmt:message key="edit.label.component.name"/>
                                 </label>
                                 <input id="nameComponent" class="form-control"
                                        pattern="^[a-zA-Z]{3,20}$"
@@ -66,9 +66,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="price">
-                                    <fmt:message key="edit.label.component.price" />
+                                    <fmt:message key="edit.label.component.price"/>
                                 </label>
-                                <input id="price"  type="text" class="form-control" pattern="^[0-9]([\\,\\.][0-9]{0,2})$"
+                                <input id="price" type="text" class="form-control" pattern="^[0-9]([\\,\\.][0-9]{0,2})$"
                                        placeholder="price" name="price" required>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="col-md-12">
                             <div class="form-group mt-4">
                                 <input type="submit" class="submit" value="<fmt:message key="edit.button.add"/>"/>
-                                <input type="hidden" name="command"  value="addNewDrink" />
+                                <input type="hidden" name="command" value="addNewDrink"/>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,9 @@
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

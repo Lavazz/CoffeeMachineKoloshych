@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -33,52 +33,49 @@
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
 
-<   <c:import url="/WEB-INF/jsp/form/naw.jsp"/>
+< <c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="ftco-section ftco-cart">
     <div class="container">
 
         <br>
-<div class="align-content-lg-center">
-       <a href= "main?command=goToFillingOperationPage" class="btn btn-primary py-3 px-4">
-            <fmt:message key="main.message.fillingOperation" /></a>
+        <div class="align-content-lg-center">
+            <a href="main?command=goToFillingOperationPage" class="btn btn-primary py-3 px-4">
+                <fmt:message key="main.message.fillingOperation"/></a>
 
-        <a href="main?command=goToAddNewDrinkPage" class="btn btn-primary py-3 px-4">
-            <fmt:message key="main.message.add_drink" /> </a>
+            <a href="main?command=goToAddNewDrinkPage" class="btn btn-primary py-3 px-4">
+                <fmt:message key="main.message.add_drink"/> </a>
 
-        <a href="main?command=goToAddNewAdditionalIngredientPage" class="btn btn-primary py-3 px-4">
-            <fmt:message key="main.message.add_additional_ingredient" /></a>
+            <a href="main?command=goToAddNewAdditionalIngredientPage" class="btn btn-primary py-3 px-4">
+                <fmt:message key="main.message.add_additional_ingredient"/></a>
 
-       <a href="main?command=goToDeleteComponentPage" class="btn btn-primary py-3 px-4">
-            <fmt:message key="main.message.delete_ingredient" /> </a>
-        </div><br>
+            <a href="main?command=goToDeleteComponentPage" class="btn btn-primary py-3 px-4">
+                <fmt:message key="main.message.delete_ingredient"/> </a>
+        </div>
+        <br>
         <div class="row">
             <div class="col-12">
                 <br>
-            <table >
-                <thead>
-                <tr>
-                   <th><h6><fmt:message key="admin.table.id_component" /></h6></th>
-                    <th><h6><fmt:message key="admin.table.name_component"  /></h6></th>
-                    <th><h6><fmt:message key="admin.table.portion" /></h6></th>
-                </tr>
-                </thead>
-                <c:forEach items="${sessionScope.components}" var="component">
-                    <tbody><tr>
-                        <td><h6>${component.idComponent}</h6></td>
-                        <td><h6>${component.nameComponent}</h6></td>
-                        <td><h6>${component.portion}</h6></td>
-                    </tr></tbody>
-                </c:forEach>
-            </table>
-    </div>
+                <table>
+                    <c:import url="/WEB-INF/jsp/form/fillingTableHead.jsp"/>
+                    <c:forEach items="${sessionScope.components}" var="component">
+                        <tbody>
+                        <tr>
+                            <%@include file="/WEB-INF/jsp/form/fillingTableBody.jsp" %>
+                        </tr>
+                        </tbody>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
     </div>
 </section>
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

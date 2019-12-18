@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
         if (dataValidator.isEmpty(idPaymentMethod) || dataValidator.isEmpty(amountOfMoney)) {
             throw new EmptyDataException("Empty data");
         }
-        if (!AccountValidator.getInstance().validate(Double.parseDouble(amountOfMoney))) {
+        if (!AccountValidator.getInstance().validate(amountOfMoney)) {
             throw new SmallAmountException("Incorrect sum of money");
         }
         try {

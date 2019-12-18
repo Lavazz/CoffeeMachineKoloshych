@@ -2,9 +2,10 @@ package by.trjava.kaloshych.dao;
 
 import by.trjava.kaloshych.dao.impl.*;
 
-public class DAOFactory {
+public final class DAOFactory {
 
     private static final DAOFactory instance = new DAOFactory();
+
     private final AccountDAO accountDAO = new SQLAccountDAO();
     private final AccountUserDAO accountUserDAO = new SQLAccountUserDAO();
     private final AdditionalIngredientDAO additionalDAO = new SQLAdditionalIngredientDAO();

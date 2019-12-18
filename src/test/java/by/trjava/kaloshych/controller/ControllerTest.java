@@ -14,18 +14,18 @@ import java.io.IOException;
 
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_COMMAND;
 import static by.trjava.kaloshych.command.configuration.Parameter.PARAMETER_PERMISSION;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_AUTHORIZATION;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_SHOW_DRINKS;
 import static org.mockito.Mockito.*;
 
 public class ControllerTest {
 
-    public static final String path="mainPage";
-
+    public static final String path = "mainPage";
+    UserService userService;
     private Command command;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private RequestDispatcher dispatcher;
-UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -35,9 +35,10 @@ UserService userService;
 
         userService = mock(UserService.class);
     }
+
     @Test
     public void doGet() throws ServletException, IOException {
-       when(request.getAttribute(PARAMETER_PERMISSION)).thenReturn(true);
+        when(request.getAttribute(PARAMETER_PERMISSION)).thenReturn(true);
         when(request.getParameter(PARAMETER_COMMAND)).thenReturn(PATH_AUTHORIZATION);
         when(request.getParameter("login")).thenReturn("login");
         when(request.getParameter("password")).thenReturn("password");

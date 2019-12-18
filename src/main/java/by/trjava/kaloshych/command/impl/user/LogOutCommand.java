@@ -16,8 +16,6 @@ public class LogOutCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
 
-        //  session.invalidate();
-
         session.removeAttribute(PARAMETER_ID_USER);
         session.removeAttribute(PARAMETER_ID_USER_STATUS);
         session.removeAttribute(PARAMETER_ID_ACCOUNT_USER);

@@ -36,12 +36,7 @@ public class ShowCartCommand implements Command {
         double totalCost;
         try {
             carts = cartService.getAllCarts(idCartUser);
-
-            if (carts.isEmpty()) {
-                request.setAttribute(PARAMETER_CARTS, null);
-            } else {
-                request.setAttribute(PARAMETER_CARTS, carts);
-            }
+            request.setAttribute(PARAMETER_CARTS, carts);
             cartAdditionalIngredients = cartAdditionalIngredientService.getCartAdditionalIngredientsByUser(idUser);
             totalCost = cartService.getTotalCost(idCartUser);
             request.setAttribute(PARAMETER_CART_ADDITIONAL_INGREDIENTS, cartAdditionalIngredients);

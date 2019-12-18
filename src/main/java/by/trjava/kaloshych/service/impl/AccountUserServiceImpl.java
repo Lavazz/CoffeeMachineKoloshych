@@ -18,8 +18,9 @@ import by.trjava.kaloshych.service.exception.ServiceException;
  */
 public class AccountUserServiceImpl implements AccountUserService {
 
-    private final AccountUserDAO accountUserDAO = DAOFactory.getInstance().getAccountUserDAO();
-    private final AccountDAO accountDAO = DAOFactory.getInstance().getAccountDAO();
+    private final DAOFactory daoFactory = DAOFactory.getInstance();
+    private final AccountUserDAO accountUserDAO = daoFactory.getAccountUserDAO();
+    private final AccountDAO accountDAO = daoFactory.getAccountDAO();
 
     @Override
     public int addAccountUser(int idUser) throws ServiceException {

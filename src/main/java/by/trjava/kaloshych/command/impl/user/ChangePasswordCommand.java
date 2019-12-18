@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import static by.trjava.kaloshych.command.configuration.Message.*;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
 import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_CHANGE_PASSWORD;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_COMMAND_ADMIN_CABINET;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_COMMAND_PERSONAL_CABINET;
 
 public class ChangePasswordCommand implements Command {
 
@@ -37,7 +37,7 @@ public class ChangePasswordCommand implements Command {
         try {
             userService.updateUserPassword(idUser, currentPassword, newPassword, confirmedPassword);
             request.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_CHANGE_PASSWORD_SUCCESSFUL);
-            path = request.getContextPath() + PATH_COMMAND_ADMIN_CABINET;
+            path = request.getContextPath() + PATH_COMMAND_PERSONAL_CABINET;
         } catch (EmptyDataException e) {
             session.setAttribute(PARAMETER_MESSAGE_CHANGE_PASSWORD, MESSAGE_EMPTY_DATA);
         } catch (InvalidCurrentPasswordException e) {

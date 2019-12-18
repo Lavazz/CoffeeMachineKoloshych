@@ -32,7 +32,7 @@
 </head>
 
 <body style="background-image:url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">
-                    <c:import url="/WEB-INF/jsp/form/naw.jsp"/>
+<c:import url="/WEB-INF/jsp/form/naw.jsp"/>
 
 <section class="home-slider owl-carousel">
     <div class="slider-item" style="background-image: url(${pageContext.request.contextPath}/pictures/bg/bg_1.jpg);">

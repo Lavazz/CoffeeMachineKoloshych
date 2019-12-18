@@ -10,7 +10,7 @@ table {
     border: 1px solid #141415;
     border-spacing: 0;
     border-collapse: separate;
-	-webkit-border-radius: 5px;
+    -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #37393c;
@@ -37,7 +37,7 @@ table td {
     border-top: 1px solid #ddd;
 }
 
-table th+th,table td+td,table th+td {
+table th + th, table td + td, table th + td {
     border-left: 1px solid #ddd;
 }
 
@@ -66,10 +66,10 @@ table tbody tr:last-child td:last-child {
 }
 
 table tbody tr:nth-child(odd) td {
-	background-color: #323841;
+    background-color: #323841;
 }
 
 table tbody tr:hover td {
     background-color: #202223;
-	cursor: pointer;
+    cursor: pointer;
 }

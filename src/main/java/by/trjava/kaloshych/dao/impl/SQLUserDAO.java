@@ -4,7 +4,6 @@ import by.trjava.kaloshych.dao.UserDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.User;
 
 import java.sql.Connection;
@@ -30,7 +29,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public int registration(String login, String password, String email, String name) throws DAOException {
         ResultSet rs;
-        int idUser = 0;
+        int idUser;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_REGISTER_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -40,55 +39,53 @@ public class SQLUserDAO implements UserDAO {
             ps.setString(4, name);
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            while (rs.next()) {
+            if (rs.next()) {
                 idUser = rs.getInt(PARAMETER_COLUMN_INDEX);
+            } else {
+                throw new DAOException("Exception in User SQL can't register user");
             }
             return idUser;
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception in User SQL can't register user" + e);
         }
     }
 
     @Override
     public User getUserByLogin(String login) throws DAOException {
-        ResultSet rs = null;
         User user;
 
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_BY_LOGIN)) {
             ps.setString(1, login);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                user = Creator.getInstance().createUser(rs);
-            } else {
-                throw new DAOException("Exception in User SQL can't get user by login");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = Creator.getInstance().createUser(rs);
+                } else {
+                    throw new DAOException("Exception in User SQL can't get user by login");
+                }
+                return user;
             }
-            return user;
         } catch (SQLException e) {
             throw new DAOException("Exception in User SQL can't get user by login" + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
     @Override
     public User getUserById(int idUser) throws DAOException {
-        ResultSet rs = null;
         User user;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_CHECK_USER_ID)) {
             ps.setInt(1, idUser);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                user = Creator.getInstance().createUser(rs);
-            } else {
-                throw new DAOException("Exception in User SQL can't get user by login");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    user = Creator.getInstance().createUser(rs);
+                } else {
+                    throw new DAOException("Exception in User SQL can't get user by login");
+                }
+                return user;
             }
-            return user;
         } catch (SQLException e) {
             throw new DAOException("Exception in User SQL can't get  user" + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 
@@ -107,20 +104,14 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean checkUserExists(String login) throws DAOException {
-        ResultSet rs = null;
-        boolean result = false;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(QUERY_USER_EXISTS_CHECK)) {
             ps.setString(1, login);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                result = true;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
             }
-            return result;
         } catch (SQLException e) {
             throw new DAOException("Exception in User SQL can't check if users exists" + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 

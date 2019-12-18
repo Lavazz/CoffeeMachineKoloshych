@@ -11,7 +11,7 @@ public class PropertyTest {
     private static final String DB_CONFIG = "database.properties";
 
     @Test
-    public void databasePropTest() throws Exception{
+    public void databasePropTest() throws Exception {
         Properties properties = new Properties();
         InputStream is = ClassLoader.getSystemResourceAsStream(DB_CONFIG);
         properties.load(is);

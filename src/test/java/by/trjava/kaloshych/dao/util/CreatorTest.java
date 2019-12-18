@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
 public class CreatorTest {
@@ -23,17 +24,16 @@ public class CreatorTest {
     private final String PICTURE_PATH = "path";
     private final int CALORIES = 666;
     private final String DESCRIPTION = "description";
-    private final int PORTION=10;
-private final double MONEY=100;
+    private final int PORTION = 10;
+    private final double MONEY = 100;
 
     private User mockUser = mock(User.class);
     private Drink mockDrink = mock(Drink.class);
     private CartUser mockCartUser = mock(CartUser.class);
-    private AdditionalIngredient mockAdditionalIngredient = mock( AdditionalIngredient.class);
-private Date mockDate=mock(Date.class);
-private PaymentMethod mockPaymentMethod=mock(PaymentMethod.class);
-private AccountUser mockAccountUser=mock(AccountUser.class);
-
+    private AdditionalIngredient mockAdditionalIngredient = mock(AdditionalIngredient.class);
+    private Date mockDate = mock(Date.class);
+    private PaymentMethod mockPaymentMethod = mock(PaymentMethod.class);
+    private AccountUser mockAccountUser = mock(AccountUser.class);
 
 
     @Test
@@ -87,10 +87,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createAdditionalIngredientValid() {
-        AdditionalIngredient additionalIngredient=new AdditionalIngredient(ID, NAME, PORTION, PICTURE_PATH, CALORIES );
+        AdditionalIngredient additionalIngredient = new AdditionalIngredient(ID, NAME, PORTION, PICTURE_PATH, CALORIES);
 
-        AdditionalIngredientBuilderImpl builder=new AdditionalIngredientBuilderImpl(ID);
-        AdditionalIngredient additionalIngredientBuilder=builder.withNameComponent(NAME)
+        AdditionalIngredientBuilderImpl builder = new AdditionalIngredientBuilderImpl(ID);
+        AdditionalIngredient additionalIngredientBuilder = builder.withNameComponent(NAME)
                 .withPortion(PORTION)
                 .withPicturePath(PICTURE_PATH)
                 .withCalories(CALORIES)
@@ -100,10 +100,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createAdditionalIngredientInvalid() {
-        AdditionalIngredient additionalIngredient=new AdditionalIngredient(ID, INVALID_STRING, PORTION, PICTURE_PATH, CALORIES );
+        AdditionalIngredient additionalIngredient = new AdditionalIngredient(ID, INVALID_STRING, PORTION, PICTURE_PATH, CALORIES);
 
-        AdditionalIngredientBuilderImpl builder=new AdditionalIngredientBuilderImpl(ID);
-        AdditionalIngredient additionalIngredientBuilder=builder.withNameComponent(NAME)
+        AdditionalIngredientBuilderImpl builder = new AdditionalIngredientBuilderImpl(ID);
+        AdditionalIngredient additionalIngredientBuilder = builder.withNameComponent(NAME)
                 .withPortion(PORTION)
                 .withPicturePath(PICTURE_PATH)
                 .withCalories(CALORIES)
@@ -112,13 +112,12 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
     }
 
 
-
     @Test
     public void createCartValid() {
-        Cart cart=new Cart(ID, mockCartUser, mockDrink, PORTION);
+        Cart cart = new Cart(ID, mockCartUser, mockDrink, PORTION);
 
-        CartBuilderImpl builder=new CartBuilderImpl(ID);
-        Cart cartBuilder=builder.withCartUser(mockCartUser)
+        CartBuilderImpl builder = new CartBuilderImpl(ID);
+        Cart cartBuilder = builder.withCartUser(mockCartUser)
                 .withDrink(mockDrink)
                 .withPortion(PORTION)
                 .build();
@@ -128,10 +127,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createCartInvalid() {
-        Cart cart=new Cart(INVALID_INT, mockCartUser, mockDrink, PORTION);
+        Cart cart = new Cart(INVALID_INT, mockCartUser, mockDrink, PORTION);
 
-        CartBuilderImpl builder=new CartBuilderImpl(ID);
-        Cart cartBuilder=builder.withCartUser(mockCartUser)
+        CartBuilderImpl builder = new CartBuilderImpl(ID);
+        Cart cartBuilder = builder.withCartUser(mockCartUser)
                 .withDrink(mockDrink)
                 .withPortion(PORTION)
                 .build();
@@ -140,13 +139,12 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
     }
 
 
-
     @Test
     public void createCartUserValid() {
-        CartUser cartUser=new CartUser(ID, mockUser);
+        CartUser cartUser = new CartUser(ID, mockUser);
 
-        CartUserBuilderImpl builder=new CartUserBuilderImpl(ID);
-        CartUser cartUserBuilder=builder.withUser(mockUser)
+        CartUserBuilderImpl builder = new CartUserBuilderImpl(ID);
+        CartUser cartUserBuilder = builder.withUser(mockUser)
                 .build();
 
         assertEquals(cartUser, cartUserBuilder);
@@ -155,10 +153,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createCartUserInvalid() {
-        CartUser cartUser=new CartUser(INVALID_INT, mockUser);
+        CartUser cartUser = new CartUser(INVALID_INT, mockUser);
 
-        CartUserBuilderImpl builder=new CartUserBuilderImpl(ID);
-        CartUser cartUserBuilder=builder.withUser(mockUser)
+        CartUserBuilderImpl builder = new CartUserBuilderImpl(ID);
+        CartUser cartUserBuilder = builder.withUser(mockUser)
                 .build();
 
         assertNotEquals(cartUser, cartUserBuilder);
@@ -167,10 +165,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createDrinkValid() {
-        Drink drink=new Drink(ID, NAME, PORTION, PICTURE_PATH, DESCRIPTION, MONEY);
+        Drink drink = new Drink(ID, NAME, PORTION, PICTURE_PATH, DESCRIPTION, MONEY);
 
-        DrinkBuilderImpl builder=new DrinkBuilderImpl(ID);
-        Drink drinkBuilder=builder.withNameComponent(NAME)
+        DrinkBuilderImpl builder = new DrinkBuilderImpl(ID);
+        Drink drinkBuilder = builder.withNameComponent(NAME)
                 .withPortion(PORTION)
                 .withPicturePath(PICTURE_PATH)
                 .withDescription(DESCRIPTION)
@@ -182,10 +180,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createDrinkInvalid() {
-        Drink drink=new Drink(ID,INVALID_STRING, PORTION, PICTURE_PATH, DESCRIPTION, MONEY);
+        Drink drink = new Drink(ID, INVALID_STRING, PORTION, PICTURE_PATH, DESCRIPTION, MONEY);
 
-        DrinkBuilderImpl builder=new DrinkBuilderImpl(ID);
-        Drink drinkBuilder=builder.withNameComponent(NAME)
+        DrinkBuilderImpl builder = new DrinkBuilderImpl(ID);
+        Drink drinkBuilder = builder.withNameComponent(NAME)
                 .withPortion(PORTION)
                 .withPicturePath(PICTURE_PATH)
                 .withDescription(DESCRIPTION)
@@ -198,10 +196,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createOrderValid() {
-        Order order=new Order(ID, mockCartUser, mockDate ,PORTION);
+        Order order = new Order(ID, mockCartUser, mockDate, PORTION);
 
-        OrderBuilderImpl builder=new OrderBuilderImpl(ID);
-        Order orderBuilder=builder.withCartUser(mockCartUser)
+        OrderBuilderImpl builder = new OrderBuilderImpl(ID);
+        Order orderBuilder = builder.withCartUser(mockCartUser)
                 .withDateOrder(mockDate)
                 .withTotalCost(PORTION)
                 .build();
@@ -212,10 +210,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createOrderInvalid() {
-        Order order=new Order(ID, mockCartUser, mockDate ,INVALID_INT);
+        Order order = new Order(ID, mockCartUser, mockDate, INVALID_INT);
 
-        OrderBuilderImpl builder=new OrderBuilderImpl(ID);
-        Order orderBuilder=builder.withCartUser(mockCartUser)
+        OrderBuilderImpl builder = new OrderBuilderImpl(ID);
+        Order orderBuilder = builder.withCartUser(mockCartUser)
                 .withDateOrder(mockDate)
                 .withTotalCost(PORTION)
                 .build();
@@ -226,10 +224,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createPaymentMethod() {
-        PaymentMethod paymentMethod=new PaymentMethod(ID, NAME);
+        PaymentMethod paymentMethod = new PaymentMethod(ID, NAME);
 
-        PaymentMethodBuilderImpl builder=new PaymentMethodBuilderImpl(ID);
-        PaymentMethod paymentMethodBuilder=builder.withNamePaymentMethod(NAME)
+        PaymentMethodBuilderImpl builder = new PaymentMethodBuilderImpl(ID);
+        PaymentMethod paymentMethodBuilder = builder.withNamePaymentMethod(NAME)
                 .build();
 
         assertEquals(paymentMethod, paymentMethodBuilder);
@@ -237,10 +235,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createPaymentMethodInvalid() {
-        PaymentMethod paymentMethod=new PaymentMethod(ID, INVALID_STRING);
+        PaymentMethod paymentMethod = new PaymentMethod(ID, INVALID_STRING);
 
-        PaymentMethodBuilderImpl builder=new PaymentMethodBuilderImpl(ID);
-        PaymentMethod paymentMethodBuilder=builder.withNamePaymentMethod(NAME)
+        PaymentMethodBuilderImpl builder = new PaymentMethodBuilderImpl(ID);
+        PaymentMethod paymentMethodBuilder = builder.withNamePaymentMethod(NAME)
                 .build();
 
         assertNotEquals(paymentMethod, paymentMethodBuilder);
@@ -248,10 +246,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createAccountValid() {
-        Account account=new Account(ID, mockAccountUser, mockPaymentMethod, mockDate, MONEY);
+        Account account = new Account(ID, mockAccountUser, mockPaymentMethod, mockDate, MONEY);
 
-        AccountBuilderImpl builder=new AccountBuilderImpl(ID);
-        Account accountBuilder=builder.withAccountUser(mockAccountUser)
+        AccountBuilderImpl builder = new AccountBuilderImpl(ID);
+        Account accountBuilder = builder.withAccountUser(mockAccountUser)
                 .withPaymentMethod(mockPaymentMethod)
                 .withPaymentDate(mockDate)
                 .withAmountOfMoney(MONEY)
@@ -262,10 +260,10 @@ private AccountUser mockAccountUser=mock(AccountUser.class);
 
     @Test
     public void createAccountInvalid() {
-        Account account=new Account(INVALID_INT, mockAccountUser, mockPaymentMethod, mockDate, MONEY);
+        Account account = new Account(INVALID_INT, mockAccountUser, mockPaymentMethod, mockDate, MONEY);
 
-        AccountBuilderImpl builder=new AccountBuilderImpl(ID);
-        Account accountBuilder=builder.withAccountUser(mockAccountUser)
+        AccountBuilderImpl builder = new AccountBuilderImpl(ID);
+        Account accountBuilder = builder.withAccountUser(mockAccountUser)
                 .withPaymentMethod(mockPaymentMethod)
                 .withPaymentDate(mockDate)
                 .withAmountOfMoney(MONEY)

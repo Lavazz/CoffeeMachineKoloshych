@@ -41,6 +41,8 @@ public class ConfigurationManager {
 
     //FillingOperation
     public static final String PARAMETER_MAX_PORTION = "MAXPortion";
+    public static final int PARAMETER_DEFALT_MAX_PORTION = 50;
+
 
     //PaymentMethod
     public static final String PARAMETER_ID_PAYMENT_METHOD = "id_payment_method";
@@ -49,7 +51,7 @@ public class ConfigurationManager {
     public static final String PARAMETER_NAME_PAYMENT_METHOD = "name_payment_method";
     public static final int PAYMENT_METHOD_REMOVAL = 2;
     public static final int PAYMENT_METHOD_REGISTER = 1;
-    public static final double REGISTRATION_BONUS = 5;
+    public static final double REGISTRATION_BONUS = 5.00;
 
     //Order
     public static final String PARAMETER_ID_ORDER = "id_order";

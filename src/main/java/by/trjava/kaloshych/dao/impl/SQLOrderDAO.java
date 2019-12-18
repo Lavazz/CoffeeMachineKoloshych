@@ -31,7 +31,7 @@ public class SQLOrderDAO implements OrderDAO {
 
     @Override
     public int addOrder(int idCartUser, double totalCost) throws DAOException {
-        int idOrder = 0;
+        int idOrder;
         Date dateOrder;
 
         try (Connection con = connectionPool.getConnection();
@@ -44,6 +44,8 @@ public class SQLOrderDAO implements OrderDAO {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     idOrder = rs.getInt(PARAMETER_COLUMN_INDEX);
+                } else {
+                    throw new DAOException("SQL Order Exception can't add order ");
                 }
                 return idOrder;
             }
@@ -75,7 +77,6 @@ public class SQLOrderDAO implements OrderDAO {
             if (crs.last()) {
                 order = Creator.getInstance().createOrder(crs);
             }
-
             return order;
         } catch (SQLException e) {
             throw new DAOException("SQL Order Exception can't get last order by user " + e);

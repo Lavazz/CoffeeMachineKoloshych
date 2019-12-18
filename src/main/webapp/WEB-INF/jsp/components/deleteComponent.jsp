@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -39,45 +39,40 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                    <h4> <fmt:message key="message.cart.wrong_checkbox"/></h4>
+                <h4><fmt:message key="message.cart.wrong_checkbox"/></h4>
             </div>
         </div>
         <div class="row">
             <div class="col-md-7">
-    <form method="post" action="main">
-    <table>
-        <thead>
-        <tr>
-            <th><fmt:message key="admin.table.id_component"  /></th>
-            <th><fmt:message key="admin.table.name_component"  /></th>
-            <th><fmt:message key="admin.table.portion" /></th>
-        </tr>
-        </thead>
-
-        <c:forEach items="${sessionScope.components}" var="component">
-        <tbody>   <tr>
-            <td><h6>${component.idComponent}</h6></td>
-            <td><h6>${component.nameComponent}</h6></td>
-            <td><h6>${component.portion}</h6></td>
-                <td>
-                    <label>
-                        <input type="checkbox" name="idComponents" value="${component.idComponent}">
-                    </label>
-                </td>
-            </tr> </tbody>
-        </c:forEach>
-    </table>
-    <input type="submit"  class="submit" value="deleteComponent">
-    <input type="hidden" name="command" value="deleteComponent" >
-    </form>
-</div>
+                <form method="post" action="main">
+                    <table>
+                        <c:import url="/WEB-INF/jsp/form/fillingTableHead.jsp"/>
+                        <c:forEach items="${sessionScope.components}" var="component">
+                            <tbody>
+                            <tr>
+                                <%@include file="/WEB-INF/jsp/form/fillingTableBody.jsp" %>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="idComponents" value="${component.idComponent}">
+                                    </label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </c:forEach>
+                    </table>
+                    <input type="submit" class="submit" value="deleteComponent">
+                    <input type="hidden" name="command" value="deleteComponent">
+                </form>
+            </div>
         </div>
     </div>
 </section>
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

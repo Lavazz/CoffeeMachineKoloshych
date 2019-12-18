@@ -13,7 +13,6 @@ import java.util.List;
 
 import static by.trjava.kaloshych.command.configuration.Message.MESSAGE_ACCESS_PROHIBITED;
 import static by.trjava.kaloshych.command.configuration.Parameter.*;
-import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_MAIN_PAGE;
 import static by.trjava.kaloshych.entity.UserStatus.*;
 
 /**
@@ -41,7 +40,6 @@ public class AccessFilter implements Filter {
             CommandName.GO_TO_FILLING_OPERATION,
             CommandName.GO_TO_FILLING_OPERATION_PAGE,
             CommandName.GO_TO_DELETE_COMPONENT_PAGE,
-            CommandName.GO_TO_INDEX_PAGE,
             CommandName.GO_TO_MAIN_PAGE,
             CommandName.SHOW_ADDITIONAL_INGREDIENTS,
             CommandName.SHOW_DRINKS
@@ -70,7 +68,6 @@ public class AccessFilter implements Filter {
             CommandName.SHOW_REPLENISH_BALANCE_FORM,
 
             CommandName.GO_TO_CHANGE_PASSWORD_PAGE,
-            CommandName.GO_TO_INDEX_PAGE,
             CommandName.GO_TO_MAIN_PAGE,
             CommandName.GO_TO_REPLENISH_BALANCE,
             CommandName.GO_TO_ORDER_HISTORY_PAGE
@@ -82,7 +79,6 @@ public class AccessFilter implements Filter {
             CommandName.SHOW_DRINKS,
             CommandName.SHOW_ADDITIONAL_INGREDIENTS,
             CommandName.GO_TO_MAIN_PAGE,
-            CommandName.GO_TO_INDEX_PAGE,
             CommandName.GO_TO_AUTHORIZATION_PAGE,
             CommandName.GO_TO_REGISTRATION_PAGE
     );
@@ -115,7 +111,6 @@ public class AccessFilter implements Filter {
                 request.setAttribute(PARAMETER_PERMISSION, PARAMETER_TRUE);
             } else {
                 request.setAttribute(PARAMETER_PERMISSION, PARAMETER_FALSE);
-                request.setAttribute(PARAMETER_PAGE, PATH_MAIN_PAGE);
                 session.setAttribute(PARAMETER_MESSAGE_ACCESS, MESSAGE_ACCESS_PROHIBITED);
             }
 
@@ -130,4 +125,3 @@ public class AccessFilter implements Filter {
     }
 
 }
-

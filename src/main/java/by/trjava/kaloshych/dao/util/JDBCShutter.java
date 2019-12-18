@@ -19,17 +19,6 @@ public class JDBCShutter {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
     private static final Logger logger = LogManager.getLogger(JDBCShutter.class);
 
-    public static void shut(ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            logger.warn("can't close rs" + e);
-        }
-
-    }
-
     public static void shut(ResultSet rs, PreparedStatement st) {
 
         try {

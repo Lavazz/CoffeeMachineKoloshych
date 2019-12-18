@@ -4,7 +4,6 @@ import by.trjava.kaloshych.dao.PaymentMethodDAO;
 import by.trjava.kaloshych.dao.exception.DAOException;
 import by.trjava.kaloshych.dao.pool.ConnectionPool;
 import by.trjava.kaloshych.dao.util.Creator;
-import by.trjava.kaloshych.dao.util.JDBCShutter;
 import by.trjava.kaloshych.entity.PaymentMethod;
 
 import java.sql.*;
@@ -55,20 +54,18 @@ public class SQLPaymentMethodDAO implements PaymentMethodDAO {
 
     private PaymentMethod receivePaymentMethod(int id, String query) throws DAOException {
         PaymentMethod paymentMethod = null;
-        ResultSet rs = null;
         try (Connection con = connectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                paymentMethod = Creator.getInstance().createPaymentMethod(rs);
-            } else
-                throw new DAOException("SQLAccountUser Exception can't get accountUser ");
-            return paymentMethod;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    paymentMethod = Creator.getInstance().createPaymentMethod(rs);
+                } else
+                    throw new DAOException("SQLAccountUser Exception can't get accountUser ");
+                return paymentMethod;
+            }
         } catch (SQLException e) {
             throw new DAOException("SQLAccountUser Exception can't get accountUser " + e);
-        } finally {
-            JDBCShutter.shut(rs);
         }
     }
 

@@ -5,7 +5,6 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/>
-    <small><fmt:message key="main.brand.house"/></small></a>
-
-
+<td><h6>${component.idComponent}</h6></td>
+<td><h6>${component.nameComponent}</h6></td>
+<td><h6>${component.portion}</h6></td>

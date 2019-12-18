@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -38,41 +38,41 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row">
-                <div class="col-md-12 col-sm-8 text-center ftco-animate">
-                    <c:if test="${sessionScope.messageChangePassword!=null}">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <fmt:message key="${sessionScope.messageChangePassword}"/>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <c:remove var="messageChangePassword"/>
-                    </c:if>
-                </div>
+            <div class="col-md-12 col-sm-8 text-center ftco-animate">
+                <c:if test="${sessionScope.messageChangePassword!=null}">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <fmt:message key="${sessionScope.messageChangePassword}"/>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:remove var="messageChangePassword"/>
+                </c:if>
+            </div>
         </div>
         <div class="row">
             <div class="col-xl-8 ftco-animate">
                 <form action="main" method="post" class="billing-form ftco-bg-dark p-3 p-md-5">
-                    <h3 class="mb-4 billing-heading"><fmt:message key="changePassword.table.title" /></h3>
+                    <h3 class="mb-4 billing-heading"><fmt:message key="changePassword.table.title"/></h3>
                     <div class="row align-items-end">
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label for="current_password">
-                                    <fmt:message key="changePassword.label.user.currentPassword" />
+                                    <fmt:message key="changePassword.label.user.currentPassword"/>
                                 </label>
                                 <input id="current_password" class="form-control" pattern="^[a-zA-Z0-9-_.]{4,10}$"
                                        required type="password" name="currentPassword" placeholder="current password">
                             </div>
                         </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="new_password">
-                                            <fmt:message key="changePassword.label.user.newPassword" />
-                                        </label>
-                                        <input id="new_password" class="form-control" pattern="^[a-zA-Z0-9-_.]{4,10}$"
-                                               required type="password" name="newPassword" placeholder="new password">
-                                    </div>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="new_password">
+                                    <fmt:message key="changePassword.label.user.newPassword"/>
+                                </label>
+                                <input id="new_password" class="form-control" pattern="^[a-zA-Z0-9-_.]{4,10}$"
+                                       required type="password" name="newPassword" placeholder="new password">
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="password_confirm">
@@ -85,7 +85,8 @@
                         <div class="w-100"></div>
                         <div class="col-md-12">
                             <div class="form-group mt-4">
-                                <input type="submit" class="submit" value="<fmt:message key="changePassword.submit" />"/>
+                                <input type="submit" class="submit"
+                                       value="<fmt:message key="changePassword.submit" />"/>
                                 <input type="hidden" name="command" value="changePassword"/>
                             </div>
                         </div>
@@ -98,7 +99,9 @@
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ctg" uri="http://trjava.by/kaloshych" %>
 
-<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 <!DOCTYPE html>
 <html lang="ru">
@@ -43,28 +43,33 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row">
-<div class="col-md-6 mb-5 pb-3">
-    <h3 class="mb-5 heading-pricing ftco-animate"><fmt:message key="main.message.additionalIngredients"/> </h3>
-    <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
-        <div class="pricing-entry d-flex ftco-animate">
-            <div class="img" style="background-image: url(${additionalIngredient.picturePath});"></div>
-            <div class="desc pl-3">
-                <h3> <ctg:outAdditionalIngredient additionalIngredient="${additionalIngredient}"/></h3>
-<%--                    <h3><span>${additionalIngredient.nameComponent}</span></h3>--%>
-                <div class="d-block">
-                    <p><fmt:message key="additional_ingredient.calories"/>${additionalIngredient.calories}<fmt:message key="additional_ingredient.kcal"/></p>
-                </div>
+            <div class="col-md-6 mb-5 pb-3">
+                <h3 class="mb-5 heading-pricing ftco-animate"><fmt:message
+                        key="main.message.additionalIngredients"/></h3>
+                <c:forEach items="${requestScope.additionalIngredients}" var="additionalIngredient">
+                    <div class="pricing-entry d-flex ftco-animate">
+                        <div class="img" style="background-image: url(${additionalIngredient.picturePath});"></div>
+                        <div class="desc pl-3">
+                            <h3><ctg:outAdditionalIngredient additionalIngredient="${additionalIngredient}"/></h3>
+                                <%--                    <h3><span>${additionalIngredient.nameComponent}</span></h3>--%>
+                            <div class="d-block">
+                                <p><fmt:message
+                                        key="additional_ingredient.calories"/> ${additionalIngredient.calories}
+                                    <fmt:message key="additional_ingredient.kcal"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
-        </div>
-    </c:forEach>
-</div>
         </div>
     </div>
 </section>
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

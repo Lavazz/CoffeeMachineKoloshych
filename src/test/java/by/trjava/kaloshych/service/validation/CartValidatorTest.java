@@ -2,16 +2,17 @@ package by.trjava.kaloshych.service.validation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CartValidatorTest {
 
 
-    private static final String PORTION_STRING_VALID="1";
-    private static final String PORTION_STRING_INVALID="120";
-    private static final String PORTION_STRING_INVALID_ZERO="0";
-    private static final int PORTION_VALID=1;
-    private static final int PORTION_INVALID=120;
+    private static final String PORTION_STRING_VALID = "1";
+    private static final String PORTION_STRING_INVALID = "120";
+    private static final String PORTION_STRING_INVALID_ZERO = "0";
+    private static final int PORTION_VALID = 1;
+    private static final int PORTION_INVALID = 120;
 
 
     @Test

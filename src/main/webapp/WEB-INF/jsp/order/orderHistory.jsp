@@ -61,15 +61,16 @@
                     <tr class="text-center">
                         <th>${count.count}</th>
                         <td class="product-name">
-                            <h3> <ctg:outDrink drink="${cart.drink}"/></h3>
-<%--                            <h3>${cart.drink.nameComponent}</h3>--%>
+                            <h3><ctg:outDrink drink="${cart.drink}"/></h3>
+                                <%--                            <h3>${cart.drink.nameComponent}</h3>--%>
                         </td>
 
                         <td class="product-name">
                             <c:forEach items="${sessionScope.cartAdditionalIngredients}" var="cartAdditionalIngredient">
                                 <c:if test="${cartAdditionalIngredient.cart.idCart==cart.idCart}">
-                                <h3> <ctg:outAdditionalIngredient additionalIngredient="${cartAdditionalIngredient.additionalIngredient}"/></h3>
-<%--                                    <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>--%>
+                                    <h3><ctg:outAdditionalIngredient
+                                            additionalIngredient="${cartAdditionalIngredient.additionalIngredient}"/></h3>
+                                    <%--                                    <h3>${cartAdditionalIngredient.additionalIngredient.nameComponent}</h3>--%>
                                 </c:if>
                             </c:forEach>
                         </td>
@@ -87,49 +88,51 @@
         </div>
     </div>
 
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-2">
-        <form action="main" method="post">
-            <c:if test="${sessionScope.ordersFirstRow > 0}">
-                <input type="hidden" name="firstRow" value="ordersFirstRow">
-                <input type="hidden" name="lastRow" value="ordersLastRow">
-                <input type="hidden" name="numberOfPages" value="ordersNumberOfPages">
-                <input type="hidden" name="currentPageNumber" value="ordersCurrentPageNumber">
-                <input type="hidden" name="currentPageURL" value="main?command=goToOrderHistoryPage">
-                <input type="hidden" name="command" value="showPreviousPage">
-                <input type="submit" class="submit" value="<fmt:message key="order.button.PrevPage" />">
-            </c:if>
-        </form>
-    </div>
+    <div class="row">
+        <div class="col-3"></div>
         <div class="col-2">
-        <h4>
-            <fmt:message key="orderHistory.message.page"/>
-            <c:out value="${sessionScope.ordersCurrentPageNumber}"/>
-            <fmt:message key="orderHistory.message.from"/>
-            <c:out value=" ${sessionScope.ordersNumberOfPages}"/>
-        </h4>
+            <form action="main" method="post">
+                <c:if test="${sessionScope.ordersFirstRow > 0}">
+                    <input type="hidden" name="firstRow" value="ordersFirstRow">
+                    <input type="hidden" name="lastRow" value="ordersLastRow">
+                    <input type="hidden" name="numberOfPages" value="ordersNumberOfPages">
+                    <input type="hidden" name="currentPageNumber" value="ordersCurrentPageNumber">
+                    <input type="hidden" name="currentPageURL" value="main?command=goToOrderHistoryPage">
+                    <input type="hidden" name="command" value="showPreviousPage">
+                    <input type="submit" class="submit" value="<fmt:message key="order.button.PrevPage" />">
+                </c:if>
+            </form>
         </div>
-    <div class="col-2">
-        <form action="main" method="post">
-            <c:if test="${countPage > sessionScope.ordersLastRow}">
-                <input type="hidden" name="firstRow" value="ordersFirstRow">
-                <input type="hidden" name="lastRow" value="ordersLastRow">
-                <input type="hidden" name="numberOfPages" value="ordersNumberOfPages">
-                <input type="hidden" name="currentPageNumber" value="ordersCurrentPageNumber">
-                <input type="hidden" name="currentPageURL" value="main?command=goToOrderHistoryPage">
-                <input type="hidden" name="command" value="showNextPage">
-                <input type="submit" class="submit" value="<fmt:message key="order.button.NextPage" />">
-            </c:if>
-        </form>
+        <div class="col-2">
+            <h4>
+                <fmt:message key="orderHistory.message.page"/>
+                <c:out value="${sessionScope.ordersCurrentPageNumber}"/>
+                <fmt:message key="orderHistory.message.from"/>
+                <c:out value=" ${sessionScope.ordersNumberOfPages}"/>
+            </h4>
+        </div>
+        <div class="col-2">
+            <form action="main" method="post">
+                <c:if test="${countPage > sessionScope.ordersLastRow}">
+                    <input type="hidden" name="firstRow" value="ordersFirstRow">
+                    <input type="hidden" name="lastRow" value="ordersLastRow">
+                    <input type="hidden" name="numberOfPages" value="ordersNumberOfPages">
+                    <input type="hidden" name="currentPageNumber" value="ordersCurrentPageNumber">
+                    <input type="hidden" name="currentPageURL" value="main?command=goToOrderHistoryPage">
+                    <input type="hidden" name="command" value="showNextPage">
+                    <input type="submit" class="submit" value="<fmt:message key="order.button.NextPage" />">
+                </c:if>
+            </form>
+        </div>
     </div>
-</div>
 </section>
 
 
 <c:import url="/WEB-INF/jsp/form/footer.jsp"/>
 
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px"></svg>
+</div>
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>

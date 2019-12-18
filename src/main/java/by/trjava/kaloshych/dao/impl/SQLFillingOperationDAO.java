@@ -95,7 +95,7 @@ public class SQLFillingOperationDAO implements FillingOperationDAO {
     private void fillingComponent(int idComponent, String queryGetMaxPortion, String queryFilling) throws DAOException {
         PreparedStatement ps2 = null;
         ResultSet rs = null;
-        int maxPortion = 0;
+        int maxPortion = PARAMETER_DEFALT_MAX_PORTION;
 
         try (Connection con = connectionPool.getConnection()) {
 

@@ -8,8 +8,10 @@ import org.junit.Test;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static by.trjava.kaloshych.command.configuration.PathToJSP.*;
-import static org.junit.Assert.*;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_AUTHORIZATION;
+import static by.trjava.kaloshych.command.configuration.PathToJSP.PATH_CHANGE_PASSWORD;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 
 public class GoToChangePasswordPageCommandTest {

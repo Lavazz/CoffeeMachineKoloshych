@@ -3,7 +3,6 @@ package by.trjava.kaloshych.command.factory.impl;
 import by.trjava.kaloshych.command.Command;
 import by.trjava.kaloshych.command.exception.CommandException;
 import by.trjava.kaloshych.command.factory.CommandFactory;
-import by.trjava.kaloshych.command.impl.*;
 import by.trjava.kaloshych.command.impl.components.AddNewDrinkCommand;
 import by.trjava.kaloshych.command.impl.components.ShowDrinksCommand;
 import by.trjava.kaloshych.command.impl.order.AddOrderCommand;
@@ -13,7 +12,7 @@ import by.trjava.kaloshych.command.impl.user.RegistrationCommand;
 import org.junit.Test;
 
 import static by.trjava.kaloshych.command.util.CommandName.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class CommandFactoryImplTest {
 

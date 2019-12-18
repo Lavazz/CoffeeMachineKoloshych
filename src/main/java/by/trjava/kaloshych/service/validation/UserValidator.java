@@ -5,7 +5,7 @@ public class UserValidator {
 
     private static final String PASSWORD_FORMAT_REGEX = "^[a-zA-Z0-9-_.]{4,12}$";
 
-    private static final String NAME_FORMAT_REGEX = "[a-zA-Zа-яА-Я]{2,12}";
+    private static final String NAME_FORMAT_REGEX = "^[a-zA-ZА-Яа-я][a-zA-ZА-Яа-я0-9-_.]{3,12}$";
     private static final String EMAIL_FORMAT_REGEX =
             "[a-z][[a-z][0-9][-][_]]{3,12}[@][a-z]{2,10}[.][a-z]{2,4}";
 

@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<a class="navbar-brand" href="main?command=goToMainPage"><fmt:message key="main.brand.coffee"/>
-    <small><fmt:message key="main.brand.house"/></small></a>
-
-
+<br>
+<div class="text-right">
+    <h2><fmt:message key="personalCabinet.balance"/> ${requestScope.balance}</h2>
+</div>

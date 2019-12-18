@@ -2,14 +2,15 @@ package by.trjava.kaloshych.service.validation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AdditionalIngredientValidatorTest {
 
-    private static final String COMPONENT_VALID="coffee";
-    private static final String COMPONENT_INVALID="co";
-    private static final int CALORIES_VALID=2;
-    private static final int CALORIES_INVALID=1200;
+    private static final String COMPONENT_VALID = "coffee";
+    private static final String COMPONENT_INVALID = "co";
+    private static final int CALORIES_VALID = 2;
+    private static final int CALORIES_INVALID = 1200;
 
 
     @Test

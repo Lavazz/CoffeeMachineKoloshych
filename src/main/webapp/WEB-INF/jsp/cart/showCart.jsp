@@ -53,10 +53,8 @@
                     </div>
                     <c:remove var="messageCart"/>
                 </c:if>
-                <c:if test="${requestScope.carts==null}">
-                    <h1 class="mb-4"><fmt:message key="cart.empty"/></h1>
-                </c:if>
-                <c:if test="${requestScope.carts!=null}">
+                <c:choose>
+                <c:when test="${not empty requestScope.carts}">
                 <div class="cart-list">
                     <table class="table">
                         <thead class="thead-primary">
@@ -132,7 +130,16 @@
                             key="cart.cancel_order"/></a></p>
                 </c:if>
             </div>
-            </c:if>
+            </c:when>
+            <c:otherwise>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><fmt:message key="cart.empty"/></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </section>
