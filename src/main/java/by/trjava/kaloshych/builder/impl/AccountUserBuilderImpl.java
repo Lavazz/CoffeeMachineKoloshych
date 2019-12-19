@@ -13,9 +13,6 @@ public class AccountUserBuilderImpl implements AccountUserBuilder {
     public AccountUserBuilderImpl() {
     }
 
-    public AccountUserBuilderImpl(int idAccountUser) {
-        this.idAccountUser = idAccountUser;
-    }
 
     @Override
     public AccountUser build() {
@@ -23,6 +20,12 @@ public class AccountUserBuilderImpl implements AccountUserBuilder {
         accountUser.setIdAccountUser(idAccountUser);
         accountUser.setUser(user);
         return accountUser;
+    }
+
+    @Override
+    public AccountUserBuilder withIdAccountUser(int idAccountUser) {
+        this.idAccountUser = idAccountUser;
+        return this;
     }
 
     @Override

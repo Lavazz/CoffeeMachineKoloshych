@@ -7,6 +7,8 @@ import by.trjava.kaloshych.entity.Drink;
 public interface CartBuilder {
     Cart build();
 
+    CartBuilder withIdCart(int idCart);
+
     CartBuilder withCartUser(CartUser cartUser);
 
     CartBuilder withDrink(Drink drink);

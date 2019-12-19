@@ -4,7 +4,10 @@ import by.trjava.kaloshych.entity.User;
 import by.trjava.kaloshych.entity.UserStatus;
 
 public interface UserBuilder {
+
     User build();
+
+    UserBuilder withId(int id);
 
     UserBuilder withPassword(String password);
 

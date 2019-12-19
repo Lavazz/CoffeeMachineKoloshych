@@ -15,10 +15,6 @@ public class OrderBuilderImpl implements OrderBuilder {
     public OrderBuilderImpl() {
     }
 
-    public OrderBuilderImpl(int idOrder) {
-        this.idOrder = idOrder;
-    }
-
     @Override
     public Order build() {
         Order order = new Order();
@@ -27,6 +23,12 @@ public class OrderBuilderImpl implements OrderBuilder {
         order.setDateOrder(dateOrder);
         order.setTotalCost(totalCost);
         return order;
+    }
+
+    @Override
+    public OrderBuilder withIdOrder(int idOrder) {
+        this.idOrder = idOrder;
+        return this;
     }
 
     @Override

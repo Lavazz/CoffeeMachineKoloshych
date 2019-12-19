@@ -7,6 +7,8 @@ import by.trjava.kaloshych.entity.CartAdditionalIngredient;
 public interface CartAdditionalIngredientBuilder {
     CartAdditionalIngredient build();
 
+    CartAdditionalIngredientBuilder withIdCartAdditionalIngredient(int idCartAdditionalIngredient);
+
     CartAdditionalIngredientBuilder withCart(Cart cart);
 
     CartAdditionalIngredientBuilder withAdditionalIngredient(AdditionalIngredient additionalIngredient);

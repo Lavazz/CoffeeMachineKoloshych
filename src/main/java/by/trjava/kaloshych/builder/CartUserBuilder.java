@@ -6,5 +6,7 @@ import by.trjava.kaloshych.entity.User;
 public interface CartUserBuilder {
     CartUser build();
 
+    CartUserBuilder withIdCartUser(int idCartUser);
+
     CartUserBuilder withUser(User User);
 }

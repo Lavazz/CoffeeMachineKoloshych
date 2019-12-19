@@ -14,10 +14,6 @@ public class AdditionalIngredientBuilderImpl implements AdditionalIngredientBuil
     public AdditionalIngredientBuilderImpl() {
     }
 
-    public AdditionalIngredientBuilderImpl(int idComponent) {
-        this.idComponent = idComponent;
-    }
-
     @Override
     public AdditionalIngredient build() {
         AdditionalIngredient additionalIngredient = new AdditionalIngredient();
@@ -27,6 +23,12 @@ public class AdditionalIngredientBuilderImpl implements AdditionalIngredientBuil
         additionalIngredient.setPicturePath(picturePath);
         additionalIngredient.setCalories(calories);
         return additionalIngredient;
+    }
+
+    @Override
+    public AdditionalIngredientBuilder withIdComponent(int idComponent) {
+        this.idComponent = idComponent;
+        return this;
     }
 
     @Override

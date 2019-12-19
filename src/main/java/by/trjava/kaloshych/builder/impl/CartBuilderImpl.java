@@ -15,10 +15,6 @@ public class CartBuilderImpl implements CartBuilder {
     public CartBuilderImpl() {
     }
 
-    public CartBuilderImpl(int idCart) {
-        this.idCart = idCart;
-    }
-
     @Override
     public Cart build() {
         Cart cart = new Cart();
@@ -27,6 +23,12 @@ public class CartBuilderImpl implements CartBuilder {
         cart.setDrink(drink);
         cart.setPortion(portion);
         return cart;
+    }
+
+    @Override
+    public CartBuilder withIdCart(int idCart) {
+        this.idCart = idCart;
+        return this;
     }
 
     @Override

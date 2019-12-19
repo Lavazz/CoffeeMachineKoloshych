@@ -6,7 +6,10 @@ import by.trjava.kaloshych.entity.Order;
 import java.util.Date;
 
 public interface OrderBuilder {
+
     Order build();
+
+    OrderBuilder withIdOrder(int idOrder);
 
     OrderBuilder withDateOrder(Date dateOrder);
 

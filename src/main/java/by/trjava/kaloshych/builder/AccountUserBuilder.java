@@ -7,5 +7,7 @@ public interface AccountUserBuilder {
 
     AccountUser build();
 
+    AccountUserBuilder withIdAccountUser(int idAccountUser);
+
     AccountUserBuilder withUser(User user);
 }

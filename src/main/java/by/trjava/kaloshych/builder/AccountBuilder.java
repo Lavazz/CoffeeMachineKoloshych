@@ -9,6 +9,8 @@ import java.util.Date;
 public interface AccountBuilder {
     Account build();
 
+    AccountBuilder withIdAccount(int idAccount);
+
     AccountBuilder withAccountUser(AccountUser accountUser);
 
     AccountBuilder withPaymentMethod(PaymentMethod paymentMethod);

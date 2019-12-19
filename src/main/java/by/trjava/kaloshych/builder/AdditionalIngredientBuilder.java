@@ -5,6 +5,8 @@ import by.trjava.kaloshych.entity.AdditionalIngredient;
 public interface AdditionalIngredientBuilder {
     AdditionalIngredient build();
 
+    AdditionalIngredientBuilder withIdComponent(int idComponent);
+
     AdditionalIngredientBuilder withNameComponent(String nameComponent);
 
     AdditionalIngredientBuilder withPortion(int portion);

@@ -18,9 +18,6 @@ public class AccountBuilderImpl implements AccountBuilder {
     public AccountBuilderImpl() {
     }
 
-    public AccountBuilderImpl(int idAccount) {
-        this.idAccount = idAccount;
-    }
 
     @Override
     public Account build() {
@@ -31,6 +28,12 @@ public class AccountBuilderImpl implements AccountBuilder {
         account.setPaymentDate(paymentDate);
         account.setAmountOfMoney(amountOfMoney);
         return account;
+    }
+
+    @Override
+    public AccountBuilder withIdAccount(int idAccount) {
+        this.idAccount = idAccount;
+        return this;
     }
 
     @Override

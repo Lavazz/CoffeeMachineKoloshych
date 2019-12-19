@@ -45,7 +45,8 @@ public class Creator {
         String status = rs.getString(PARAMETER_STATUS);
         UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
         return
-                new UserBuilderImpl(idUser)
+                new UserBuilderImpl()
+                        .withId(idUser)
                         .withName(name)
                         .withEmail(email)
                         .withLogin(login)
@@ -60,7 +61,8 @@ public class Creator {
         int idUser = rs.getInt(PARAMETER_ID_USER);
         User user = userDAO.getUserById(idUser);
         return
-                new AccountUserBuilderImpl(idAccountUser)
+                new AccountUserBuilderImpl()
+                        .withIdAccountUser(idAccountUser)
                         .withUser(user)
                         .build();
 
@@ -73,7 +75,8 @@ public class Creator {
         String picturePath = rs.getString(PARAMETER_PICTURE_PATH);
         int portion = rs.getInt(PARAMETER_PORTION);
         return
-                new AdditionalIngredientBuilderImpl(idAdditionalIngredient)
+                new AdditionalIngredientBuilderImpl()
+                        .withIdComponent(idAdditionalIngredient)
                         .withNameComponent(nameComponent)
                         .withCalories(calories)
                         .withPicturePath(picturePath)
@@ -87,7 +90,8 @@ public class Creator {
         Cart cart = cartDAO.getCartById(idCart);
         int idAdditionalIngredient = rs.getInt(PARAMETER_ID_ADDITIONAL_INGREDIENT);
         AdditionalIngredient additionalIngredient = additionalIngredientDAO.getAdditionalIngredient(idAdditionalIngredient);
-        return new CartAdditionalIngredientBuilderImpl(idCartAdditionalIngredient)
+        return new CartAdditionalIngredientBuilderImpl()
+                .withIdCartAdditionalIngredient(idCartAdditionalIngredient)
                 .withCart(cart)
                 .withAdditionalIngredient(additionalIngredient)
                 .build();
@@ -101,7 +105,8 @@ public class Creator {
         Drink drink = drinkDAO.getDrink(idDrink);
         int portion = rs.getInt(PARAMETER_PORTION);
 
-        return new CartBuilderImpl(idCart)
+        return new CartBuilderImpl()
+                .withIdCart(idCart)
                 .withCartUser(cartUser)
                 .withDrink(drink)
                 .withPortion(portion)
@@ -112,7 +117,8 @@ public class Creator {
         int idCartUser = rs.getInt(PARAMETER_ID_CART_USER);
         int idUser = rs.getInt(PARAMETER_ID_USER);
         User user = userDAO.getUserById(idUser);
-        return new CartUserBuilderImpl(idCartUser)
+        return new CartUserBuilderImpl()
+                .withIdCartUser(idCartUser)
                 .withUser(user)
                 .build();
     }
@@ -124,7 +130,8 @@ public class Creator {
         String picturePath = rs.getString(PARAMETER_PICTURE_PATH);
         int portion = rs.getInt(PARAMETER_PORTION);
         double price = rs.getDouble(PARAMETER_PRICE);
-        return new DrinkBuilderImpl(idDrink)
+        return new DrinkBuilderImpl()
+                .withIdComponent(idDrink)
                 .withNameComponent(nameDrink)
                 .withPicturePath(picturePath)
                 .withDescription(description)
@@ -140,7 +147,8 @@ public class Creator {
         Date dateOrder = rs.getDate(PARAMETER_DATE_ORDER);
         double totalCost = rs.getDouble(PARAMETER_TOTAL_COST);
         CartUser cartUser = cartUserDAO.getCartUser(idCartUser);
-        return new OrderBuilderImpl(idOrder)
+        return new OrderBuilderImpl()
+                .withIdOrder(idOrder)
                 .withCartUser(cartUser)
                 .withDateOrder(dateOrder)
                 .withDateOrder(dateOrder)
@@ -152,7 +160,8 @@ public class Creator {
         int idPaymentMethod = rs.getInt(PARAMETER_ID_PAYMENT_METHOD);
         String namePaymentMethod = rs.getString(PARAMETER_NAME_PAYMENT_METHOD);
 
-        return new PaymentMethodBuilderImpl(idPaymentMethod)
+        return new PaymentMethodBuilderImpl()
+                .withidPaymentMethod(idPaymentMethod)
                 .withNamePaymentMethod(namePaymentMethod)
                 .build();
     }
@@ -165,7 +174,8 @@ public class Creator {
         PaymentMethod paymentMethod = paymentMethodDAO.getPaymentMethod(idPaymentMethod);
         Date paymentDate = rs.getDate(PARAMETER_PAYMENT_DATE);
         int amountOfMoney = rs.getInt(PARAMETER_MONEY);
-        return new AccountBuilderImpl(idAccount)
+        return new AccountBuilderImpl()
+                .withIdAccount(idAccount)
                 .withAccountUser(accountUser)
                 .withPaymentMethod(paymentMethod)
                 .withPaymentDate(paymentDate)

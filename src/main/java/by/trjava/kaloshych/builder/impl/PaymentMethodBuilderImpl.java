@@ -11,8 +11,10 @@ public class PaymentMethodBuilderImpl implements PaymentMethodBuilder {
     public PaymentMethodBuilderImpl() {
     }
 
-    public PaymentMethodBuilderImpl(int idPaymentMethod) {
+    @Override
+    public PaymentMethodBuilder withidPaymentMethod(int idPaymentMethod) {
         this.idPaymentMethod = idPaymentMethod;
+        return this;
     }
 
     @Override

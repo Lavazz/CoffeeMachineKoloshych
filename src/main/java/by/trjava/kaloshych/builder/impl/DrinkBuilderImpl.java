@@ -14,10 +14,6 @@ public class DrinkBuilderImpl implements DrinkBuilder {
     public DrinkBuilderImpl() {
     }
 
-    public DrinkBuilderImpl(int idComponent) {
-        this.idComponent = idComponent;
-    }
-
     @Override
     public Drink build() {
         Drink drink = new Drink();
@@ -28,6 +24,12 @@ public class DrinkBuilderImpl implements DrinkBuilder {
         drink.setPrice(price);
         drink.setDescription(description);
         return drink;
+    }
+
+    @Override
+    public DrinkBuilder withIdComponent(int idComponent) {
+        this.idComponent = idComponent;
+        return this;
     }
 
     @Override

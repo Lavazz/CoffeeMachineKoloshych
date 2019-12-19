@@ -11,16 +11,18 @@ public class CartUserBuilderImpl implements CartUserBuilder {
     public CartUserBuilderImpl() {
     }
 
-    public CartUserBuilderImpl(int idCartUser) {
-        this.idCartUser = idCartUser;
-    }
-
     @Override
     public CartUser build() {
         CartUser cartUser = new CartUser();
         cartUser.setIdCartUser(idCartUser);
         cartUser.setUser(user);
         return cartUser;
+    }
+
+    @Override
+    public CartUserBuilder withIdCartUser(int idCartUser) {
+        this.idCartUser = idCartUser;
+        return this;
     }
 
     @Override

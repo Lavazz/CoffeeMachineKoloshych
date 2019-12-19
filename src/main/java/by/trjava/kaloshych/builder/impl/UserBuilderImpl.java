@@ -16,10 +16,6 @@ public class UserBuilderImpl implements UserBuilder {
     public UserBuilderImpl() {
     }
 
-    public UserBuilderImpl(int id) {
-        this.id = id;
-    }
-
     @Override
     public User build() {
         final User user = new User();
@@ -30,6 +26,12 @@ public class UserBuilderImpl implements UserBuilder {
         user.setName(name);
         user.setUserStatus(userStatus);
         return user;
+    }
+
+    @Override
+    public UserBuilder withId(int id) {
+        this.id = id;
+        return this;
     }
 
     @Override
